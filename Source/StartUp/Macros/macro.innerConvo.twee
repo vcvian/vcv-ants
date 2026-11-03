@@ -1,0 +1,23 @@
+:: macro.innerConvo [startup]
+{=
+
+
+(set: $funcInnerConvo to (macro: dm-type _choicesDM, [(out:)[{
+    [<ol>
+    
+    <!--loop through the choices-->
+    (for: each _choice, ...(datanames: _choicesDM))[{
+        <!--create link-->
+        <li>(link: _choice)[{
+            <!--hide the choicesBlock-->
+            (hide: ?choicesBlock)
+            <!--show the associated named hook-->
+            (t8n: "dissolve")
+            (show: (hooks-named: (str: _choicesDM's _choice)))
+            <!--add the chosen choice into the newly displayed hook-->
+            (prepend: (hooks-named: (str: _choicesDM's _choice)))[<p>$cssDesc[''You: '' _choice]</p>]
+        }]</li>
+    }]<!--end of looping-->
+
+    </ol>]<choicesBlock|
+}]]))

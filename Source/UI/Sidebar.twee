@@ -1,0 +1,11 @@
+:: Sidebar [footer]
+{=
+
+(append: ?Sidebar)[
+[(print: $player's mind)]<sidebarMind|
+<br>
+(link-repeat: "🔙")[(print: (passage: "code.timePass")'s timeGoto)]
+(link-repeat: "🧪")[(goto: "Test")]
+(link-repeat: "🐞")[(debug:)]
+(link-repeat: "🔄")[(restart:)]
+]

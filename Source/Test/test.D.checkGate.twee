@@ -1,0 +1,88 @@
+:: test.D.checkGate
+{=
+
+(metadata:
+"title", "Test D: Check Gates",
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+
+''Testing `$funcCheckGate`''
+<br>
+$cssDesc[With the following parameters:
+<ol>
+<li style="margin-bottom: 1em">str-type `_linkText`,</li>
+<li style="margin-bottom: 1em">boolean-type `_visibleWhenClosed`,</li>
+<li style="margin-bottom: 1em">str-type `_flag`,</li>
+<li style="margin-bottom: 1em">num-type `_value`,</li>
+<li style="margin-bottom: 1em">boolean-type `_spend`,</li>
+<li style="margin-bottom: 1em">num-type `_chance`,</li>
+<li style="margin-bottom: 1em">codehook-type `_addCode`,</li>
+<li style="margin-bottom: 1em">str-type `_gotoSuccess`,</li>
+<li style="margin-bottom: 1em">str-type `_gotoFail`</li>
+</ol>
+]
+
+<ol>
+''Check 1'' (no spend, visible when closed, chance 100%):
+<li>($funcCheckGate: "Check for 1 Restlessness", true, "restless", 1, false, 100, [], "test.D.success", "test.D.fail")</li>
+
+''Check 2'' (yes spend, visible when closed, chance 100%):
+<li>($funcCheckGate: "Spend 1 Restlessness", true, "restless", 1, true, 100, [], "test.D.success", "test.D.fail")</li>
+
+''Check 3'' (no spend, invisible when closed, chance 100%):
+<li>($funcCheckGate: "(Invisible) Check for 1 Restlessness", false, "restless", 1, false, 100, [], "test.D.success", "test.D.fail")</li>
+
+''Check 4'' (no spend, visible when closed, chance 50%):
+<li>($funcCheckGate: "Chancy check for 1 Restlessness", true, "restless", 1, false, 50, [], "test.D.success", "test.D.fail")</li>
+
+</ol>
+
+
+<br>
+---
+<br>
+
+''Testing `$funcLuckGate`''
+<br>
+$cssDesc[With the following parameters:
+<ol>
+<li style="margin-bottom: 1em">str-type `_linkText`,</li>
+<li style="margin-bottom: 1em">num-type `_chance`,</li>
+<li style="margin-bottom: 1em">codehook-type `_addCode`,</li>
+<li style="margin-bottom: 1em">str-type `_gotoSuccess`,</li>
+<li style="margin-bottom: 1em">str-type `_gotoFail`,</li>
+</ol>
+]
+
+<ol>
+
+''Luck gate 1'' (chance 100%):
+<li>($funcLuckGate: "A sure challenge", 100, [], "test.D.success", "test.D.fail")</li>
+
+''Luck gate 2'' (chance 50%):
+<li>($funcLuckGate: "A 50-50 challenge", 50, [], "test.D.success", "test.D.fail")</li>
+
+''Luck gate 3'' (chance 20%):
+<li>($funcLuckGate: "A risky challenge", 20, [], "test.D.success", "test.D.fail")</li>
+
+</ol>
+
+:: test.D.success
+{=
+
+Succeeded check!
+<br>
+(link: "Back")[(goto: "test.D.checkGate")]
+
+
+:: test.D.fail
+{=
+
+Failed check...
+<br>
+(link: "Back")[(goto: "test.D.checkGate")]

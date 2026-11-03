@@ -1,0 +1,49 @@
+:: test.B.gainLoss
+{=
+
+(metadata:
+"title", "Test B: Gain & Loss",
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+''Player's "Flags" Pocket''
+<br>
+[(print: $player's flags)]<pocket|
+
+
+<br>
+---
+<br>
+
+''Testing `$funcGainLoss`''
+<br>
+$cssDesc[Sample use: `($funcGainLoss: "restless", 1)` will gain the player 1 Restless flag.]
+
+<ol>
+<li>(link-rerun: "Gain 1 Restlessness")[($funcGainLoss: "restless", 1)(rerun: ?pocket)]</li>
+<li>(link-rerun: "Lose 1 Restlessness")[($funcGainLoss: "restless", -1)(rerun: ?pocket)]</li>
+</ol>
+
+<br>
+---
+<br>
+
+''Testing `$funcGainLink`''
+<br>
+$cssDesc[Create a link, only for gains with no dice rolls. Losses/expenditures and dice rolls are handled by `$funcCheckGate`.<br>Sample use: `($funcGainLink: "Link Text", "restless", 1, "test.B.gained")`. To move time forward, input "code.timePass" in the 5th (last) parameter.]
+
+<ol>
+<li>($funcGainLink: "Gain 1 Restlessness", "restless", 1, [], "test.B.gained")</li>
+<li>($funcGainLink: "Gain 1 Restlessness, but time moves forward", "restless", 1, [], "code.timePass")</li>
+</ol>
+
+
+:: test.B.gained
+
+(link: "Back")[(goto: "test.B.gainLoss")]
+<br>
+Gained 

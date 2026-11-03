@@ -1,0 +1,56 @@
+:: macro.gainLoss [startup]
+{=
+
+(set: $funcGainLoss to (macro: str-type _flag, num-type _value, [(out:)[{
+    <!--load the full dm-->
+    (set: _flagDM to (passage: "flag." + _flag))
+
+    <!--gain or loss?-->
+    (set: _type to "gain")
+    (if: _value < 0)[(set: _type to "loss")]
+
+    <!--execute gainLoss, only if value is not 0-->
+    (if: _value is not 0)[
+        <!--Execute, already have?-->
+        (if: $player's flags contains _flag)[(set: $player's flags's _flag to it + _value)]
+        (else:)[(set: $player's flags to it + (dm: _flag, _value))]
+        
+        <!--effect, if any-->
+        (if: _type is "gain" and _flagDM contains "gainEffect")[(set: _effect to _flagDM's gainEffect)(_effect: _value)]
+        (if: _type is "loss" and _flagDM contains "lossEffect")[(set: _effect to _flagDM's lossEffect)(_effect: _value)]
+
+        <!--notify & log-->
+        ($funcNotifyLog: _flag, _value)
+    ]<!--end of execute gainLoss (if _value is not 0)-->
+
+
+}]]))
+
+
+(set: $funcGainLink to (macro: str-type _linkText, str-type _flag, num-type _value, codehook-type _addCode, str-type _goto, [(out:)[{
+    <!--load the full DM-->
+    (set: _flagDM to (passage: "flag." + _flag))
+
+    <!--normalize number-->
+    (if: _value <= 0)[(set: _value to 0)]
+
+    <!--create link-->
+    (link: _linkText)[{
+        <!--gain the flag-->
+        ($funcGainLoss: _flag, _value)
+        
+        <!--optional _addCode-->
+        _addCode
+
+        <!--finally, goto-->
+        (if: _goto is "code.timePass")[(display: "code.timePass")]
+        (else:)[(goto: _goto)]
+    }]<!--end of link-->
+    
+    <!--tip-->
+    $cssDesc[{
+        <br>↪` `(color: green+yellow)[Gain:` `]''_value (print: _flagDM's id)''.
+<br>
+    }]
+
+}]]))

@@ -1,0 +1,20 @@
+:: StoryScript [script]
+
+// ~ tilde key (`) shortcut to show/hide debugger
+$(document).on('keydown', function (ev) {
+    if (ev.key === '`') {
+        if (window.Engine && window.Engine.options) {
+            window.Engine.options.debug = !window.Engine.options.debug;
+        }
+
+        var $debugger = $('tw-debugger');
+        if ($debugger.length) {
+            $debugger.toggle();
+        } else {
+            if (window.Engine && typeof window.Engine.showPassage === 'function') {
+                var currentPassage = window.Engine.state.passage;
+                window.Engine.showPassage(currentPassage);
+            }
+        }
+    }
+});

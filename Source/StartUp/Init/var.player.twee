@@ -1,0 +1,9 @@
+:: var.player [startup]
+{=
+
+(set: $player to (dm:
+    "mind", 10,
+    "flags", (dm:),
+    "location", "at home",
+    "activity", "being idle",
+))

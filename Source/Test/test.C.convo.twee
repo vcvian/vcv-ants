@@ -1,0 +1,43 @@
+:: test.C.convo
+{=
+
+(metadata:
+"title", "Test C: Conversations",
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+
+''Testing `$funcInnerConvo`''
+<br>
+
+"Hello!" He says.
+
+($funcInnerConvo: (dm:
+    "<!--A-->\"Hi to you!\"", "hi",
+    "<!--B-->\"How's the weather?\"", "weather",
+    "<!--C-->\"Get lost!\"", "getLost",
+))
+
+(set: _resetLink to [(link: "Reset Convo?")[(redirect: (passage:)'s name)]])
+
+[
+"Yes, 'hi', haha..."
+<br>
+_resetLink
+](hi|
+
+[
+"I don't know..." he looks out the window. "I..."
+<br>
+_resetLink
+](weather|
+
+[
+"Ah, if only it was so easy..."
+<br>
+_resetLink
+](getLost|

@@ -1,0 +1,43 @@
+:: test.A.navigation
+{=
+
+(metadata:
+"title", "Test A: Text Navigation"
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+
+''Testing `$funcReveal`''
+<br>
+$cssDesc[Sample use: `($funcReveal: "morning", "hidden")` will create a "morning" link and, upon clicking, reveals the hook called "hidden".]
+<br>
+It is ($funcReveal: "morning", "morning").
+
+[
+<br>
+The ($funcReveal: "sun", "sun") is ($funcReveal: "shining", "shining").
+](morning|
+
+
+[
+<br>
+Sun. Glorious sun.
+](sun|
+
+[
+<br>
+Like it ought to. Otherwise, we'd have ($funcReveal: "bigger problems", "problem"), won't we?
+](shining|
+
+[
+<br>
+Imagine if the sun had flickered. Actually, don't imagine that.
+](problem|
+
+<br>
+---
+<br>

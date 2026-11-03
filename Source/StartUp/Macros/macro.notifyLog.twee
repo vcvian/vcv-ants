@@ -1,0 +1,46 @@
+:: macro.notifyLog [startup]
+{=
+
+(set: $funcNotifyLog to (macro: str-type _flag, num-type _value, [(out:)[{
+    <!--load full flag DM-->
+    (set: _flagDM to (passage: "flag." + _flag))
+
+    <!--gain or loss?-->
+    (set: _type to "gain")
+    (if: _value < 0)[(set: _type to "loss")]
+
+    <!--log-->
+    (set: $log to it + (a: (dm:
+        "logID", $log's length + 1,
+        "logType", "gainLoss",
+        "logDayCount", $time's dayCount,
+        "logTimeOfDay", $time's timeOfDay,
+        "logPassage", (str: (passage:)'s name),
+        "logFlag", (str: _flag),
+        "logValue", _value,
+    )))
+
+    <!--Notification-->
+    (dialog: [{
+        <!--load info-->
+        (set: _flagID to _flagDM's id)
+        (set: _flagCurrent to ($funcOutputFlag: _flag))
+        
+        <!--colored line-->
+        (if: _type is "gain")+(color: green+yellow)[''Gained: _value _flagID'']
+        (else:)+(color: orange+red)[''Lost: (abs:_value) _flagID'']
+        <br>
+
+        <!--new total-->
+        $cssDesc[New total: _flagCurrent]
+        <br>
+
+        <!--body line-->
+        (if: _type is "gain")[(print: _flagDM's gainText)]
+        (else:)[(print: _flagDM's lossText)]
+        
+        <!--tip-->
+        (if: _flagDM contains "tip")[<br>$cssDesc[(print: _flagDM's tip)]]
+
+    }], "✓")
+}]]))

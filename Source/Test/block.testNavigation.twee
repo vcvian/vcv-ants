@@ -1,0 +1,7 @@
+:: block.testNavigation
+{=
+
+<!--to be displayed at the start of all test passages-->
+
+''(print: (passage:)'s title)''
+<br>(link: "<= Back")[(goto: "Test")]

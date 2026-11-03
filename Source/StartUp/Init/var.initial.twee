@@ -1,0 +1,8 @@
+:: var.initial [startup]
+{=
+
+(set: $testMode to true)
+
+(set: $dice to (random: 1,100))
+
+(set: $log to (a:))

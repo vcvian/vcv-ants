@@ -1,0 +1,7 @@
+:: var.time [startup]
+{=
+
+(set: $time to (dm:
+    "dayCount", 1,
+    "timeOfDay", 1,
+))

@@ -1,0 +1,171 @@
+:: macro.checkGate [startup]
+{=
+
+<!--check gate outputs either 1 of 3 states:
+1. open
+2. closed but visible
+3. invisible
+Meaning, each call must set visibility to either:
+1. visible even when closed
+2. invisible when closed
+Additionally, there is a:
+a. spend mode
+b. check mode (positive or negative)
+-->
+
+(set: $funcDiceRoll to (macro: num-type _chance, [(out:)[{
+   <!--initialize-->
+    (set: _success to false)
+
+    <!--roll-->
+    (set: _dice to (random: 1,100))
+    (if: _dice >= (100-_chance) or _chance >= 100)[(set: _success to true)]
+
+    <!--notify result-->
+    (if: _chance < 100)[(dialog: [{
+        (if: _success)[(color: green+yellow)[Success!]<br>Fortune has decided to smile on you.]
+        (else:)[(color: red+orange)[Failure...]<br>Fortune, ever the fickle mistress, turns her back on you.]
+        <br>
+        $cssDesc[Threshold: (print: 100-_chance), rolled ''_dice''.]
+    }], "OK.")]
+
+}]]))
+
+(set: $cssChanceColor to (macro: str-type _formattedText, num-type _value, num-type _max, [(out:)[{
+    <!--color gradient for chance-->
+(set: _r to 0)
+(set: _g to 0)
+(set: _half to (round: _max/2))
+(if: _value <= _half)[
+	(set: _r to 255)
+	(set: _g to (round: (_value / _half) * 255))
+		(if: _g > 255)[(set: _g to 255)]
+		(elseif: _g < 0)[(set: _g to 0)]
+]
+(else:)[
+	(set: _r to (round: ((_max - _value) / _half) * 255))
+		(if: _r > 255)[(set: _r to 255)]
+		(elseif: _r < 0)[(set: _r to 0)]
+	(set: _g to 255)
+]
+(set: _chanceColor to (color: (rgb: _r, _g, 0)))
+
+<!--output formatted text-->
+_chanceColor[_formattedText]
+}]]))
+
+<!--check gate-->
+(set: $funcCheckGate to (macro: str-type _linkText, boolean-type _visibleWhenClosed, str-type _flag, num-type _value, boolean-type _spend, num-type _chance, codehook-type _addCode, str-type _gotoSuccess, str-type _gotoFail,  [(out:)[{
+    <!--load full flag DM-->
+    (set: _flagDM to (passage: "flag." + _flag))
+
+    <!--normalize _chance-->
+    (if: _chance <= 0)[(set: _chance to 0)]
+    (if: _chance > 100)[(set: _chance to 100)]
+
+    <!--determine whether conditions are met-->
+    (set: _conditionsMet to false)
+    (if: ($funcOutputFlag: _flag) >= _value)[(set: _conditionsMet to true)]
+
+    <!--if conditions are met, create link-->
+    (if: _conditionsMet is true)[{
+        (link-rerun: _linkText)[{
+            <!--subtract cost if spend-->
+            (if: _spend is true)[($funcGainLoss: _flag, -_value)]
+            
+            <!--roll dice-->
+            (set: _success to false)
+            ($funcDiceRoll: _chance)
+
+            <!--optional _addCode-->
+            _addCode
+
+            <!--finally, goto-->
+            (if: _success)[{
+                (if: _gotoSuccess is "code.timePass")[(display: "code.timePass")]
+                (else:)[(goto: _gotoSuccess)]
+            }]
+            (else:)[{
+                (if: _gotoFail is "code.timePass")[(display: "code.timePass")]
+                (else:)[(goto: _gotoFail)]
+            }]
+
+        }]<!--end of link creation-->
+    }]<!--end of if condition is met-->
+
+    <!--if conditions are not met (visibility?)-->
+    (elseif: _visibleWhenClosed)[{
+        ~~_linkText~~
+    }]
+
+    <!--invisible-->
+    (elseif: _visibleWhenClosed is false)[{
+        ???
+<br>
+        }]
+
+    <!--tip text-->
+    (if: _conditionsMet or _visibleWhenClosed)+$cssDesc[{
+        <!--spend?-->
+        <!--first arrow-->
+        <br>↪
+        (if: _spend is true)+(color: orange+red)[Expend:` `]
+        (if: _spend is false)+(color: yellow+orange)[Check for at least:` `]
+
+        <!--flag requirement text-->
+        ''_value (print: _flagDM's id)''` `(have ($funcOutputFlag: _flag))` `
+        
+        <!--mark-->
+        (if: _conditionsMet)+(color: green)[✓]
+        (else:)+(color: red)[✗]
+        ` `
+
+        <!--chance tip-->
+        <!--another arrow-->
+        <br>↪
+        (if: _chance < 100)[($cssChanceColor: (str:_chance)+"%", _chance, 100) chance of success.]
+        (else:)[A (color:green)[sure] thing.]
+
+        <!--spacing-->
+<br>
+    }]<!--end of -->
+
+}]]))
+
+
+
+<!--luck gate version, no checks-->
+(set: $funcLuckGate to (macro: str-type _linkText, num-type _chance, codehook-type _addCode, str-type _gotoSuccess, str-type _gotoFail, [(out:)[{
+    <!--normalize _chance-->
+    (if: _chance <= 0)[(set: _chance to 0)]
+    (if: _chance > 100)[(set: _chance to 100)]
+    
+    <!--create link-->
+    (link: _linkText)[{
+        <!--roll dice-->
+        (set: _success to false)
+        ($funcDiceRoll: _chance)
+
+        <!--optional _addCode-->
+        _addCode
+
+        <!--goto-->
+        (if: _success)[{
+            (if: _gotoSuccess is "code.timePass")[(display: "code.timePass")]
+            (else:)[(goto: _gotoSuccess)]
+        }]
+        (else:)[{
+            (if: _gotoFail is "code.timePass")[(display: "code.timePass")]
+            (else:)[(goto: _gotoFail)]
+        }]
+    }]<!--end of link-->
+
+    <!--tip text-->
+    $cssDesc[{
+        <br>↪` `
+        (if: _chance < 100)[($cssChanceColor: (str:_chance)+"%", _chance, 100) chance of success.]
+        (else:)[A (color:green)[sure] thing.]
+<br>
+    }]
+
+}]]))

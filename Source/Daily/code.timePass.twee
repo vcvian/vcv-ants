@@ -1,0 +1,31 @@
+:: code.timePass
+{=
+
+
+(metadata:
+
+"timeSequence", (a: "newDay", "Morning", "Midday", "Evening", "Dream", "deathCheck",),
+
+"timeFullNames", (a: "a new day", "morning", "midday", "evening", "dreaming", "???"),
+
+"timeAdvance", [{
+    <!--Advance the timeOfDay-->
+    (set: $time's timeOfDay to it + 1)
+    <!--exceed max sequence?-->
+    (if: $time's timeOfDay > (passage: "code.timePass")'s timeSequence's length)[{
+        <!--reset-->
+        (set: $time's timeOfDay to 1)
+        <!--up the dayCount-->
+        (set: $time's dayCount to it + 1)
+    }]
+}],
+
+"timeGoto", [{
+    (goto: (passage: "code.timePass")'s timeSequence's ($time's timeOfDay))
+}],
+
+)
+
+<!--all-in-one code execution; proceed to new day by writing only (display: "code.timePass")-->
+(print: (passage: "code.timePass")'s timeAdvance)
+(print: (passage: "code.timePass")'s timeGoto)

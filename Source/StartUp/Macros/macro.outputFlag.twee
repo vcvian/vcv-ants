@@ -1,0 +1,14 @@
+:: macro.outputFlag [startup]
+{=
+
+<!--output a number-->
+(set: $funcOutputFlag to (macro: str-type _flag, [{
+    <!--initialize output-->
+    (set: _out to 0)
+
+    <!--check $player's flags-->
+    (if: $player's flags contains _flag)[(set: _out to $player's flags's _flag)]
+
+    <!--output-->
+    (output-data: _out)
+}]))

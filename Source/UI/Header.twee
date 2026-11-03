@@ -1,0 +1,21 @@
+:: Header [header]
+{=
+
+(align: "=><=")+$cssDesc[{
+    <!--dayCount-->
+    |headerDayCount>[Day (print: $time's dayCount):]` `
+    
+    <!--timeOfDay-->
+    |headerTimeOfDay>[(upperfirst: (passage: "code.timePass")'s timeFullNames's ($time's timeOfDay))],` `
+
+    <!--location-->
+    |headerLocation>[(print: $player's location)],` `
+
+    <!--activity-->
+    |headerActivity>[(print: $player's activity)].
+}]<!--end header readout cssDesc-->
+
+    
+<br>
+---
+<br>

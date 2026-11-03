@@ -1,0 +1,7 @@
+:: var.world [startup]
+{=
+
+(set: $world to (dm:
+ "state", 1,
+ "events", (dm:),
+))

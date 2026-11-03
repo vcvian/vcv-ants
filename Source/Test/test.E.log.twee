@@ -1,0 +1,50 @@
+:: test.E.log
+
+(metadata:
+"title", "Test E: Logging",
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+
+''Log (Raw)''
+<br>
+$cssDesc[`$log` is printed as-is into a box.]
+<br>
+(box: "X=", 10)+(bg: black+gray)[$log]
+
+<br>
+---
+<br>
+
+''Log (Display 1: All gainLoss)''
+<br>
+$cssDesc[Note: Consider consolidating readout code (for different logTypes) into macros. Or at least throw the log box into a passage to be displayed as needed. In general, avoid having to write the readout code multiple times.]
+<br>
+(box: "X=", 10)+(bg: gray+black)[{
+    <ol>
+    (for: each _logItem where its logType is "gainLoss", ...$log)[{
+        <li>
+        <!--logDayCount-->
+        Day (print: _logItem's logDayCount),` `
+
+        <!--logTimeOfDay-->
+        (print: (passage: "code.timePass")'s timeFullNames's (_logItem's logTimeOfDay)),` `
+
+        <!--logPassage-->
+        (print: _logItem's logPassage):<br>
+        <!--gain or loss?-->
+        <!--gain-->
+        (if: _logItem's logValue > 0)+(color:green+yellow)[Gained: (abs: _logItem's logValue) (print: (passage: "flag." + _logItem's logFlag)'s id)]
+        <!--loss-->
+        (else:)+(color:red+orange)[Lost: (abs: _logItem's logValue) (print: (passage: "flag." + _logItem's logFlag)'s id)]
+<br>
+
+        </li>
+    }]
+    </ol>
+}]
+

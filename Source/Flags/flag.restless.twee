@@ -1,0 +1,12 @@
+:: flag.restless [flag]
+
+(metadata:
+"id", [Restlessness],
+"type", (a: "att"),
+"desc", [Frustrated energy. Hurts to have, hurts to let go. May motivate you to push through with certain tasks, but it will hurt.],
+"tip", [Each decreases your ''Mind'' by 1, which is now ''(print: $player's mind)''.],
+"gainText", [You become restless, and though your mind suffers for it, it is nonetheless vital energy.],
+"lossText", [You put your frustrated energy to work. You feel better.],
+"gainEffect", (macro: num-type _value, [(out:)[(set: $player's mind to it - _value)(rerun: ?sidebarMind)]]),
+"lossEffect", (macro: num-type _value, [(out:)[(set: $player's mind to it - _value)(rerun: ?sidebarMind)]]),
+)

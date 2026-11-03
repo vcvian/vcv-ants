@@ -1,0 +1,5 @@
+:: macro.reveal [startup]
+{=
+
+<!--basic reveal text shortcut that reveals arbitrary named hook-->
+(set: $funcReveal to (macro: str-type _linkText, str-type _hookRevealed, [(out:)[{(link-reveal: _linkText)[{(t8n: "dissolve")(show: (hooks-named: _hookRevealed))}]}]]))

@@ -1,0 +1,20 @@
+:: Test
+{=
+
+<!--activate debug if $testMode is true-->
+(if: $testMode is true)[(debug:)]
+(else:)[(redirect: "newDay")]
+
+''Test Mode''
+<ol>
+<li>(link: "Test A")[(goto: "test.A.navigation")] $cssDesc[(Text navigation)]</li>
+<li>(link: "Test B")[(goto: "test.B.gainLoss")] $cssDesc[(Gain & loss)]</li>
+<li>(link: "Test C")[(goto: "test.C.convo")] $cssDesc[(Conversations)]</li>
+<li>(link: "Test D")[(goto: "test.D.checkGate")] $cssDesc[(Check gates)]</li>
+<li>(link: "Test D")[(goto: "test.E.log")] $cssDesc[(Logging)]</li>
+
+
+
+
+
+</ol>
