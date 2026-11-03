@@ -15,6 +15,7 @@
 <br>
 $cssDesc[Sample use: `($funcReveal: "morning", "hidden")` will create a "morning" link and, upon clicking, reveals the hook called "hidden".]
 <br>
+
 It is ($funcReveal: "morning", "morning").
 
 [
@@ -41,3 +42,67 @@ Imagine if the sun had flickered. Actually, don't imagine that.
 <br>
 ---
 <br>
+
+''Testing `$funcCycling`''
+<br>
+$cssDesc[With the following parameters:
+<ol>
+<li style="margin-bottom: 1em">str-type `_uniqueCycleName`,</li>
+<li style="margin-bottom: 1em">dm-type `_choicesText`,</li>
+<li style="margin-bottom: 1em">str-type `_cyclingBoundHook`,</li>
+<li style="margin-bottom: 1em">boolean-type `_lastRevealMode`,</li>
+<li style="margin-bottom: 1em">num-type `_lastRevealThreshold`,</li>
+<li style="margin-bottom: 1em">str-type `_lastRevealHook`,</li>
+<li style="margin-bottom: 1em">boolean-type `_seqMode`,</li>
+<li style="margin-bottom: 1em">num-type `_seqThreshold`,</li>
+</ol>
+]
+
+<li>''Cycling Test 1:'' Cycling with no lastReveal, with distant target hook. Endless (not a sequence).
+<br>
+So I was walking down the street the other day, and I saw 
+($funcCycling: "walking", (dm:
+    "<!--1-->a bird.", "It flew very high.",
+    "<!--2-->a guy.", "He looked at me also. We didn't say hello.",
+    "<!--3-->a cat.", "Damn, it was a fine cat.",
+), "TestA1Bound", false, 0, "", false, 0) I stopped to look.
+<br>
+[(print: $stuff's cyclingDisplay's walking)]<TestA1Bound|
+
+<br>
+<br>
+
+<li>''Cycling Test 2:'' Cycling WITH a lastReveal (revealed upon repeat), with adjacent target hook. Endless (not a sequence).
+<br>
+$cssDesc[Notice how the `_uniqueCycleName` prevents multiple cycling blocks in the same passage from interfering with one another. Tests 1 and 2 do not affect each other.]
+<br>
+I read, and read... ($funcCycling: "reading", (dm:
+    "<!--1-->A plane has just fallen.", "Nine people died. Only the 20-year-old copilot was named and thoroughly profiled, as if to be blamed.",
+    "<!--2-->The president has just boasted how he would end the war in a week.", "When the war started three years ago, he said the same thing. He has been saying it every other week since.",
+    "<!--3-->An advertisement for anti-aging cream.", "Age comes to us all. The cream is tantamount to a promise to relinquish the user of the burden of being human.",
+), "TestA2Bound", true, 3, "TestA2Reveal", false, 0) [(print: $stuff's cyclingDisplay's reading)]<TestA2Bound|
+<br>
+[Enough. I'm tired of reading the news. (link: "RESET?")[(redirect: (passage:)'s name)]](TestA2Reveal|
+
+<br>
+<br>
+
+<li>''Cycling Test 3:'' Cycling WITH a lastReveal AND an end (seq mode), with combined `$funcReveal`.
+<br>
+$cssDesc[Pay attention that the threshold for lastReveal cannot be lower than the seq reveal. This behavior is hardcoded.]
+<br>
+Taking a deep breath, I ($funcReveal: "knock on his door.", "knockingSeq")
+
+|knockingSeq)[ Nothing. I knock again, ($funcCycling: "knock", (dm:
+    "<!--1-->once more.", "Still nothing.",
+    "<!--2-->twice more.", "Still nothing...",
+    "<!--3-->thrice more.", "Nothing.",
+), "TestA3Bound", true, 3, "TestA3Reveal", true, 3)
+
+[(print: $stuff's cyclingDisplay's knock)]<TestA3Bound|
+]
+` `
+[($funcReveal: "Absolutely nothing.", "absolutelyNothing")](TestA3Reveal|
+[
+<br>
+He must not be home.](absolutelyNothing|

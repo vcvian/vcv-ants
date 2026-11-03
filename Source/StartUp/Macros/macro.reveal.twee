@@ -3,3 +3,55 @@
 
 <!--basic reveal text shortcut that reveals arbitrary named hook-->
 (set: $funcReveal to (macro: str-type _linkText, str-type _hookRevealed, [(out:)[{(link-reveal: _linkText)[{(t8n: "dissolve")(show: (hooks-named: _hookRevealed))}]}]]))
+
+<!--cycle through text, display corresponding passage, has an optional last-reveal mode-->
+(set: $funcCycling to (macro: str-type _uniqueCycleName, dm-type _choicesText, str-type _cyclingBoundHook, boolean-type _lastRevealMode, num-type _lastRevealThreshold, str-type _lastRevealHook, boolean-type _seqMode, num-type _seqThreshold, [(out:)[{
+    
+    <!--initialize count-->
+    (set: _cyclingCount to 1)
+    (set: _cyclingCountTotal to 1)
+    (set: _currentLink to (datanames: _choicesText)'s _cyclingCount)
+
+    <!--check thresholds to prevent an accidental lock. _lastRevealThreshold should be at least the same as _seqThreshold, otherwise the next passage will never be displayed-->
+    (if: _seqThreshold > _lastRevealThreshold)[(set: _lastRevealThreshold to _seqThreshold)]
+    
+    <!--initialize $stuff (unfortunately, this is the only way I know how to break out of the macro's scope, as (replace:) doesn't work out of it). Otherwise, I really don't like to use helper variables like $stuff-->
+    (set: $stuff's cyclingDisplay to (dm:))
+    (set: $stuff's cyclingDisplay to it + (dm: _uniqueCycleName, ""))
+    <!--set initial passage (printed in the target hook outside of this macro)-->
+    (set: $stuff's cyclingDisplay to it + (dm: _uniqueCycleName, _choicesText's ((datanames: _choicesText)'s _cyclingCount)))
+
+    <!--instead of using a cycling-link, we place a regular link inside of a replace/rerun-able hook-->
+    (hook: "reusableLink" + _uniqueCycleName)[{
+        (link: _currentLink)[{
+            <!--tick up _cyclingCount-->
+            (set: _cyclingCountTotal to it + 1)
+            (unless: _seqMode is true and _cyclingCountTotal > _seqThreshold)[(set: _cyclingCount to it + 1)]
+            (if: _cyclingCount > (datanames: _choicesText)'s length)[(set: _cyclingCount to 1)]
+
+            <!--if lastReveal mode is on-->
+            (if: _lastRevealMode is true and _cyclingCountTotal > _lastRevealThreshold)[{
+                (t8n: "dissolve")
+                (show: (hooks-named: _lastRevealHook))
+            }]
+
+            <!--update the display variable (inside of target _cyclingBoundHook)-->
+            (set: $stuff's cyclingDisplay's _uniqueCycleName to _choicesText's ((datanames: _choicesText)'s _cyclingCount))
+
+            <!--update the _currentLink text-->
+            (set: _currentLink to (datanames: _choicesText)'s _cyclingCount)
+
+            <!--update the target _cyclingBoundHook (seq mode?)-->
+            (if: _seqMode is true and _cyclingCountTotal > _seqThreshold)[{
+                (t8n:"dissolve")+(replace: (hooks-named: "reusableLink" + _uniqueCycleName))[_currentLink]
+            }]
+            (else:)[{
+                (t8n:"dissolve")(rerun: (hooks-named: _cyclingBoundHook))
+                <!--finally, update this link-->
+                (t8n:"dissolve")(rerun: (hooks-named: "reusableLink" + _uniqueCycleName))
+            }]
+
+        }]<!--end of link command-->
+    }]<!--end of ?rerunableLink-->
+
+}]]))

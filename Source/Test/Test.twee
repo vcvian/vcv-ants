@@ -11,7 +11,7 @@
 <li>(link: "Test B")[(goto: "test.B.gainLoss")] $cssDesc[(Gain & loss)]</li>
 <li>(link: "Test C")[(goto: "test.C.convo")] $cssDesc[(Conversations)]</li>
 <li>(link: "Test D")[(goto: "test.D.checkGate")] $cssDesc[(Check gates)]</li>
-<li>(link: "Test D")[(goto: "test.E.log")] $cssDesc[(Logging)]</li>
+<li>(link: "Test E")[(goto: "test.E.log")] $cssDesc[(Logging)]</li>
 
 
 

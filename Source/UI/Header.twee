@@ -1,6 +1,6 @@
 :: Header [header]
 {=
-
+<!--displayed text in header-->
 (align: "=><=")+$cssDesc[{
     <!--dayCount-->
     |headerDayCount>[Day (print: $time's dayCount):]` `
@@ -15,6 +15,8 @@
     |headerActivity>[(print: $player's activity)].
 }]<!--end header readout cssDesc-->
 
+<!--test mode?-->
+(if: $testMode is true)[(debug:)]
     
 <br>
 ---

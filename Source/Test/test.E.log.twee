@@ -40,7 +40,10 @@ $cssDesc[Note: Consider consolidating readout code (for different logTypes) into
         <!--gain-->
         (if: _logItem's logValue > 0)+(color:green+yellow)[Gained: (abs: _logItem's logValue) (print: (passage: "flag." + _logItem's logFlag)'s id)]
         <!--loss-->
-        (else:)+(color:red+orange)[Lost: (abs: _logItem's logValue) (print: (passage: "flag." + _logItem's logFlag)'s id)]
+        (else:)+(color:red+orange)[Lost: (abs: _logItem's logValue) (print: (passage: "flag." + _logItem's logFlag)'s id)]` `
+
+        <!--logNewTotal-->
+        (new total: (print: _logItem's logNewTotal))
 <br>
 
         </li>

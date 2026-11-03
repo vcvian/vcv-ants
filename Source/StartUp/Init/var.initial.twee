@@ -6,3 +6,6 @@
 (set: $dice to (random: 1,100))
 
 (set: $log to (a:))
+
+<!--$stuff is a "helper" variable. It is more durable than temporary variables, and it can break out of scope. It is meant to be cleared upon time's advance (displaying "code.timePass"). An example of things that uses $stuff is the $funcCycling macro.-->
+(set: $stuff to (dm:))

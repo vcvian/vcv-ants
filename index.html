@@ -78,6 +78,7 @@ $(document).on('keydown', function (ev) {
 )
 
 &lt;!--all-in-one code execution; proceed to new day by writing only (display: &quot;code.timePass&quot;)--&gt;
+(set: $stuff to (dm:))
 (print: (passage: &quot;code.timePass&quot;)&#39;s timeAdvance)
 (print: (passage: &quot;code.timePass&quot;)&#39;s timeGoto)</tw-passagedata><tw-passagedata pid="9" name="flag.restless" tags="flag" position="1100,100" size="100,100">(metadata:
 &quot;id&quot;, [Restlessness],
@@ -94,7 +95,10 @@ $(document).on('keydown', function (ev) {
 
 (set: $dice to (random: 1,100))
 
-(set: $log to (a:))</tw-passagedata><tw-passagedata pid="11" name="var.player" tags="startup" position="100,225" size="100,100">{=
+(set: $log to (a:))
+
+&lt;!--$stuff is a &quot;helper&quot; variable. It is more durable than temporary variables, and it can break out of scope. It is meant to be cleared upon time&#39;s advance (displaying &quot;code.timePass&quot;). An example of things that uses $stuff is the $funcCycling macro.--&gt;
+(set: $stuff to (dm:))</tw-passagedata><tw-passagedata pid="11" name="var.player" tags="startup" position="100,225" size="100,100">{=
 
 (set: $player to (dm:
     &quot;mind&quot;, 10,
@@ -376,6 +380,7 @@ _chanceColor[_formattedText]
         &quot;logPassage&quot;, (str: (passage:)&#39;s name),
         &quot;logFlag&quot;, (str: _flag),
         &quot;logValue&quot;, _value,
+        &quot;logNewTotal&quot;, ($funcOutputFlag: _flag),
     )))
 
     &lt;!--Notification--&gt;
@@ -416,7 +421,59 @@ _chanceColor[_formattedText]
 }]))</tw-passagedata><tw-passagedata pid="20" name="macro.reveal" tags="startup" position="1225,225" size="100,100">{=
 
 &lt;!--basic reveal text shortcut that reveals arbitrary named hook--&gt;
-(set: $funcReveal to (macro: str-type _linkText, str-type _hookRevealed, [(out:)[{(link-reveal: _linkText)[{(t8n: &quot;dissolve&quot;)(show: (hooks-named: _hookRevealed))}]}]]))</tw-passagedata><tw-passagedata pid="21" name="Test" tags="" position="100,350" size="100,100">{=
+(set: $funcReveal to (macro: str-type _linkText, str-type _hookRevealed, [(out:)[{(link-reveal: _linkText)[{(t8n: &quot;dissolve&quot;)(show: (hooks-named: _hookRevealed))}]}]]))
+
+&lt;!--cycle through text, display corresponding passage, has an optional last-reveal mode--&gt;
+(set: $funcCycling to (macro: str-type _uniqueCycleName, dm-type _choicesText, str-type _cyclingBoundHook, boolean-type _lastRevealMode, num-type _lastRevealThreshold, str-type _lastRevealHook, boolean-type _seqMode, num-type _seqThreshold, [(out:)[{
+    
+    &lt;!--initialize count--&gt;
+    (set: _cyclingCount to 1)
+    (set: _cyclingCountTotal to 1)
+    (set: _currentLink to (datanames: _choicesText)&#39;s _cyclingCount)
+
+    &lt;!--check thresholds to prevent an accidental lock. _lastRevealThreshold should be at least the same as _seqThreshold, otherwise the next passage will never be displayed--&gt;
+    (if: _seqThreshold &gt; _lastRevealThreshold)[(set: _lastRevealThreshold to _seqThreshold)]
+    
+    &lt;!--initialize $stuff (unfortunately, this is the only way I know how to break out of the macro&#39;s scope, as (replace:) doesn&#39;t work out of it). Otherwise, I really don&#39;t like to use helper variables like $stuff--&gt;
+    (set: $stuff&#39;s cyclingDisplay to (dm:))
+    (set: $stuff&#39;s cyclingDisplay to it + (dm: _uniqueCycleName, &quot;&quot;))
+    &lt;!--set initial passage (printed in the target hook outside of this macro)--&gt;
+    (set: $stuff&#39;s cyclingDisplay to it + (dm: _uniqueCycleName, _choicesText&#39;s ((datanames: _choicesText)&#39;s _cyclingCount)))
+
+    &lt;!--instead of using a cycling-link, we place a regular link inside of a replace/rerun-able hook--&gt;
+    (hook: &quot;reusableLink&quot; + _uniqueCycleName)[{
+        (link: _currentLink)[{
+            &lt;!--tick up _cyclingCount--&gt;
+            (set: _cyclingCountTotal to it + 1)
+            (unless: _seqMode is true and _cyclingCountTotal &gt; _seqThreshold)[(set: _cyclingCount to it + 1)]
+            (if: _cyclingCount &gt; (datanames: _choicesText)&#39;s length)[(set: _cyclingCount to 1)]
+
+            &lt;!--if lastReveal mode is on--&gt;
+            (if: _lastRevealMode is true and _cyclingCountTotal &gt; _lastRevealThreshold)[{
+                (t8n: &quot;dissolve&quot;)
+                (show: (hooks-named: _lastRevealHook))
+            }]
+
+            &lt;!--update the display variable (inside of target _cyclingBoundHook)--&gt;
+            (set: $stuff&#39;s cyclingDisplay&#39;s _uniqueCycleName to _choicesText&#39;s ((datanames: _choicesText)&#39;s _cyclingCount))
+
+            &lt;!--update the _currentLink text--&gt;
+            (set: _currentLink to (datanames: _choicesText)&#39;s _cyclingCount)
+
+            &lt;!--update the target _cyclingBoundHook (seq mode?)--&gt;
+            (if: _seqMode is true and _cyclingCountTotal &gt; _seqThreshold)[{
+                (t8n:&quot;dissolve&quot;)+(replace: (hooks-named: &quot;reusableLink&quot; + _uniqueCycleName))[_currentLink]
+            }]
+            (else:)[{
+                (t8n:&quot;dissolve&quot;)(rerun: (hooks-named: _cyclingBoundHook))
+                &lt;!--finally, update this link--&gt;
+                (t8n:&quot;dissolve&quot;)(rerun: (hooks-named: &quot;reusableLink&quot; + _uniqueCycleName))
+            }]
+
+        }]&lt;!--end of link command--&gt;
+    }]&lt;!--end of ?rerunableLink--&gt;
+
+}]]))</tw-passagedata><tw-passagedata pid="21" name="Test" tags="" position="100,350" size="100,100">{=
 
 &lt;!--activate debug if $testMode is true--&gt;
 (if: $testMode is true)[(debug:)]
@@ -428,7 +485,7 @@ _chanceColor[_formattedText]
 &lt;li&gt;(link: &quot;Test B&quot;)[(goto: &quot;test.B.gainLoss&quot;)] $cssDesc[(Gain &amp; loss)]&lt;/li&gt;
 &lt;li&gt;(link: &quot;Test C&quot;)[(goto: &quot;test.C.convo&quot;)] $cssDesc[(Conversations)]&lt;/li&gt;
 &lt;li&gt;(link: &quot;Test D&quot;)[(goto: &quot;test.D.checkGate&quot;)] $cssDesc[(Check gates)]&lt;/li&gt;
-&lt;li&gt;(link: &quot;Test D&quot;)[(goto: &quot;test.E.log&quot;)] $cssDesc[(Logging)]&lt;/li&gt;
+&lt;li&gt;(link: &quot;Test E&quot;)[(goto: &quot;test.E.log&quot;)] $cssDesc[(Logging)]&lt;/li&gt;
 
 
 
@@ -455,6 +512,7 @@ _chanceColor[_formattedText]
 &lt;br&gt;
 $cssDesc[Sample use: `($funcReveal: &quot;morning&quot;, &quot;hidden&quot;)` will create a &quot;morning&quot; link and, upon clicking, reveals the hook called &quot;hidden&quot;.]
 &lt;br&gt;
+
 It is ($funcReveal: &quot;morning&quot;, &quot;morning&quot;).
 
 [
@@ -480,7 +538,71 @@ Imagine if the sun had flickered. Actually, don&#39;t imagine that.
 
 &lt;br&gt;
 ---
-&lt;br&gt;</tw-passagedata><tw-passagedata pid="24" name="test.B.gainLoss" tags="" position="475,350" size="100,100">{=
+&lt;br&gt;
+
+&#39;&#39;Testing `$funcCycling`&#39;&#39;
+&lt;br&gt;
+$cssDesc[With the following parameters:
+&lt;ol&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;str-type `_uniqueCycleName`,&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;dm-type `_choicesText`,&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;str-type `_cyclingBoundHook`,&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;boolean-type `_lastRevealMode`,&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;num-type `_lastRevealThreshold`,&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;str-type `_lastRevealHook`,&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;boolean-type `_seqMode`,&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;num-type `_seqThreshold`,&lt;/li&gt;
+&lt;/ol&gt;
+]
+
+&lt;li&gt;&#39;&#39;Cycling Test 1:&#39;&#39; Cycling with no lastReveal, with distant target hook. Endless (not a sequence).
+&lt;br&gt;
+So I was walking down the street the other day, and I saw 
+($funcCycling: &quot;walking&quot;, (dm:
+    &quot;&lt;!--1--&gt;a bird.&quot;, &quot;It flew very high.&quot;,
+    &quot;&lt;!--2--&gt;a guy.&quot;, &quot;He looked at me also. We didn&#39;t say hello.&quot;,
+    &quot;&lt;!--3--&gt;a cat.&quot;, &quot;Damn, it was a fine cat.&quot;,
+), &quot;TestA1Bound&quot;, false, 0, &quot;&quot;, false, 0) I stopped to look.
+&lt;br&gt;
+[(print: $stuff&#39;s cyclingDisplay&#39;s walking)]&lt;TestA1Bound|
+
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;li&gt;&#39;&#39;Cycling Test 2:&#39;&#39; Cycling WITH a lastReveal (revealed upon repeat), with adjacent target hook. Endless (not a sequence).
+&lt;br&gt;
+$cssDesc[Notice how the `_uniqueCycleName` prevents multiple cycling blocks in the same passage from interfering with one another. Tests 1 and 2 do not affect each other.]
+&lt;br&gt;
+I read, and read... ($funcCycling: &quot;reading&quot;, (dm:
+    &quot;&lt;!--1--&gt;A plane has just fallen.&quot;, &quot;Nine people died. Only the 20-year-old copilot was named and thoroughly profiled, as if to be blamed.&quot;,
+    &quot;&lt;!--2--&gt;The president has just boasted how he would end the war in a week.&quot;, &quot;When the war started three years ago, he said the same thing. He has been saying it every other week since.&quot;,
+    &quot;&lt;!--3--&gt;An advertisement for anti-aging cream.&quot;, &quot;Age comes to us all. The cream is tantamount to a promise to relinquish the user of the burden of being human.&quot;,
+), &quot;TestA2Bound&quot;, true, 3, &quot;TestA2Reveal&quot;, false, 0) [(print: $stuff&#39;s cyclingDisplay&#39;s reading)]&lt;TestA2Bound|
+&lt;br&gt;
+[Enough. I&#39;m tired of reading the news. (link: &quot;RESET?&quot;)[(redirect: (passage:)&#39;s name)]](TestA2Reveal|
+
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;li&gt;&#39;&#39;Cycling Test 3:&#39;&#39; Cycling WITH a lastReveal AND an end (seq mode), with combined `$funcReveal`.
+&lt;br&gt;
+$cssDesc[Pay attention that the threshold for lastReveal cannot be lower than the seq reveal. This behavior is hardcoded.]
+&lt;br&gt;
+Taking a deep breath, I ($funcReveal: &quot;knock on his door.&quot;, &quot;knockingSeq&quot;)
+
+|knockingSeq)[ Nothing. I knock again, ($funcCycling: &quot;knock&quot;, (dm:
+    &quot;&lt;!--1--&gt;once more.&quot;, &quot;Still nothing.&quot;,
+    &quot;&lt;!--2--&gt;twice more.&quot;, &quot;Still nothing...&quot;,
+    &quot;&lt;!--3--&gt;thrice more.&quot;, &quot;Nothing.&quot;,
+), &quot;TestA3Bound&quot;, true, 3, &quot;TestA3Reveal&quot;, true, 3)
+
+[(print: $stuff&#39;s cyclingDisplay&#39;s knock)]&lt;TestA3Bound|
+]
+` `
+[($funcReveal: &quot;Absolutely nothing.&quot;, &quot;absolutelyNothing&quot;)](TestA3Reveal|
+[
+&lt;br&gt;
+He must not be home.](absolutelyNothing|</tw-passagedata><tw-passagedata pid="24" name="test.B.gainLoss" tags="" position="475,350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test B: Gain &amp; Loss&quot;,
@@ -682,14 +804,17 @@ $cssDesc[Note: Consider consolidating readout code (for different logTypes) into
         &lt;!--gain--&gt;
         (if: _logItem&#39;s logValue &gt; 0)+(color:green+yellow)[Gained: (abs: _logItem&#39;s logValue) (print: (passage: &quot;flag.&quot; + _logItem&#39;s logFlag)&#39;s id)]
         &lt;!--loss--&gt;
-        (else:)+(color:red+orange)[Lost: (abs: _logItem&#39;s logValue) (print: (passage: &quot;flag.&quot; + _logItem&#39;s logFlag)&#39;s id)]
+        (else:)+(color:red+orange)[Lost: (abs: _logItem&#39;s logValue) (print: (passage: &quot;flag.&quot; + _logItem&#39;s logFlag)&#39;s id)]` `
+
+        &lt;!--logNewTotal--&gt;
+        (new total: (print: _logItem&#39;s logNewTotal))
 &lt;br&gt;
 
         &lt;/li&gt;
     }]
     &lt;/ol&gt;
 }]</tw-passagedata><tw-passagedata pid="31" name="Header" tags="header" position="100,475" size="100,100">{=
-
+&lt;!--displayed text in header--&gt;
 (align: &quot;=&gt;&lt;=&quot;)+$cssDesc[{
     &lt;!--dayCount--&gt;
     |headerDayCount&gt;[Day (print: $time&#39;s dayCount):]` `
@@ -704,6 +829,8 @@ $cssDesc[Note: Consider consolidating readout code (for different logTypes) into
     |headerActivity&gt;[(print: $player&#39;s activity)].
 }]&lt;!--end header readout cssDesc--&gt;
 
+&lt;!--test mode?--&gt;
+(if: $testMode is true)[(debug:)]
     
 &lt;br&gt;
 ---

@@ -18,6 +18,7 @@
         "logPassage", (str: (passage:)'s name),
         "logFlag", (str: _flag),
         "logValue", _value,
+        "logNewTotal", ($funcOutputFlag: _flag),
     )))
 
     <!--Notification-->

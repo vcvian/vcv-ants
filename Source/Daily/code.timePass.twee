@@ -27,5 +27,6 @@
 )
 
 <!--all-in-one code execution; proceed to new day by writing only (display: "code.timePass")-->
+(set: $stuff to (dm:))
 (print: (passage: "code.timePass")'s timeAdvance)
 (print: (passage: "code.timePass")'s timeGoto)
