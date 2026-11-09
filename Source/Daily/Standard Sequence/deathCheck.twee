@@ -1,5 +1,8 @@
-:: deathCheck
+:: deathCheck [unfinished]
 {=
+(metadata:
+"devNote", [No death check mechanics yet. The link to pass time must also run a sort of "setDay" code (maybe inside of "code.timePass") before landing on newDay.],
+)
 
 ''deathCheck''
 <br>

@@ -1,0 +1,46 @@
+:: activity.napping [unfinished]
+{=
+
+(metadata:
+
+"devNote", [Normally, napping should not incur damage. Its behavior and relay conditions should later be changed once the ants have been implemented.],
+
+"relayCode", [{
+        <!--must always name them _relayLink and _relayDestination and _relayTip.-->
+        (set: _relayLink to (cond:
+            true, "Go back to sleep. You're still so tired.",
+            "Take a nap."
+        ))
+
+        (set: _relayDestination to (cond:
+            true, "activity.napping",
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, "Doesn't hurt. Doesn't help either. Time crawls forward.",
+            false
+        ))
+}],
+
+)
+
+<!--napping not only stores the relay info for the napping link's text, its main passage content also acts as a code block that changes what napping does-->
+
+<!--napping behavior below (conditions need to be changed later)-->
+(cond:
+    true, [{
+       <!--reason-->
+        (set: _reason to (either:
+            "Regret eats at you. Why are you wasting a perfectly good day?",
+            "Rest does not come easily, not without cost.",
+            "You feel your skin fusing with the mattress, staining it with your stink.",
+            "The heavens move above you as you lie still and play dead.",
+        ))
+        <!--damage-->
+        ($funcHurtHeal: -1, _reason, true)
+        <!--time pass-->
+        (display: "code.timePass") 
+    }],
+    [<!--else, time passes without consequence-->(display: "code.timePass")]
+)

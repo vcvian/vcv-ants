@@ -1,0 +1,40 @@
+:: test.G.event
+{=
+
+(metadata:
+"title", "Test G: Events",
+"devNote", [Design tests for event system.],
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+
+''Testing `$funcEventStart`''
+<br>
+$cssDesc[Testing with the "party" event. `$funcEventStart` is inserted into a regular link.]
+<br>
+(link-rerun: "There will be a party.")[{
+    ($funcEventStart: "party")
+    (t8n: "dissolve")(rerun: ?TestG1)
+}]
+<br>
+|TestG1>[Current Events:<br>(print: $world's events)]
+
+<br>
+<br>
+---
+<br>
+
+''Testing `$funcEventCountdown`''
+<br>
+
+(link-rerun: "Count down events.")[{
+    ($funcEventCountdown:)
+    (t8n: "dissolve")(rerun: ?TestG1)
+}]
+
+<br>
+The party: |TestG1>[(if: $world's events contains "party")[(print: $world's events's party)](else:)[Not started.]]

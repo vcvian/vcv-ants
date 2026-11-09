@@ -1,6 +1,12 @@
-:: Midday
+:: Midday [unfinished]
+
+(metadata:
+"devNote", [Figure out midday relays.],
+)
+
 {=
 
 ''Midday''
 <br>
+---
 (link: "NEXT")[(display: "code.timePass")]

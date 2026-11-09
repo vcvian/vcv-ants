@@ -1,6 +1,12 @@
-:: Evening
+:: Evening [unfinished]
 {=
+
+(metadata:
+"devNote", [Nothing here.],
+)
 
 ''Evening''
 <br>
-(link: "NEXT")[(display: "code.timePass")]
+---
+
+(display: "code.activityBlock")

@@ -9,7 +9,7 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play Ants.</tw-noscript></noscript></tw-story>
-<!-- UUID://E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A// --><tw-storydata name="Ants" startnode="21" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A" zoom="0.6" format="Harlowe" format-version="3.3.9" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">// ~ tilde key (`) shortcut to show/hide debugger
+<!-- UUID://E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A// --><tw-storydata name="Ants" startnode="33" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A" zoom="0.6" format="Harlowe" format-version="3.3.9" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">// ~ tilde key (`) shortcut to show/hide debugger
 $(document).on('keydown', function (ev) {
     if (ev.key === '`') {
         if (window.Engine && window.Engine.options) {
@@ -26,31 +26,217 @@ $(document).on('keydown', function (ev) {
             }
         }
     }
-});</script><tw-passagedata pid="1" name="activity.Jesse.twee" tags="activity" position="100,100" size="100,100">{=</tw-passagedata><tw-passagedata pid="2" name="Dream" tags="" position="225,100" size="100,100">{=
+});</script><tw-passagedata pid="1" name="activity.apartment" tags="activity" position="100,100" size="100,100">{=
+
+(metadata:
+
+&quot;relayCode&quot;, [{
+        &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
+        (set: _relayLink to (cond:
+            true, &quot;Look at your apartment&quot;,
+            &quot;Look at your apartment&quot;
+        ))
+
+        (set: _relayDestination to (cond:
+            true, &quot;activity.apartment&quot;,
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, &quot;Look at your apartment&quot;,
+            false
+        ))
+}],
+
+)
+
+Apartment</tw-passagedata><tw-passagedata pid="2" name="activity.Jesse" tags="activity" position="225,100" size="100,100">{=
+
+(metadata:
+
+&quot;relayCode&quot;, [{
+        &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
+        (set: _relayLink to (cond:
+            true, &quot;Play with Jesse&quot;,
+            &quot;Play with Jesse.&quot;
+        ))
+
+        (set: _relayDestination to (cond:
+            true, &quot;activity.Jesse&quot;,
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, &quot;Play with Jesse.&quot;,
+            false
+        ))
+}],
+
+)
+
+Jesse</tw-passagedata><tw-passagedata pid="3" name="activity.laptop" tags="activity" position="350,100" size="100,100">{=
+
+(metadata:
+
+&quot;relayCode&quot;, [{
+        &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
+        (set: _relayLink to (cond:
+            true, &quot;Open your laptop&quot;,
+            &quot;Open your laptop.&quot;
+        ))
+
+        (set: _relayDestination to (cond:
+            true, &quot;activity.laptop&quot;,
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, &quot;Open your laptop&quot;,
+            false
+        ))
+}],
+
+)
+
+Laptop</tw-passagedata><tw-passagedata pid="4" name="activity.napping" tags="unfinished" position="475,100" size="100,100">{=
+
+(metadata:
+
+&quot;devNote&quot;, [Normally, napping should not incur damage. Its behavior and relay conditions should later be changed once the ants have been implemented.],
+
+&quot;relayCode&quot;, [{
+        &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
+        (set: _relayLink to (cond:
+            true, &quot;Go back to sleep. You&#39;re still so tired.&quot;,
+            &quot;Take a nap.&quot;
+        ))
+
+        (set: _relayDestination to (cond:
+            true, &quot;activity.napping&quot;,
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, &quot;Doesn&#39;t hurt. Doesn&#39;t help either. Time crawls forward.&quot;,
+            false
+        ))
+}],
+
+)
+
+&lt;!--napping not only stores the relay info for the napping link&#39;s text, its main passage content also acts as a code block that changes what napping does--&gt;
+
+&lt;!--napping behavior below (conditions need to be changed later)--&gt;
+(cond:
+    true, [{
+       &lt;!--reason--&gt;
+        (set: _reason to (either:
+            &quot;Regret eats at you. Why are you wasting a perfectly good day?&quot;,
+            &quot;Rest does not come easily, not without cost.&quot;,
+            &quot;You feel your skin fusing with the mattress, staining it with your stink.&quot;,
+            &quot;The heavens move above you as you lie still and play dead.&quot;,
+        ))
+        &lt;!--damage--&gt;
+        ($funcHurtHeal: -1, _reason, true)
+        &lt;!--time pass--&gt;
+        (display: &quot;code.timePass&quot;) 
+    }],
+    [&lt;!--else, time passes without consequence--&gt;(display: &quot;code.timePass&quot;)]
+)</tw-passagedata><tw-passagedata pid="5" name="activity.painting" tags="activity" position="600,100" size="100,100">{=
+(metadata:
+
+&quot;relayCode&quot;, [{
+        &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
+        (set: _relayLink to (cond:
+            true, &quot;Approach your painting&quot;,
+            &quot;Approach your painting&quot;
+        ))
+
+        (set: _relayDestination to (cond:
+            true, &quot;activity.painting&quot;,
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, &quot;Paint?&quot;,
+            false
+        ))
+}],
+
+)
+
+Painting</tw-passagedata><tw-passagedata pid="6" name="Dream" tags="unfinished" position="725,100" size="100,100">{=
+(metadata:
+&quot;devNote&quot;, [Figure out dream relays.],
+)
 
 &#39;&#39;Dream&#39;&#39;
 &lt;br&gt;
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="3" name="Evening" tags="" position="350,100" size="100,100">{=
+(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="7" name="Evening" tags="unfinished" position="850,100" size="100,100">{=
+
+(metadata:
+&quot;devNote&quot;, [Nothing here.],
+)
 
 &#39;&#39;Evening&#39;&#39;
 &lt;br&gt;
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="4" name="Midday" tags="" position="475,100" size="100,100">{=
+---
+
+(display: &quot;code.activityBlock&quot;)</tw-passagedata><tw-passagedata pid="8" name="Midday" tags="unfinished" position="975,100" size="100,100">(metadata:
+&quot;devNote&quot;, [Figure out midday relays.],
+)
+
+{=
 
 &#39;&#39;Midday&#39;&#39;
 &lt;br&gt;
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="5" name="Morning" tags="" position="600,100" size="100,100">{=
+---
+(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="9" name="Morning" tags="unfinished" position="1100,100" size="100,100">{=
+(metadata:
+&quot;devNote&quot;, [Nothing here.],
+)
 
 &#39;&#39;Morning&#39;&#39;
+
+
 &lt;br&gt;
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="6" name="deathCheck" tags="" position="725,100" size="100,100">{=
+---
+
+(display: &quot;code.activityBlock&quot;)</tw-passagedata><tw-passagedata pid="10" name="deathCheck" tags="unfinished" position="1225,100" size="100,100">{=
+(metadata:
+&quot;devNote&quot;, [No death check mechanics yet. The link to pass time must also run a sort of &quot;setDay&quot; code (maybe inside of &quot;code.timePass&quot;) before landing on newDay.],
+)
 
 &#39;&#39;deathCheck&#39;&#39;
 &lt;br&gt;
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="7" name="newDay" tags="" position="850,100" size="100,100">{=
+(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="11" name="newDay" tags="unfinished" position="100,225" size="100,100">{=
+
+(metadata:
+&quot;devNote&quot;, [Nothing here yet. Remember: newDay should not have any daily time passing code. Code must be ran prior, maybe inside of &quot;code.timePass&quot;],
+)
 
 &#39;&#39;newDay&#39;&#39;
 &lt;br&gt;
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="8" name="code.timePass" tags="" position="975,100" size="100,100">{=
+(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="12" name="code.activityBlock" tags="" position="225,225" size="100,100">{=
+
+&lt;ol&gt;
+
+&lt;!--apartment--&gt;
+&lt;li&gt;($funcRelay: &quot;activity.apartment&quot;, [])&lt;/li&gt;
+
+&lt;!--painting--&gt;
+&lt;li&gt;($funcRelay: &quot;activity.painting&quot;, [])&lt;/li&gt;
+
+&lt;!--laptop--&gt;
+&lt;li&gt;($funcRelay: &quot;activity.laptop&quot;, [])&lt;/li&gt;
+
+&lt;!--Jesse--&gt;
+&lt;li&gt;($funcRelay: &quot;activity.Jesse&quot;, [])&lt;/li&gt;
+
+&lt;!--nap, pass--&gt;
+&lt;li&gt;($funcRelay: &quot;activity.napping&quot;, [])&lt;/li&gt;
+
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="13" name="code.timePass" tags="" position="350,225" size="100,100">{=
 
 
 (metadata:
@@ -80,16 +266,21 @@ $(document).on('keydown', function (ev) {
 &lt;!--all-in-one code execution; proceed to new day by writing only (display: &quot;code.timePass&quot;)--&gt;
 (set: $stuff to (dm:))
 (print: (passage: &quot;code.timePass&quot;)&#39;s timeAdvance)
-(print: (passage: &quot;code.timePass&quot;)&#39;s timeGoto)</tw-passagedata><tw-passagedata pid="9" name="flag.restless" tags="flag" position="1100,100" size="100,100">(metadata:
+(print: (passage: &quot;code.timePass&quot;)&#39;s timeGoto)</tw-passagedata><tw-passagedata pid="14" name="event.party" tags="unfinished" position="475,225" size="100,100">(metadata:
+&quot;devNote&quot;, [Figure out full structure of an event&#39;s DM. Right now, there is only a duration entry.],
+
+&quot;duration&quot;, 7,
+&quot;autoClear&quot;, false,
+)</tw-passagedata><tw-passagedata pid="15" name="flag.restless" tags="flag" position="600,225" size="100,100">(metadata:
 &quot;id&quot;, [Restlessness],
 &quot;type&quot;, (a: &quot;att&quot;),
 &quot;desc&quot;, [Frustrated energy. Hurts to have, hurts to let go. May motivate you to push through with certain tasks, but it will hurt.],
 &quot;tip&quot;, [Each decreases your &#39;&#39;Mind&#39;&#39; by 1, which is now &#39;&#39;(print: $player&#39;s mind)&#39;&#39;.],
 &quot;gainText&quot;, [You become restless, and though your mind suffers for it, it is nonetheless vital energy.],
 &quot;lossText&quot;, [You put your frustrated energy to work. You feel better.],
-&quot;gainEffect&quot;, (macro: num-type _value, [(out:)[(set: $player&#39;s mind to it - _value)(rerun: ?sidebarMind)]]),
-&quot;lossEffect&quot;, (macro: num-type _value, [(out:)[(set: $player&#39;s mind to it - _value)(rerun: ?sidebarMind)]]),
-)</tw-passagedata><tw-passagedata pid="10" name="var.initial" tags="startup" position="1225,100" size="100,100">{=
+&quot;gainEffect&quot;, (macro: num-type _value, [(out:)[($funcHurtHeal: -_value, &quot;Due to the stresses of having an unquiet mind.&quot;, false)(rerun: ?sidebarMind)]]),
+&quot;lossEffect&quot;, (macro: num-type _value, [(out:)[($funcHurtHeal: (abs: _value), &quot;Things have quieted somewhat.&quot;, false)(rerun: ?sidebarMind)]]),
+)</tw-passagedata><tw-passagedata pid="16" name="var.initial" tags="startup" position="725,225" size="100,100">{=
 
 (set: $testMode to true)
 
@@ -98,24 +289,24 @@ $(document).on('keydown', function (ev) {
 (set: $log to (a:))
 
 &lt;!--$stuff is a &quot;helper&quot; variable. It is more durable than temporary variables, and it can break out of scope. It is meant to be cleared upon time&#39;s advance (displaying &quot;code.timePass&quot;). An example of things that uses $stuff is the $funcCycling macro.--&gt;
-(set: $stuff to (dm:))</tw-passagedata><tw-passagedata pid="11" name="var.player" tags="startup" position="100,225" size="100,100">{=
+(set: $stuff to (dm:))</tw-passagedata><tw-passagedata pid="17" name="var.player" tags="startup" position="850,225" size="100,100">{=
 
 (set: $player to (dm:
     &quot;mind&quot;, 10,
     &quot;flags&quot;, (dm:),
     &quot;location&quot;, &quot;at home&quot;,
     &quot;activity&quot;, &quot;being idle&quot;,
-))</tw-passagedata><tw-passagedata pid="12" name="var.time" tags="startup" position="225,225" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="18" name="var.time" tags="startup" position="975,225" size="100,100">{=
 
 (set: $time to (dm:
     &quot;dayCount&quot;, 1,
     &quot;timeOfDay&quot;, 1,
-))</tw-passagedata><tw-passagedata pid="13" name="var.world" tags="startup" position="350,225" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="19" name="var.world" tags="startup" position="1100,225" size="100,100">{=
 
 (set: $world to (dm:
  &quot;state&quot;, 1,
  &quot;events&quot;, (dm:),
-))</tw-passagedata><tw-passagedata pid="14" name="macro.checkGate" tags="startup" position="475,225" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="20" name="macro.checkGate" tags="startup" position="1225,225" size="100,100">{=
 
 &lt;!--check gate outputs either 1 of 3 states:
 1. open
@@ -284,9 +475,75 @@ _chanceColor[_formattedText]
 &lt;br&gt;
     }]
 
-}]]))</tw-passagedata><tw-passagedata pid="15" name="macro.formatting" tags="startup" position="600,225" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="21" name="macro.damageHeal" tags="startup" position="100,350" size="100,100">{=
 
-(set: $cssDesc to (css: &quot;font-style: italic; font-size: 90%; line-height: .5; color: rgba(255,255,255,0.5)&quot;))</tw-passagedata><tw-passagedata pid="16" name="macro.gainLoss" tags="startup" position="725,225" size="100,100">{=
+&lt;!--standard macro used to change $player&#39;s mind--&gt;
+(set: $funcHurtHeal to (macro: num-type _value, str-type _reason, boolean-type _notifyOrNot, [(out:)[{
+        &lt;!--hurt or heal?--&gt;
+        (set: _mode to &quot;heal&quot;)
+        (if: _value &lt; 0)[(set: _mode to &quot;hurt&quot;)]
+        
+        &lt;!--set text--&gt;
+        (set: _dialogHeader to &quot;Your mind (color: green)[mends.]&quot;)
+        (if: _mode is &quot;hurt&quot;)[(set: _dialogHeader to &quot;Your mind (color:red)[hurts.]&quot;)]
+
+        &lt;!--update mind--&gt;
+        (set: $player&#39;s mind to it + _value)
+
+        &lt;!--log--&gt;
+        (set: $log to it + (a: (dm:
+            &quot;logID&quot;, $log&#39;s length + 1,
+            &quot;logType&quot;, &quot;hurtHeal&quot;,
+            &quot;logDayCount&quot;, $time&#39;s dayCount,
+            &quot;logTimeOfDay&quot;, $time&#39;s timeOfDay,
+            &quot;logPassage&quot;, (str: (passage:)&#39;s name),
+            &quot;logValue&quot;, _value,
+            &quot;logHurtHealReason&quot;, (str: _reason),
+            &quot;logNewTotal&quot;, $player&#39;s mind,
+        )))
+
+        &lt;!--notify?--&gt;
+        (if: _notifyOrNot is true)[{
+            (dialog: [{
+                &#39;&#39;_dialogHeader&#39;&#39;
+                &lt;br&gt;(print: _reason)
+                &lt;br&gt;$cssDesc[Your mind is now: (print: $player&#39;s mind)]
+            }], &quot;✓&quot;)
+        }]
+
+}]]))</tw-passagedata><tw-passagedata pid="22" name="macro.event" tags="startup unfinished" position="225,350" size="100,100">{=
+
+(metadata:
+&quot;devNote&quot;, [Design and test (G) event system.],
+)
+
+&lt;!--add an event into the $world&#39;s events queue--&gt;
+(set: $funcEventStart to (macro: str-type _eventName, [(out:)[{
+    &lt;!--load eventDM--&gt;
+    (set: _eventDM to (passage: &quot;event.&quot; + _eventName))
+
+    &lt;!--add event--&gt;
+    (if: $world&#39;s events does not contain _eventName)[(set: $world&#39;s events to it + (dm: _eventName, _eventDM&#39;s duration))]
+}]]))
+
+&lt;!--countdown events (to be triggered at the transition between days - like a &quot;setDay&quot;)--&gt;
+(set: $funcEventCountdown to (macro: [(out:)[{
+    &lt;!--if there are registered events, loop through $world&#39;s events--&gt;
+    (if: (datanames: $world&#39;s events)&#39;s length &gt; 0)[{
+        (for: each _eventName, ...(datanames: $world&#39;s events))[{
+            &lt;!--load event DM--&gt;
+            (set: _eventDM to (passage: &quot;event.&quot; + _eventName))
+
+            &lt;!--count down--&gt;
+            (set: $world&#39;s events&#39;s _eventName to it - 1)
+
+            &lt;!--autoClear--&gt;
+            (if: $world&#39;s events&#39;s _eventName &lt;= 0 and _eventDM contains &quot;autoClear&quot;)[(move: $world&#39;s events&#39;s _eventName into _trash)]
+        }]&lt;!--end loop--&gt;
+    }]&lt;!--end if has events--&gt;
+}]]))</tw-passagedata><tw-passagedata pid="23" name="macro.formatting" tags="startup" position="350,350" size="100,100">{=
+
+(set: $cssDesc to (css: &quot;font-style: italic; font-size: 80%; line-height: .5; color: rgba(255,255,255,0.5)&quot;))</tw-passagedata><tw-passagedata pid="24" name="macro.gainLoss" tags="startup" position="475,350" size="100,100">{=
 
 (set: $funcGainLoss to (macro: str-type _flag, num-type _value, [(out:)[{
     &lt;!--load the full dm--&gt;
@@ -340,7 +597,7 @@ _chanceColor[_formattedText]
 &lt;br&gt;
     }]
 
-}]]))</tw-passagedata><tw-passagedata pid="17" name="macro.innerConvo" tags="startup" position="850,225" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="25" name="macro.innerConvo" tags="startup" position="600,350" size="100,100">{=
 
 
 (set: $funcInnerConvo to (macro: dm-type _choicesDM, [(out:)[{
@@ -361,7 +618,7 @@ _chanceColor[_formattedText]
     }]&lt;!--end of looping--&gt;
 
     &lt;/ol&gt;]&lt;choicesBlock|
-}]]))</tw-passagedata><tw-passagedata pid="18" name="macro.notifyLog" tags="startup" position="975,225" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="26" name="macro.notifyLog" tags="startup" position="725,350" size="100,100">{=
 
 (set: $funcNotifyLog to (macro: str-type _flag, num-type _value, [(out:)[{
     &lt;!--load full flag DM--&gt;
@@ -406,7 +663,7 @@ _chanceColor[_formattedText]
         (if: _flagDM contains &quot;tip&quot;)[&lt;br&gt;$cssDesc[(print: _flagDM&#39;s tip)]]
 
     }], &quot;✓&quot;)
-}]]))</tw-passagedata><tw-passagedata pid="19" name="macro.outputFlag" tags="startup" position="1100,225" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="27" name="macro.outputFlag" tags="startup" position="850,350" size="100,100">{=
 
 &lt;!--output a number--&gt;
 (set: $funcOutputFlag to (macro: str-type _flag, [{
@@ -418,12 +675,79 @@ _chanceColor[_formattedText]
 
     &lt;!--output--&gt;
     (output-data: _out)
-}]))</tw-passagedata><tw-passagedata pid="20" name="macro.reveal" tags="startup" position="1225,225" size="100,100">{=
+}]))</tw-passagedata><tw-passagedata pid="28" name="macro.relay" tags="startup" position="975,350" size="100,100">{=
+
+&lt;!--Outside of check gates (which check for flags), sometimes, the link&#39;s text and destination should be varied based on world state and events. The relay macro is used.
+
+Relay macros references a target passage&#39;s relayCode metadata entry.
+
+Incidentally, there is a use for this with check gates. Loading in the relayCode, which changes any arbitrarily scoped _relayLink, _relayDestination, and _relayTip, can be used to vary up a check gate&#39;s text and behavior by feeding _relayLink into the _linkText parameter, and _relayDestination is used for either _gotoSuccess or _gotoFail--&gt;
+
+(set: $funcRelay to (macro: str-type _targetPassage, codehook-type _addCode, [(out:)[{
+    
+    &lt;!--load target passage DM--&gt;
+    (set: _targetDM to (passage: _targetPassage))
+
+    &lt;!--initialize link text and destination--&gt;
+    (set: _relayLink to &quot;&quot;)
+    (set: _relayDestination to &quot;&quot;)
+    (set: _relayTip to &quot;&quot;)
+    &lt;!--load _relayLink and _relayDestination from target passage--&gt;
+    (print: _targetDM&#39;s relayCode)
+
+    &lt;!--create link if destination is not false--&gt;
+    (if: _relayDestination is not false)[
+        (link-rerun: (str: _relayLink))[{
+        &lt;!--run optional _addCode--&gt;
+        _addCode
+
+        &lt;!--goto--&gt;
+        (goto: _relayDestination)
+        }]
+    ]&lt;!--end of if destination is not false--&gt;
+
+    &lt;!--but if it&#39;s false, then create a crossed out text--&gt;
+    (else:)[~~(print: _relayLink)~~]
+
+    &lt;!--tip text--&gt;
+    (if:
+        (str:_relayTip)&#39;s length &gt; 0
+        and _relayTip is not false
+        and (str: _relayTip) is not &quot;false&quot;
+    )+$cssDesc[&lt;br&gt;↪` `(print: _relayTip)
+&lt;br&gt;
+    ]
+}]]))</tw-passagedata><tw-passagedata pid="29" name="macro.reveal" tags="startup" position="1100,350" size="100,100">{=
+
+&lt;!--scroll to--&gt;
+(set: $funcScrollToHook to (macro: str-type _hookScrollTo, [(out:)[{(print: &quot;&lt;script&gt;setTimeout(() =&gt; {const hook = document.querySelector(&#39;tw-hook[name=\&quot;&quot; + (lowercase:_hookScrollTo) + &quot;\&quot;]&#39;); if (hook) {hook.scrollIntoView({ behavior: &#39;smooth&#39;, block: &#39;center&#39; });}}, 20);&lt;/script&gt;&quot;)&lt;!--end of print--&gt;}]]))
 
 &lt;!--basic reveal text shortcut that reveals arbitrary named hook--&gt;
-(set: $funcReveal to (macro: str-type _linkText, str-type _hookRevealed, [(out:)[{(link-reveal: _linkText)[{(t8n: &quot;dissolve&quot;)(show: (hooks-named: _hookRevealed))}]}]]))
+(set: $funcReveal to (macro: str-type _linkText, str-type _hookRevealed, [(out:)[{(link-reveal: _linkText)[{(t8n: &quot;dissolve&quot;)(show: (hooks-named: _hookRevealed))($funcScrollToHook: _hookRevealed)}]}]]))
 
-&lt;!--cycle through text, display corresponding passage, has an optional last-reveal mode--&gt;
+
+&lt;!--A macro that creates a trigger, which reveals a hook only after a certain number of hook have been clicked on.--&gt;
+(set: $funcChainTrigger to (macro: str-type _uniqueCountName, num-type _chainThreshold, str-type _hookRevealed, [(out:)[{
+    &lt;!--set up counter--&gt;
+    (if: $stuff does not contain _uniqueCountName)[(set: $stuff to it + (dm: _uniqueCountName, 0))]
+
+    &lt;!--count up--&gt;
+    (set: $stuff&#39;s _uniqueCountName to it + 1)
+
+    &lt;!--trigger reveal--&gt;
+    (if: $stuff&#39;s _uniqueCountName &gt;= _chainThreshold)[{
+        &lt;!--reveal--&gt;
+        (t8n: &quot;dissolve&quot;)
+        (show: (hooks-named: _hookRevealed))
+        &lt;!--scroll--&gt;
+        ($funcScrollToHook: _hookRevealed)
+        &lt;!--self-cleanup--&gt;
+        (move: $stuff&#39;s _uniqueCountName into _trash)
+    }]
+}]]))
+
+
+&lt;!--cycle through text, display corresponding hook, has an optional last-reveal mode--&gt;
 (set: $funcCycling to (macro: str-type _uniqueCycleName, dm-type _choicesText, str-type _cyclingBoundHook, boolean-type _lastRevealMode, num-type _lastRevealThreshold, str-type _lastRevealHook, boolean-type _seqMode, num-type _seqThreshold, [(out:)[{
     
     &lt;!--initialize count--&gt;
@@ -435,7 +759,7 @@ _chanceColor[_formattedText]
     (if: _seqThreshold &gt; _lastRevealThreshold)[(set: _lastRevealThreshold to _seqThreshold)]
     
     &lt;!--initialize $stuff (unfortunately, this is the only way I know how to break out of the macro&#39;s scope, as (replace:) doesn&#39;t work out of it). Otherwise, I really don&#39;t like to use helper variables like $stuff--&gt;
-    (set: $stuff&#39;s cyclingDisplay to (dm:))
+    (if: $stuff does not contain &quot;cyclingDisplay&quot;)[(set: $stuff&#39;s cyclingDisplay to (dm:))]
     (set: $stuff&#39;s cyclingDisplay to it + (dm: _uniqueCycleName, &quot;&quot;))
     &lt;!--set initial passage (printed in the target hook outside of this macro)--&gt;
     (set: $stuff&#39;s cyclingDisplay to it + (dm: _uniqueCycleName, _choicesText&#39;s ((datanames: _choicesText)&#39;s _cyclingCount)))
@@ -450,8 +774,11 @@ _chanceColor[_formattedText]
 
             &lt;!--if lastReveal mode is on--&gt;
             (if: _lastRevealMode is true and _cyclingCountTotal &gt; _lastRevealThreshold)[{
+                &lt;!--show--&gt;
                 (t8n: &quot;dissolve&quot;)
                 (show: (hooks-named: _lastRevealHook))
+                &lt;!--scroll--&gt;
+                ($funcScrollToHook: _lastRevealHook)
             }]
 
             &lt;!--update the display variable (inside of target _cyclingBoundHook)--&gt;
@@ -465,6 +792,7 @@ _chanceColor[_formattedText]
                 (t8n:&quot;dissolve&quot;)+(replace: (hooks-named: &quot;reusableLink&quot; + _uniqueCycleName))[_currentLink]
             }]
             (else:)[{
+                &lt;!--update target hook--&gt;
                 (t8n:&quot;dissolve&quot;)(rerun: (hooks-named: _cyclingBoundHook))
                 &lt;!--finally, update this link--&gt;
                 (t8n:&quot;dissolve&quot;)(rerun: (hooks-named: &quot;reusableLink&quot; + _uniqueCycleName))
@@ -473,7 +801,65 @@ _chanceColor[_formattedText]
         }]&lt;!--end of link command--&gt;
     }]&lt;!--end of ?rerunableLink--&gt;
 
-}]]))</tw-passagedata><tw-passagedata pid="21" name="Test" tags="" position="100,350" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="30" name="TODO.story" tags="" position="1225,350" size="100,100">{=
+
+&#39;&#39;Story Ideas&#39;&#39;
+&lt;ol&gt;
+&lt;li&gt;Idea 1&lt;/li&gt;
+&lt;li&gt;Idea 2&lt;/li&gt;
+&lt;li&gt;Idea 3&lt;/li&gt;
+
+
+
+
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="31" name="TODO.wip" tags="" position="100,475" size="100,100">{=
+
+&#39;&#39;WIP Passages&#39;&#39;
+&lt;ol&gt;
+(for: each _todo, ...(passages: where its tags contains &quot;unfinished&quot;))[{
+    &lt;li&gt;
+    &lt;!--link--&gt;
+    (link-rerun: _todo&#39;s name)[(goto: _todo&#39;s name)]
+    &lt;!--source--&gt;
+    ^^(link-rerun: &quot;source&quot;)[{
+        (dialog: [{
+            &#39;&#39;(print: _todo&#39;s name)&#39;&#39;
+            &lt;br&gt;
+            (box: &quot;X&quot;, 10)[(v6m-print: _todo&#39;s source)]
+        }], &quot;OK&quot;)
+    }]^^
+    &lt;!--tip text--&gt;
+    (if: _todo contains &quot;devNote&quot;)+$cssDesc[&lt;br&gt;↪` `(print: _todo&#39;s devNote)]
+    &lt;/li&gt;
+}]
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="32" name="TODO" tags="" position="225,475" size="100,100">{=
+
+&lt;!--initialize--&gt;
+(set: _display to &quot;wip&quot;)
+(set: _pointer to (macro: str-type _tabName, [(out:)[{
+    |display&gt;[(if: _display is _tabName)[👉]]
+}]]))
+
+&lt;!--tab switches--&gt;
+==|
+(_pointer: &quot;wip&quot;)(link-rerun: &quot;WIP Passages&quot;)[{
+    (set: _display to &quot;wip&quot;)
+    (t8n: &quot;dissolve&quot;)(rerun: ?display)
+}]
+|==
+(_pointer: &quot;story&quot;)(link-rerun: &quot;Story ideas&quot;)[{
+    (set: _display to &quot;story&quot;)
+    (t8n: &quot;dissolve&quot;)(rerun: ?display)
+}]
+|==|
+
+&lt;br&gt;
+
+&lt;!--main display--&gt;
+[
+(if: _display is &quot;wip&quot;)[(display: &quot;TODO.wip&quot;)]
+(elseif: _display is &quot;story&quot;)[(display: &quot;TODO.story&quot;)]
+]&lt;display|</tw-passagedata><tw-passagedata pid="33" name="Test" tags="" position="350,475" size="100,100">{=
 
 &lt;!--activate debug if $testMode is true--&gt;
 (if: $testMode is true)[(debug:)]
@@ -486,23 +872,28 @@ _chanceColor[_formattedText]
 &lt;li&gt;(link: &quot;Test C&quot;)[(goto: &quot;test.C.convo&quot;)] $cssDesc[(Conversations)]&lt;/li&gt;
 &lt;li&gt;(link: &quot;Test D&quot;)[(goto: &quot;test.D.checkGate&quot;)] $cssDesc[(Check gates)]&lt;/li&gt;
 &lt;li&gt;(link: &quot;Test E&quot;)[(goto: &quot;test.E.log&quot;)] $cssDesc[(Logging)]&lt;/li&gt;
+&lt;li&gt;(link: &quot;Test F&quot;)[(goto: &quot;test.F.relay&quot;)] $cssDesc[(Relay)]&lt;/li&gt;
+&lt;li&gt;(link: &quot;Test G&quot;)[(goto: &quot;test.G.event&quot;)] $cssDesc[(Events)]&lt;/li&gt;
 
 
 
 
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="22" name="block.testNavigation" tags="" position="225,350" size="100,100">{=
+
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="34" name="block.testNavigation" tags="" position="475,475" size="100,100">{=
 
 &lt;!--to be displayed at the start of all test passages--&gt;
 
 &#39;&#39;(print: (passage:)&#39;s title)&#39;&#39;
-&lt;br&gt;(link: &quot;&lt;= Back&quot;)[(goto: &quot;Test&quot;)]</tw-passagedata><tw-passagedata pid="23" name="test.A.navigation" tags="" position="350,350" size="100,100">{=
+&lt;br&gt;(link: &quot;&lt;= Back&quot;)[(goto: &quot;Test&quot;)]</tw-passagedata><tw-passagedata pid="35" name="test.A.navigation" tags="" position="600,475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test A: Text Navigation&quot;
 )
 
 (display: &quot;block.testNavigation&quot;)
+
+(set: _resetLink to [(link: &quot;RESET?&quot;)[(redirect: (passage:)&#39;s name)]])
 
 &lt;br&gt;
 ---
@@ -533,7 +924,7 @@ Like it ought to. Otherwise, we&#39;d have ($funcReveal: &quot;bigger problems&q
 
 [
 &lt;br&gt;
-Imagine if the sun had flickered. Actually, don&#39;t imagine that.
+Imagine if the sun had flickered. Actually, don&#39;t imagine that. _resetLink
 ](problem|
 
 &lt;br&gt;
@@ -557,6 +948,8 @@ $cssDesc[With the following parameters:
 
 &lt;li&gt;&#39;&#39;Cycling Test 1:&#39;&#39; Cycling with no lastReveal, with distant target hook. Endless (not a sequence).
 &lt;br&gt;
+$cssDesc[NOTE: For `$funcCycling` to work, there needs to be a print command inside of the bound/target hook. Mandatory part of the printed item: `$stuff&#39;s cyclingDisplay`; contingent: the unique name of the cycling block (&quot;walking&quot;, &quot;reading&quot;, etc.)]
+&lt;br&gt;
 So I was walking down the street the other day, and I saw 
 ($funcCycling: &quot;walking&quot;, (dm:
     &quot;&lt;!--1--&gt;a bird.&quot;, &quot;It flew very high.&quot;,
@@ -578,8 +971,10 @@ I read, and read... ($funcCycling: &quot;reading&quot;, (dm:
     &quot;&lt;!--2--&gt;The president has just boasted how he would end the war in a week.&quot;, &quot;When the war started three years ago, he said the same thing. He has been saying it every other week since.&quot;,
     &quot;&lt;!--3--&gt;An advertisement for anti-aging cream.&quot;, &quot;Age comes to us all. The cream is tantamount to a promise to relinquish the user of the burden of being human.&quot;,
 ), &quot;TestA2Bound&quot;, true, 3, &quot;TestA2Reveal&quot;, false, 0) [(print: $stuff&#39;s cyclingDisplay&#39;s reading)]&lt;TestA2Bound|
+
+[
 &lt;br&gt;
-[Enough. I&#39;m tired of reading the news. (link: &quot;RESET?&quot;)[(redirect: (passage:)&#39;s name)]](TestA2Reveal|
+Enough. I&#39;m tired of reading the news. _resetLink](TestA2Reveal|
 
 &lt;br&gt;
 &lt;br&gt;
@@ -602,7 +997,45 @@ Taking a deep breath, I ($funcReveal: &quot;knock on his door.&quot;, &quot;knoc
 [($funcReveal: &quot;Absolutely nothing.&quot;, &quot;absolutelyNothing&quot;)](TestA3Reveal|
 [
 &lt;br&gt;
-He must not be home.](absolutelyNothing|</tw-passagedata><tw-passagedata pid="24" name="test.B.gainLoss" tags="" position="475,350" size="100,100">{=
+He must not be home. _resetLink](absolutelyNothing|
+
+
+&lt;br&gt;
+---
+&lt;br&gt;
+
+&#39;&#39;Testing `$funcChainTrigger`&#39;&#39;
+&lt;br&gt;
+$cssDesc[With the following parameters:
+&lt;ol&gt;
+
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;str-type `_uniqueCountName`, (a pre-initiated variable)&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;num-type `_chainThreshold`,&lt;/li&gt;
+&lt;li style=&quot;margin-bottom: 1em&quot;&gt;str-type `_hookRevealed`,&lt;/li&gt;
+&lt;/ol&gt;
+]
+
+&lt;!--Best practice is to further place the macro into a temp var short hand--&gt;
+(set: _trigger to ($funcChainTrigger: &quot;testAChain&quot;, 2, &quot;TestA4Reveal&quot;))
+
+&lt;br&gt;
+
+I&#39;ve looked ($funcReveal: &quot;high&quot;, &quot;high&quot;) and ($funcReveal: &quot;low&quot;, &quot;low&quot;).
+
+|high)[_trigger
+&lt;br&gt;
+She is not on the cupboards.
+]
+
+|low)[_trigger
+&lt;br&gt;
+She is not under the table either.
+]
+
+|TestA4Reveal)[
+&lt;br&gt;
+($funcReveal: &quot;Where could she be?&quot;, &quot;where&quot;)|where)[` `Ah, right here, by my side. _resetLink]
+]</tw-passagedata><tw-passagedata pid="36" name="test.B.gainLoss" tags="" position="725,475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test B: Gain &amp; Loss&quot;,
@@ -642,9 +1075,9 @@ $cssDesc[Create a link, only for gains with no dice rolls. Losses/expenditures a
 &lt;ol&gt;
 &lt;li&gt;($funcGainLink: &quot;Gain 1 Restlessness&quot;, &quot;restless&quot;, 1, [], &quot;test.B.gained&quot;)&lt;/li&gt;
 &lt;li&gt;($funcGainLink: &quot;Gain 1 Restlessness, but time moves forward&quot;, &quot;restless&quot;, 1, [], &quot;code.timePass&quot;)&lt;/li&gt;
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="25" name="test.B.gained" tags="" position="600,350" size="100,100">(link: &quot;Back&quot;)[(goto: &quot;test.B.gainLoss&quot;)]
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="37" name="test.B.gained" tags="" position="850,475" size="100,100">(link: &quot;Back&quot;)[(goto: &quot;test.B.gainLoss&quot;)]
 &lt;br&gt;
-Gained</tw-passagedata><tw-passagedata pid="26" name="test.C.convo" tags="" position="725,350" size="100,100">{=
+Gained</tw-passagedata><tw-passagedata pid="38" name="test.C.convo" tags="" position="975,475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test C: Conversations&quot;,
@@ -685,7 +1118,7 @@ _resetLink
 &quot;Ah, if only it was so easy...&quot;
 &lt;br&gt;
 _resetLink
-](getLost|</tw-passagedata><tw-passagedata pid="27" name="test.D.checkGate" tags="" position="850,350" size="100,100">{=
+](getLost|</tw-passagedata><tw-passagedata pid="39" name="test.D.checkGate" tags="" position="1100,475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test D: Check Gates&quot;,
@@ -756,15 +1189,15 @@ $cssDesc[With the following parameters:
 &#39;&#39;Luck gate 3&#39;&#39; (chance 20%):
 &lt;li&gt;($funcLuckGate: &quot;A risky challenge&quot;, 20, [], &quot;test.D.success&quot;, &quot;test.D.fail&quot;)&lt;/li&gt;
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="28" name="test.D.success" tags="" position="975,350" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="40" name="test.D.success" tags="" position="1225,475" size="100,100">{=
 
 Succeeded check!
 &lt;br&gt;
-(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="29" name="test.D.fail" tags="" position="1100,350" size="100,100">{=
+(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="41" name="test.D.fail" tags="" position="100,600" size="100,100">{=
 
 Failed check...
 &lt;br&gt;
-(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="30" name="test.E.log" tags="" position="1225,350" size="100,100">(metadata:
+(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="42" name="test.E.log" tags="" position="225,600" size="100,100">(metadata:
 &quot;title&quot;, &quot;Test E: Logging&quot;,
 )
 
@@ -813,7 +1246,209 @@ $cssDesc[Note: Consider consolidating readout code (for different logTypes) into
         &lt;/li&gt;
     }]
     &lt;/ol&gt;
-}]</tw-passagedata><tw-passagedata pid="31" name="Header" tags="header" position="100,475" size="100,100">{=
+}]
+
+
+&lt;br&gt;
+---
+&lt;br&gt;
+
+&#39;&#39;Log (Display 2: All hurtHeal)&#39;&#39;
+&lt;br&gt;
+(box: &quot;X=&quot;, 10)+(bg: gray+black)[{
+    &lt;ol&gt;
+    (for: each _logItem where its logType is &quot;hurtHeal&quot;, ...$log)[{
+        &lt;li&gt;
+        &lt;!--logDayCount--&gt;
+        Day (print: _logItem&#39;s logDayCount),` `
+
+        &lt;!--logTimeOfDay--&gt;
+        (print: (passage: &quot;code.timePass&quot;)&#39;s timeFullNames&#39;s (_logItem&#39;s logTimeOfDay)),` `
+
+        &lt;!--logPassage--&gt;
+        (print: _logItem&#39;s logPassage):&lt;br&gt;
+
+        &lt;!--hurt or heal&gt;--&gt;
+        (set: _hurtHealMode to &quot;heal&quot;)
+        (if: _logItem&#39;s logValue &lt; 0)[(set: _hurtHealMode to &quot;hurt&quot;)]
+
+        &lt;!--heal--&gt;
+        (if: _hurtHealMode is &quot;heal&quot;)+(color:green)[Mind mended by (abs: _logItem&#39;s logValue):]
+        (else:)+(color:red)[Mind hurt by (abs: _logItem&#39;s logValue):]` `
+
+        &lt;!--reason--&gt;
+        (print: _logItem&#39;s logHurtHealReason)
+
+        &lt;!--logNewTotal--&gt;
+        (new total: (print: _logItem&#39;s logNewTotal))
+&lt;br&gt;
+
+        &lt;/li&gt;
+    }]
+    &lt;/ol&gt;
+}]</tw-passagedata><tw-passagedata pid="43" name="test.F.relay" tags="" position="350,600" size="100,100">{=
+
+(metadata:
+&quot;title&quot;, &quot;Test F: Relay&quot;
+)
+
+(display: &quot;block.testNavigation&quot;)
+
+&lt;br&gt;
+
+$cssDesc[&quot;Relay&quot; is the mechanic that dynamically alter a link&#39;s text and goto based on the target passage&#39;s `(cond:)`, which is saved in its metadata.]
+
+&lt;br&gt;
+---
+&lt;br&gt;
+
+&#39;&#39;Testing `$funcRelay`&#39;&#39;
+&lt;br&gt;
+$cssDesc[With 2 parameters: str-type `_targetPassage` and codehook-type `_addCode`.]
+&lt;br&gt;
+&lt;li&gt;&#39;&#39;Test 1:&#39;&#39; Arbitrary condition (temporarily saved to `$stuff&#39;s conditions`)&lt;/li&gt;
+&lt;br&gt;
+Set conditions (which should change the link&#39;s text destination):
+
+&lt;!--initialize--&gt;
+(set: $stuff&#39;s conditions to 0)
+&lt;!--quick macro to update conditions and relay link--&gt;
+(set: _setCond to (macro: num-type _setTo, str-type _rerun, [(out:)[{
+    (set: $stuff&#39;s conditions to _setTo)
+    (t8n: &quot;dissolve&quot;)(rerun: (hooks-named: _rerun))
+}]]))
+
+&lt;ol&gt;
+&lt;li&gt;(link-rerun: &quot;Set conditions 0&quot;)[(_setCond: 0, &quot;testF1&quot;)]&lt;/li&gt;
+&lt;li&gt;(link-rerun: &quot;Set conditions 1&quot;)[(_setCond: 1, &quot;testF1&quot;)]&lt;/li&gt;
+&lt;li&gt;(link-rerun: &quot;Set conditions 2&quot;)[(_setCond: 2, &quot;testF1&quot;)]&lt;/li&gt;
+&lt;li&gt;(link-rerun: &quot;Set conditions 3&quot;)[(_setCond: 3, &quot;testF1&quot;)]&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;br&gt;
+&#39;&#39;Test Link:&#39;&#39; |testF1&gt;[($funcRelay: &quot;test.F.relaySample1&quot;, [])]
+
+&lt;br&gt;
+&lt;br&gt;
+
+
+&lt;li&gt;&#39;&#39;Test 2:&#39;&#39; Based on flags (restlessness).&lt;/li&gt;
+&lt;br&gt;
+Set restlessness:
+
+&lt;!--temporary macro--&gt;
+(set: _macroSetRestless to (macro: num-type _value, str-type _rerun, [(out:)[{
+    (set: $player&#39;s flags to it + (dm: &quot;restless&quot;, _value))
+    (t8n: &quot;dissolve&quot;)(rerun: (hooks-named: _rerun))
+}]]))
+
+
+&lt;ol&gt;
+&lt;li&gt;(link-rerun: &quot;Wipe all restlessness&quot;)[(_macroSetRestless: 0, &quot;testF2&quot;)]&lt;/li&gt;
+&lt;li&gt;(link-rerun: &quot;Set to 1 restlessness&quot;)[(_macroSetRestless: 1, &quot;testF2&quot;)]&lt;/li&gt;
+&lt;li&gt;(link-rerun: &quot;Set to 2 restlessness&quot;)[(_macroSetRestless: 2, &quot;testF2&quot;)]&lt;/li&gt;
+&lt;li&gt;(link-rerun: &quot;Set to 3 restlessness&quot;)[(_macroSetRestless: 3, &quot;testF2&quot;)]&lt;/li&gt;
+&lt;li&gt;(link-rerun: &quot;Set to 4 restlessness&quot;)[(_macroSetRestless: 4, &quot;testF2&quot;)]&lt;/li&gt;
+
+&lt;/ol&gt;
+&lt;br&gt;
+&#39;&#39;Restlessness:&#39;&#39; |testF2&gt;[($funcOutputFlag: &quot;restless&quot;)]
+&lt;br&gt;
+&#39;&#39;Test link:&#39;&#39; |testF2&gt;[($funcRelay: &quot;test.F.relaySample2&quot;, [])]</tw-passagedata><tw-passagedata pid="44" name="test.F.relaySample1" tags="" position="475,600" size="100,100">{=
+(metadata:
+    &quot;relayCode&quot;, [{
+        &lt;!--must always name them _relayLink and _relayDestination.--&gt;
+        (set: _relayLink to (cond:
+            $stuff&#39;s conditions is 3, &quot;link (cond 3 is active)&quot;,
+            $stuff&#39;s conditions is 2, &quot;link (cond 2 is active)&quot;,
+            $stuff&#39;s conditions is 1, &quot;link (cond 1 is active)&quot;,
+            &quot;default&quot;
+        ))
+
+        (set: _relayDestination to (cond:
+            $stuff&#39;s conditions is 3, &quot;test.F.destination3&quot;,
+            $stuff&#39;s conditions is 2, &quot;test.F.destination2&quot;,
+            $stuff&#39;s conditions is 1, &quot;test.F.destination1&quot;,
+            false
+        ))
+    }],
+
+)</tw-passagedata><tw-passagedata pid="45" name="test.F.relaySample2" tags="" position="600,600" size="100,100">{=
+(metadata:
+    &quot;relayCode&quot;, [{
+        &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
+        (set: _relayLink to (cond:
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 3, &quot;Very tired&quot;,
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 2, &quot;Tired&quot;,
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 1, &quot;Kinda tired&quot;,
+            &quot;Not tired.&quot;
+        ))
+
+        (set: _relayDestination to (cond:
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 3, &quot;test.F.destination3&quot;,
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 2, &quot;test.F.destination2&quot;,
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 1, &quot;test.F.destination1&quot;,
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 3, &quot;Got at least 3&quot;,
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 2, &quot;Got 2&quot;,
+            ($funcOutputFlag: &quot;restless&quot;) &gt;= 1, &quot;Got 1&quot;,
+            &quot;No restlessness&quot;
+        ))
+    }],
+
+)</tw-passagedata><tw-passagedata pid="46" name="test.F.destination1" tags="" position="725,600" size="100,100">{=
+(link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
+&lt;br&gt;
+Destination 1</tw-passagedata><tw-passagedata pid="47" name="test.F.destination2" tags="" position="850,600" size="100,100">{=
+(link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
+&lt;br&gt;
+
+Destination 2</tw-passagedata><tw-passagedata pid="48" name="test.F.destination3" tags="" position="975,600" size="100,100">{=
+(link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
+&lt;br&gt;
+
+Destination 3</tw-passagedata><tw-passagedata pid="49" name="test.G.event" tags="" position="1100,600" size="100,100">{=
+
+(metadata:
+&quot;title&quot;, &quot;Test G: Events&quot;,
+&quot;devNote&quot;, [Design tests for event system.],
+)
+
+(display: &quot;block.testNavigation&quot;)
+
+&lt;br&gt;
+---
+&lt;br&gt;
+
+&#39;&#39;Testing `$funcEventStart`&#39;&#39;
+&lt;br&gt;
+$cssDesc[Testing with the &quot;party&quot; event. `$funcEventStart` is inserted into a regular link.]
+&lt;br&gt;
+(link-rerun: &quot;There will be a party.&quot;)[{
+    ($funcEventStart: &quot;party&quot;)
+    (t8n: &quot;dissolve&quot;)(rerun: ?TestG1)
+}]
+&lt;br&gt;
+|TestG1&gt;[Current Events:&lt;br&gt;(print: $world&#39;s events)]
+
+&lt;br&gt;
+&lt;br&gt;
+---
+&lt;br&gt;
+
+&#39;&#39;Testing `$funcEventCountdown`&#39;&#39;
+&lt;br&gt;
+
+(link-rerun: &quot;Count down events.&quot;)[{
+    ($funcEventCountdown:)
+    (t8n: &quot;dissolve&quot;)(rerun: ?TestG1)
+}]
+
+&lt;br&gt;
+The party: |TestG1&gt;[(if: $world&#39;s events contains &quot;party&quot;)[(print: $world&#39;s events&#39;s party)](else:)[Not started.]]</tw-passagedata><tw-passagedata pid="50" name="Header" tags="header" position="1225,600" size="100,100">{=
 &lt;!--displayed text in header--&gt;
 (align: &quot;=&gt;&lt;=&quot;)+$cssDesc[{
     &lt;!--dayCount--&gt;
@@ -834,13 +1469,14 @@ $cssDesc[Note: Consider consolidating readout code (for different logTypes) into
     
 &lt;br&gt;
 ---
-&lt;br&gt;</tw-passagedata><tw-passagedata pid="32" name="Sidebar" tags="footer" position="225,475" size="100,100">{=
+&lt;br&gt;</tw-passagedata><tw-passagedata pid="51" name="Sidebar" tags="footer" position="100,725" size="100,100">{=
 
 (append: ?Sidebar)[
 [(print: $player&#39;s mind)]&lt;sidebarMind|
 &lt;br&gt;
 (link-repeat: &quot;🔙&quot;)[(print: (passage: &quot;code.timePass&quot;)&#39;s timeGoto)]
 (link-repeat: &quot;🧪&quot;)[(goto: &quot;Test&quot;)]
+(link-repeat: &quot;📜&quot;)[(goto: &quot;TODO&quot;)]
 (link-repeat: &quot;🐞&quot;)[(debug:)]
 (link-repeat: &quot;🔄&quot;)[(restart:)]
 ]</tw-passagedata></tw-storydata>

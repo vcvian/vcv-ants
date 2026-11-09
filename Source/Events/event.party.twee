@@ -1,0 +1,8 @@
+:: event.party [unfinished]
+
+(metadata:
+"devNote", [Figure out full structure of an event's DM. Right now, there is only a duration entry.],
+
+"duration", 7,
+"autoClear", false,
+)

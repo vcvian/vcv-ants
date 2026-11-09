@@ -1,0 +1,38 @@
+:: macro.damageHeal [startup]
+{=
+
+<!--standard macro used to change $player's mind-->
+(set: $funcHurtHeal to (macro: num-type _value, str-type _reason, boolean-type _notifyOrNot, [(out:)[{
+        <!--hurt or heal?-->
+        (set: _mode to "heal")
+        (if: _value < 0)[(set: _mode to "hurt")]
+        
+        <!--set text-->
+        (set: _dialogHeader to "Your mind (color: green)[mends.]")
+        (if: _mode is "hurt")[(set: _dialogHeader to "Your mind (color:red)[hurts.]")]
+
+        <!--update mind-->
+        (set: $player's mind to it + _value)
+
+        <!--log-->
+        (set: $log to it + (a: (dm:
+            "logID", $log's length + 1,
+            "logType", "hurtHeal",
+            "logDayCount", $time's dayCount,
+            "logTimeOfDay", $time's timeOfDay,
+            "logPassage", (str: (passage:)'s name),
+            "logValue", _value,
+            "logHurtHealReason", (str: _reason),
+            "logNewTotal", $player's mind,
+        )))
+
+        <!--notify?-->
+        (if: _notifyOrNot is true)[{
+            (dialog: [{
+                ''_dialogHeader''
+                <br>(print: _reason)
+                <br>$cssDesc[Your mind is now: (print: $player's mind)]
+            }], "✓")
+        }]
+
+}]]))

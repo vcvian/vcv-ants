@@ -7,6 +7,6 @@
 "tip", [Each decreases your ''Mind'' by 1, which is now ''(print: $player's mind)''.],
 "gainText", [You become restless, and though your mind suffers for it, it is nonetheless vital energy.],
 "lossText", [You put your frustrated energy to work. You feel better.],
-"gainEffect", (macro: num-type _value, [(out:)[(set: $player's mind to it - _value)(rerun: ?sidebarMind)]]),
-"lossEffect", (macro: num-type _value, [(out:)[(set: $player's mind to it - _value)(rerun: ?sidebarMind)]]),
+"gainEffect", (macro: num-type _value, [(out:)[($funcHurtHeal: -_value, "Due to the stresses of having an unquiet mind.", false)(rerun: ?sidebarMind)]]),
+"lossEffect", (macro: num-type _value, [(out:)[($funcHurtHeal: (abs: _value), "Things have quieted somewhat.", false)(rerun: ?sidebarMind)]]),
 )

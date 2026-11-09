@@ -1,0 +1,32 @@
+:: macro.event [startup unfinished]
+{=
+
+(metadata:
+"devNote", [Design and test (G) event system.],
+)
+
+<!--add an event into the $world's events queue-->
+(set: $funcEventStart to (macro: str-type _eventName, [(out:)[{
+    <!--load eventDM-->
+    (set: _eventDM to (passage: "event." + _eventName))
+
+    <!--add event-->
+    (if: $world's events does not contain _eventName)[(set: $world's events to it + (dm: _eventName, _eventDM's duration))]
+}]]))
+
+<!--countdown events (to be triggered at the transition between days - like a "setDay")-->
+(set: $funcEventCountdown to (macro: [(out:)[{
+    <!--if there are registered events, loop through $world's events-->
+    (if: (datanames: $world's events)'s length > 0)[{
+        (for: each _eventName, ...(datanames: $world's events))[{
+            <!--load event DM-->
+            (set: _eventDM to (passage: "event." + _eventName))
+
+            <!--count down-->
+            (set: $world's events's _eventName to it - 1)
+
+            <!--autoClear-->
+            (if: $world's events's _eventName <= 0 and _eventDM contains "autoClear")[(move: $world's events's _eventName into _trash)]
+        }]<!--end loop-->
+    }]<!--end if has events-->
+}]]))

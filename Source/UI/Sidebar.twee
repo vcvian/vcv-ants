@@ -6,6 +6,7 @@
 <br>
 (link-repeat: "🔙")[(print: (passage: "code.timePass")'s timeGoto)]
 (link-repeat: "🧪")[(goto: "Test")]
+(link-repeat: "📜")[(goto: "TODO")]
 (link-repeat: "🐞")[(debug:)]
 (link-repeat: "🔄")[(restart:)]
 ]

@@ -1,0 +1,21 @@
+:: code.activityBlock
+{=
+
+<ol>
+
+<!--apartment-->
+<li>($funcRelay: "activity.apartment", [])</li>
+
+<!--painting-->
+<li>($funcRelay: "activity.painting", [])</li>
+
+<!--laptop-->
+<li>($funcRelay: "activity.laptop", [])</li>
+
+<!--Jesse-->
+<li>($funcRelay: "activity.Jesse", [])</li>
+
+<!--nap, pass-->
+<li>($funcRelay: "activity.napping", [])</li>
+
+</ol>

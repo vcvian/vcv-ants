@@ -1,0 +1,25 @@
+:: activity.painting [activity]
+{=
+(metadata:
+
+"relayCode", [{
+        <!--must always name them _relayLink and _relayDestination and _relayTip.-->
+        (set: _relayLink to (cond:
+            true, "Approach your painting",
+            "Approach your painting"
+        ))
+
+        (set: _relayDestination to (cond:
+            true, "activity.painting",
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, "Paint?",
+            false
+        ))
+}],
+
+)
+
+Painting

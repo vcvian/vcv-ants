@@ -1,5 +1,9 @@
-:: newDay
+:: newDay [unfinished]
 {=
+
+(metadata:
+"devNote", [Nothing here yet. Remember: newDay should not have any daily time passing code. Code must be ran prior, maybe inside of "code.timePass"],
+)
 
 ''newDay''
 <br>

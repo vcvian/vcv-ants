@@ -1,0 +1,32 @@
+:: TODO
+{=
+
+<!--initialize-->
+(set: _display to "wip")
+(set: _pointer to (macro: str-type _tabName, [(out:)[{
+    |display>[(if: _display is _tabName)[👉]]
+}]]))
+
+<!--tab switches-->
+==|
+(_pointer: "wip")(link-rerun: "WIP Passages")[{
+    (set: _display to "wip")
+    (t8n: "dissolve")(rerun: ?display)
+}]
+|==
+(_pointer: "story")(link-rerun: "Story ideas")[{
+    (set: _display to "story")
+    (t8n: "dissolve")(rerun: ?display)
+}]
+|==|
+
+<br>
+
+<!--main display-->
+[
+(if: _display is "wip")[(display: "TODO.wip")]
+(elseif: _display is "story")[(display: "TODO.story")]
+]<display|
+
+
+

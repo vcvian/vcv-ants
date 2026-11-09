@@ -1,0 +1,26 @@
+:: activity.Jesse [activity]
+{=
+
+(metadata:
+
+"relayCode", [{
+        <!--must always name them _relayLink and _relayDestination and _relayTip.-->
+        (set: _relayLink to (cond:
+            true, "Play with Jesse",
+            "Play with Jesse."
+        ))
+
+        (set: _relayDestination to (cond:
+            true, "activity.Jesse",
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, "Play with Jesse.",
+            false
+        ))
+}],
+
+)
+
+Jesse

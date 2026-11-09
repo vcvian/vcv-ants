@@ -1,0 +1,44 @@
+:: macro.relay [startup]
+{=
+
+<!--Outside of check gates (which check for flags), sometimes, the link's text and destination should be varied based on world state and events. The relay macro is used.
+
+Relay macros references a target passage's relayCode metadata entry.
+
+Incidentally, there is a use for this with check gates. Loading in the relayCode, which changes any arbitrarily scoped _relayLink, _relayDestination, and _relayTip, can be used to vary up a check gate's text and behavior by feeding _relayLink into the _linkText parameter, and _relayDestination is used for either _gotoSuccess or _gotoFail-->
+
+(set: $funcRelay to (macro: str-type _targetPassage, codehook-type _addCode, [(out:)[{
+    
+    <!--load target passage DM-->
+    (set: _targetDM to (passage: _targetPassage))
+
+    <!--initialize link text and destination-->
+    (set: _relayLink to "")
+    (set: _relayDestination to "")
+    (set: _relayTip to "")
+    <!--load _relayLink and _relayDestination from target passage-->
+    (print: _targetDM's relayCode)
+
+    <!--create link if destination is not false-->
+    (if: _relayDestination is not false)[
+        (link-rerun: (str: _relayLink))[{
+        <!--run optional _addCode-->
+        _addCode
+
+        <!--goto-->
+        (goto: _relayDestination)
+        }]
+    ]<!--end of if destination is not false-->
+
+    <!--but if it's false, then create a crossed out text-->
+    (else:)[~~(print: _relayLink)~~]
+
+    <!--tip text-->
+    (if:
+        (str:_relayTip)'s length > 0
+        and _relayTip is not false
+        and (str: _relayTip) is not "false"
+    )+$cssDesc[<br>↪` `(print: _relayTip)
+<br>
+    ]
+}]]))

@@ -51,3 +51,42 @@ $cssDesc[Note: Consider consolidating readout code (for different logTypes) into
     </ol>
 }]
 
+
+<br>
+---
+<br>
+
+''Log (Display 2: All hurtHeal)''
+<br>
+(box: "X=", 10)+(bg: gray+black)[{
+    <ol>
+    (for: each _logItem where its logType is "hurtHeal", ...$log)[{
+        <li>
+        <!--logDayCount-->
+        Day (print: _logItem's logDayCount),` `
+
+        <!--logTimeOfDay-->
+        (print: (passage: "code.timePass")'s timeFullNames's (_logItem's logTimeOfDay)),` `
+
+        <!--logPassage-->
+        (print: _logItem's logPassage):<br>
+
+        <!--hurt or heal>-->
+        (set: _hurtHealMode to "heal")
+        (if: _logItem's logValue < 0)[(set: _hurtHealMode to "hurt")]
+
+        <!--heal-->
+        (if: _hurtHealMode is "heal")+(color:green)[Mind mended by (abs: _logItem's logValue):]
+        (else:)+(color:red)[Mind hurt by (abs: _logItem's logValue):]` `
+
+        <!--reason-->
+        (print: _logItem's logHurtHealReason)
+
+        <!--logNewTotal-->
+        (new total: (print: _logItem's logNewTotal))
+<br>
+
+        </li>
+    }]
+    </ol>
+}]

@@ -1,0 +1,146 @@
+:: test.F.relay
+{=
+
+(metadata:
+"title", "Test F: Relay"
+)
+
+(display: "block.testNavigation")
+
+<br>
+
+$cssDesc["Relay" is the mechanic that dynamically alter a link's text and goto based on the target passage's `(cond:)`, which is saved in its metadata.]
+
+<br>
+---
+<br>
+
+''Testing `$funcRelay`''
+<br>
+$cssDesc[With 2 parameters: str-type `_targetPassage` and codehook-type `_addCode`.]
+<br>
+<li>''Test 1:'' Arbitrary condition (temporarily saved to `$stuff's conditions`)</li>
+<br>
+Set conditions (which should change the link's text destination):
+
+<!--initialize-->
+(set: $stuff's conditions to 0)
+<!--quick macro to update conditions and relay link-->
+(set: _setCond to (macro: num-type _setTo, str-type _rerun, [(out:)[{
+    (set: $stuff's conditions to _setTo)
+    (t8n: "dissolve")(rerun: (hooks-named: _rerun))
+}]]))
+
+<ol>
+<li>(link-rerun: "Set conditions 0")[(_setCond: 0, "testF1")]</li>
+<li>(link-rerun: "Set conditions 1")[(_setCond: 1, "testF1")]</li>
+<li>(link-rerun: "Set conditions 2")[(_setCond: 2, "testF1")]</li>
+<li>(link-rerun: "Set conditions 3")[(_setCond: 3, "testF1")]</li>
+</ol>
+
+<br>
+''Test Link:'' |testF1>[($funcRelay: "test.F.relaySample1", [])]
+
+<br>
+<br>
+
+
+<li>''Test 2:'' Based on flags (restlessness).</li>
+<br>
+Set restlessness:
+
+<!--temporary macro-->
+(set: _macroSetRestless to (macro: num-type _value, str-type _rerun, [(out:)[{
+    (set: $player's flags to it + (dm: "restless", _value))
+    (t8n: "dissolve")(rerun: (hooks-named: _rerun))
+}]]))
+
+
+<ol>
+<li>(link-rerun: "Wipe all restlessness")[(_macroSetRestless: 0, "testF2")]</li>
+<li>(link-rerun: "Set to 1 restlessness")[(_macroSetRestless: 1, "testF2")]</li>
+<li>(link-rerun: "Set to 2 restlessness")[(_macroSetRestless: 2, "testF2")]</li>
+<li>(link-rerun: "Set to 3 restlessness")[(_macroSetRestless: 3, "testF2")]</li>
+<li>(link-rerun: "Set to 4 restlessness")[(_macroSetRestless: 4, "testF2")]</li>
+
+</ol>
+<br>
+''Restlessness:'' |testF2>[($funcOutputFlag: "restless")]
+<br>
+''Test link:'' |testF2>[($funcRelay: "test.F.relaySample2", [])]
+
+:: test.F.relaySample1
+{=
+(metadata:
+    "relayCode", [{
+        <!--must always name them _relayLink and _relayDestination.-->
+        (set: _relayLink to (cond:
+            $stuff's conditions is 3, "link (cond 3 is active)",
+            $stuff's conditions is 2, "link (cond 2 is active)",
+            $stuff's conditions is 1, "link (cond 1 is active)",
+            "default"
+        ))
+
+        (set: _relayDestination to (cond:
+            $stuff's conditions is 3, "test.F.destination3",
+            $stuff's conditions is 2, "test.F.destination2",
+            $stuff's conditions is 1, "test.F.destination1",
+            false
+        ))
+    }],
+
+)
+
+:: test.F.relaySample2
+{=
+(metadata:
+    "relayCode", [{
+        <!--must always name them _relayLink and _relayDestination and _relayTip.-->
+        (set: _relayLink to (cond:
+            ($funcOutputFlag: "restless") >= 3, "Very tired",
+            ($funcOutputFlag: "restless") >= 2, "Tired",
+            ($funcOutputFlag: "restless") >= 1, "Kinda tired",
+            "Not tired."
+        ))
+
+        (set: _relayDestination to (cond:
+            ($funcOutputFlag: "restless") >= 3, "test.F.destination3",
+            ($funcOutputFlag: "restless") >= 2, "test.F.destination2",
+            ($funcOutputFlag: "restless") >= 1, "test.F.destination1",
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            ($funcOutputFlag: "restless") >= 3, "Got at least 3",
+            ($funcOutputFlag: "restless") >= 2, "Got 2",
+            ($funcOutputFlag: "restless") >= 1, "Got 1",
+            "No restlessness"
+        ))
+    }],
+
+)
+
+
+
+
+:: test.F.destination1
+{=
+(link: "Back to test F")[(goto: "test.F.relay")]
+<br>
+Destination 1
+
+
+:: test.F.destination2
+{=
+(link: "Back to test F")[(goto: "test.F.relay")]
+<br>
+
+Destination 2
+
+
+:: test.F.destination3
+{=
+(link: "Back to test F")[(goto: "test.F.relay")]
+<br>
+
+Destination 3

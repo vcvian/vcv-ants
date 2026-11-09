@@ -1,4 +1,4 @@
 :: macro.formatting [startup]
 {=
 
-(set: $cssDesc to (css: "font-style: italic; font-size: 90%; line-height: .5; color: rgba(255,255,255,0.5)"))
+(set: $cssDesc to (css: "font-style: italic; font-size: 80%; line-height: .5; color: rgba(255,255,255,0.5)"))

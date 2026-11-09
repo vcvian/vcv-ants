@@ -1,0 +1,22 @@
+:: TODO.wip
+{=
+
+''WIP Passages''
+<ol>
+(for: each _todo, ...(passages: where its tags contains "unfinished"))[{
+    <li>
+    <!--link-->
+    (link-rerun: _todo's name)[(goto: _todo's name)]
+    <!--source-->
+    ^^(link-rerun: "source")[{
+        (dialog: [{
+            ''(print: _todo's name)''
+            <br>
+            (box: "X", 10)[(v6m-print: _todo's source)]
+        }], "OK")
+    }]^^
+    <!--tip text-->
+    (if: _todo contains "devNote")+$cssDesc[<br>↪` `(print: _todo's devNote)]
+    </li>
+}]
+</ol>

@@ -1,10 +1,35 @@
 :: macro.reveal [startup]
 {=
 
-<!--basic reveal text shortcut that reveals arbitrary named hook-->
-(set: $funcReveal to (macro: str-type _linkText, str-type _hookRevealed, [(out:)[{(link-reveal: _linkText)[{(t8n: "dissolve")(show: (hooks-named: _hookRevealed))}]}]]))
+<!--scroll to-->
+(set: $funcScrollToHook to (macro: str-type _hookScrollTo, [(out:)[{(print: "<script>setTimeout(() => {const hook = document.querySelector('tw-hook[name=\"" + (lowercase:_hookScrollTo) + "\"]'); if (hook) {hook.scrollIntoView({ behavior: 'smooth', block: 'center' });}}, 20);</script>")<!--end of print-->}]]))
 
-<!--cycle through text, display corresponding passage, has an optional last-reveal mode-->
+<!--basic reveal text shortcut that reveals arbitrary named hook-->
+(set: $funcReveal to (macro: str-type _linkText, str-type _hookRevealed, [(out:)[{(link-reveal: _linkText)[{(t8n: "dissolve")(show: (hooks-named: _hookRevealed))($funcScrollToHook: _hookRevealed)}]}]]))
+
+
+<!--A macro that creates a trigger, which reveals a hook only after a certain number of hook have been clicked on.-->
+(set: $funcChainTrigger to (macro: str-type _uniqueCountName, num-type _chainThreshold, str-type _hookRevealed, [(out:)[{
+    <!--set up counter-->
+    (if: $stuff does not contain _uniqueCountName)[(set: $stuff to it + (dm: _uniqueCountName, 0))]
+
+    <!--count up-->
+    (set: $stuff's _uniqueCountName to it + 1)
+
+    <!--trigger reveal-->
+    (if: $stuff's _uniqueCountName >= _chainThreshold)[{
+        <!--reveal-->
+        (t8n: "dissolve")
+        (show: (hooks-named: _hookRevealed))
+        <!--scroll-->
+        ($funcScrollToHook: _hookRevealed)
+        <!--self-cleanup-->
+        (move: $stuff's _uniqueCountName into _trash)
+    }]
+}]]))
+
+
+<!--cycle through text, display corresponding hook, has an optional last-reveal mode-->
 (set: $funcCycling to (macro: str-type _uniqueCycleName, dm-type _choicesText, str-type _cyclingBoundHook, boolean-type _lastRevealMode, num-type _lastRevealThreshold, str-type _lastRevealHook, boolean-type _seqMode, num-type _seqThreshold, [(out:)[{
     
     <!--initialize count-->
@@ -16,7 +41,7 @@
     (if: _seqThreshold > _lastRevealThreshold)[(set: _lastRevealThreshold to _seqThreshold)]
     
     <!--initialize $stuff (unfortunately, this is the only way I know how to break out of the macro's scope, as (replace:) doesn't work out of it). Otherwise, I really don't like to use helper variables like $stuff-->
-    (set: $stuff's cyclingDisplay to (dm:))
+    (if: $stuff does not contain "cyclingDisplay")[(set: $stuff's cyclingDisplay to (dm:))]
     (set: $stuff's cyclingDisplay to it + (dm: _uniqueCycleName, ""))
     <!--set initial passage (printed in the target hook outside of this macro)-->
     (set: $stuff's cyclingDisplay to it + (dm: _uniqueCycleName, _choicesText's ((datanames: _choicesText)'s _cyclingCount)))
@@ -31,8 +56,11 @@
 
             <!--if lastReveal mode is on-->
             (if: _lastRevealMode is true and _cyclingCountTotal > _lastRevealThreshold)[{
+                <!--show-->
                 (t8n: "dissolve")
                 (show: (hooks-named: _lastRevealHook))
+                <!--scroll-->
+                ($funcScrollToHook: _lastRevealHook)
             }]
 
             <!--update the display variable (inside of target _cyclingBoundHook)-->
@@ -46,6 +74,7 @@
                 (t8n:"dissolve")+(replace: (hooks-named: "reusableLink" + _uniqueCycleName))[_currentLink]
             }]
             (else:)[{
+                <!--update target hook-->
                 (t8n:"dissolve")(rerun: (hooks-named: _cyclingBoundHook))
                 <!--finally, update this link-->
                 (t8n:"dissolve")(rerun: (hooks-named: "reusableLink" + _uniqueCycleName))

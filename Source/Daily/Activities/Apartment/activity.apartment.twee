@@ -1,0 +1,26 @@
+:: activity.apartment [activity]
+{=
+
+(metadata:
+
+"relayCode", [{
+        <!--must always name them _relayLink and _relayDestination and _relayTip.-->
+        (set: _relayLink to (cond:
+            true, "Look at your apartment",
+            "Look at your apartment"
+        ))
+
+        (set: _relayDestination to (cond:
+            true, "activity.apartment",
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            true, "Look at your apartment",
+            false
+        ))
+}],
+
+)
+
+Apartment
