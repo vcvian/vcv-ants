@@ -9,7 +9,7 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play Ants.</tw-noscript></noscript></tw-story>
-<!-- UUID://E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A// --><tw-storydata name="Ants" startnode="33" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A" zoom="0.6" format="Harlowe" format-version="3.3.9" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">// ~ tilde key (`) shortcut to show/hide debugger
+<!-- UUID://E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A// --><tw-storydata name="Ants" startnode="34" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A" zoom="0.6" format="Harlowe" format-version="3.3.9" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">// ~ tilde key (`) shortcut to show/hide debugger
 $(document).on('keydown', function (ev) {
     if (ev.key === '`') {
         if (window.Engine && window.Engine.options) {
@@ -320,47 +320,6 @@ a. spend mode
 b. check mode (positive or negative)
 --&gt;
 
-(set: $funcDiceRoll to (macro: num-type _chance, [(out:)[{
-   &lt;!--initialize--&gt;
-    (set: _success to false)
-
-    &lt;!--roll--&gt;
-    (set: _dice to (random: 1,100))
-    (if: _dice &gt;= (100-_chance) or _chance &gt;= 100)[(set: _success to true)]
-
-    &lt;!--notify result--&gt;
-    (if: _chance &lt; 100)[(dialog: [{
-        (if: _success)[(color: green+yellow)[Success!]&lt;br&gt;Fortune has decided to smile on you.]
-        (else:)[(color: red+orange)[Failure...]&lt;br&gt;Fortune, ever the fickle mistress, turns her back on you.]
-        &lt;br&gt;
-        $cssDesc[Threshold: (print: 100-_chance), rolled &#39;&#39;_dice&#39;&#39;.]
-    }], &quot;OK.&quot;)]
-
-}]]))
-
-(set: $cssChanceColor to (macro: str-type _formattedText, num-type _value, num-type _max, [(out:)[{
-    &lt;!--color gradient for chance--&gt;
-(set: _r to 0)
-(set: _g to 0)
-(set: _half to (round: _max/2))
-(if: _value &lt;= _half)[
-	(set: _r to 255)
-	(set: _g to (round: (_value / _half) * 255))
-		(if: _g &gt; 255)[(set: _g to 255)]
-		(elseif: _g &lt; 0)[(set: _g to 0)]
-]
-(else:)[
-	(set: _r to (round: ((_max - _value) / _half) * 255))
-		(if: _r &gt; 255)[(set: _r to 255)]
-		(elseif: _r &lt; 0)[(set: _r to 0)]
-	(set: _g to 255)
-]
-(set: _chanceColor to (color: (rgb: _r, _g, 0)))
-
-&lt;!--output formatted text--&gt;
-_chanceColor[_formattedText]
-}]]))
-
 &lt;!--check gate--&gt;
 (set: $funcCheckGate to (macro: str-type _linkText, boolean-type _visibleWhenClosed, str-type _flag, num-type _value, boolean-type _spend, num-type _chance, codehook-type _addCode, str-type _gotoSuccess, str-type _gotoFail,  [(out:)[{
     &lt;!--load full flag DM--&gt;
@@ -511,7 +470,83 @@ _chanceColor[_formattedText]
             }], &quot;✓&quot;)
         }]
 
-}]]))</tw-passagedata><tw-passagedata pid="22" name="macro.event" tags="startup unfinished" position="225,350" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="22" name="macro.dice" tags="startup" position="225,350" size="100,100">{=
+
+&lt;!--basic dice roll, output a _success boolean &amp; notification. Front-facing.--&gt;
+(set: $funcDiceRoll to (macro: num-type _chance, [(out:)[{
+   &lt;!--initialize--&gt;
+    (set: _success to false)
+
+    &lt;!--roll--&gt;
+    (set: _dice to (random: 1,100))
+    (if: _dice &gt;= (100-_chance) or _chance &gt;= 100)[(set: _success to true)]
+
+    &lt;!--notify result--&gt;
+    (if: _chance &lt; 100)[(dialog: [{
+        (if: _success)[(color: green+yellow)[Success!]&lt;br&gt;Fortune has decided to smile on you.]
+        (else:)[(color: red+orange)[Failure...]&lt;br&gt;Fortune, ever the fickle mistress, turns her back on you.]
+        &lt;br&gt;
+        $cssDesc[Threshold: (print: 100-_chance), rolled &#39;&#39;_dice&#39;&#39;.]
+    }], &quot;OK.&quot;)]
+
+}]]))
+
+
+&lt;!--a table dice roll, which takes in a &quot;loot table&quot; and outputs a string. Meant to be used as aid in controlled randomization code, so not front-facing--&gt;
+(set: $funcTableRoll to (macro: dm-type _table, [{
+    &lt;!--initialize--&gt;
+    (set: _out to &quot;&quot;)
+
+    &lt;!--calculate sum--&gt;
+    (set: _sum to 0)
+    (for: each _item, ...(datanames: _table))[{
+        (set: _sum to it + (_table&#39;s _item))
+    }]
+
+    &lt;!--roll dice--&gt;
+    (set: _tableDice to (random: 1, _sum))
+
+    &lt;!--determine where dice falls on (_out)--&gt;
+    (set: _weightStack to 0)&lt;!--weight stacks progressively gets bigger with each loop--&gt;
+
+    (for: each _item, ...(datanames: _table))[{
+        &lt;!--the if here is to ensure that rolling stops if something is picked, otherwise it&#39;ll just select the last item--&gt;
+        (if: _out is &quot;&quot;)[{
+            &lt;!--increase _weightStack--&gt;
+            (set: _weightStack to it + (_table&#39;s _item))
+            &lt;!--does dice fall on item?--&gt;
+            (if: _tableDice &lt;= _weightStack)[(set: _out to _item)]
+        }]&lt;!--end of if not picked an _out yet--&gt;
+    }]&lt;!--end of looping--&gt;
+
+    &lt;!--output--&gt;
+    (out-data: _out)
+}]))
+
+
+&lt;!--color code chance number--&gt;
+(set: $cssChanceColor to (macro: str-type _formattedText, num-type _value, num-type _max, [(out:)[{
+    &lt;!--color gradient for chance--&gt;
+(set: _r to 0)
+(set: _g to 0)
+(set: _half to (round: _max/2))
+(if: _value &lt;= _half)[
+	(set: _r to 255)
+	(set: _g to (round: (_value / _half) * 255))
+		(if: _g &gt; 255)[(set: _g to 255)]
+		(elseif: _g &lt; 0)[(set: _g to 0)]
+]
+(else:)[
+	(set: _r to (round: ((_max - _value) / _half) * 255))
+		(if: _r &gt; 255)[(set: _r to 255)]
+		(elseif: _r &lt; 0)[(set: _r to 0)]
+	(set: _g to 255)
+]
+(set: _chanceColor to (color: (rgb: _r, _g, 0)))
+
+&lt;!--output formatted text--&gt;
+_chanceColor[_formattedText]
+}]]))</tw-passagedata><tw-passagedata pid="23" name="macro.event" tags="startup unfinished" position="350,350" size="100,100">{=
 
 (metadata:
 &quot;devNote&quot;, [Design and test (G) event system.],
@@ -527,7 +562,7 @@ _chanceColor[_formattedText]
 }]]))
 
 &lt;!--countdown events (to be triggered at the transition between days - like a &quot;setDay&quot;)--&gt;
-(set: $funcEventCountdown to (macro: [(out:)[{
+(set: $funcEventCountdown to (macro: num-type _timeIncrement, [(out:)[{
     &lt;!--if there are registered events, loop through $world&#39;s events--&gt;
     (if: (datanames: $world&#39;s events)&#39;s length &gt; 0)[{
         (for: each _eventName, ...(datanames: $world&#39;s events))[{
@@ -535,15 +570,17 @@ _chanceColor[_formattedText]
             (set: _eventDM to (passage: &quot;event.&quot; + _eventName))
 
             &lt;!--count down--&gt;
-            (set: $world&#39;s events&#39;s _eventName to it - 1)
+            (set: $world&#39;s events&#39;s _eventName to it - _timeIncrement)
 
             &lt;!--autoClear--&gt;
-            (if: $world&#39;s events&#39;s _eventName &lt;= 0 and _eventDM contains &quot;autoClear&quot;)[(move: $world&#39;s events&#39;s _eventName into _trash)]
+            (if: $world&#39;s events&#39;s _eventName &lt;= 0 and _eventDM contains &quot;autoClear&quot;)[{
+                (if: _eventDM&#39;s autoClear is true)[(move: $world&#39;s events&#39;s _eventName into _trash)]
+            }]
         }]&lt;!--end loop--&gt;
     }]&lt;!--end if has events--&gt;
-}]]))</tw-passagedata><tw-passagedata pid="23" name="macro.formatting" tags="startup" position="350,350" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="24" name="macro.formatting" tags="startup" position="475,350" size="100,100">{=
 
-(set: $cssDesc to (css: &quot;font-style: italic; font-size: 80%; line-height: .5; color: rgba(255,255,255,0.5)&quot;))</tw-passagedata><tw-passagedata pid="24" name="macro.gainLoss" tags="startup" position="475,350" size="100,100">{=
+(set: $cssDesc to (css: &quot;font-style: italic; font-size: 80%; line-height: .5; color: rgba(255,255,255,0.5)&quot;))</tw-passagedata><tw-passagedata pid="25" name="macro.gainLoss" tags="startup" position="600,350" size="100,100">{=
 
 (set: $funcGainLoss to (macro: str-type _flag, num-type _value, [(out:)[{
     &lt;!--load the full dm--&gt;
@@ -597,7 +634,7 @@ _chanceColor[_formattedText]
 &lt;br&gt;
     }]
 
-}]]))</tw-passagedata><tw-passagedata pid="25" name="macro.innerConvo" tags="startup" position="600,350" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="26" name="macro.innerConvo" tags="startup" position="725,350" size="100,100">{=
 
 
 (set: $funcInnerConvo to (macro: dm-type _choicesDM, [(out:)[{
@@ -618,7 +655,7 @@ _chanceColor[_formattedText]
     }]&lt;!--end of looping--&gt;
 
     &lt;/ol&gt;]&lt;choicesBlock|
-}]]))</tw-passagedata><tw-passagedata pid="26" name="macro.notifyLog" tags="startup" position="725,350" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="27" name="macro.notifyLog" tags="startup" position="850,350" size="100,100">{=
 
 (set: $funcNotifyLog to (macro: str-type _flag, num-type _value, [(out:)[{
     &lt;!--load full flag DM--&gt;
@@ -663,7 +700,7 @@ _chanceColor[_formattedText]
         (if: _flagDM contains &quot;tip&quot;)[&lt;br&gt;$cssDesc[(print: _flagDM&#39;s tip)]]
 
     }], &quot;✓&quot;)
-}]]))</tw-passagedata><tw-passagedata pid="27" name="macro.outputFlag" tags="startup" position="850,350" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="28" name="macro.outputFlag" tags="startup" position="975,350" size="100,100">{=
 
 &lt;!--output a number--&gt;
 (set: $funcOutputFlag to (macro: str-type _flag, [{
@@ -675,7 +712,7 @@ _chanceColor[_formattedText]
 
     &lt;!--output--&gt;
     (output-data: _out)
-}]))</tw-passagedata><tw-passagedata pid="28" name="macro.relay" tags="startup" position="975,350" size="100,100">{=
+}]))</tw-passagedata><tw-passagedata pid="29" name="macro.relay" tags="startup" position="1100,350" size="100,100">{=
 
 &lt;!--Outside of check gates (which check for flags), sometimes, the link&#39;s text and destination should be varied based on world state and events. The relay macro is used.
 
@@ -717,7 +754,7 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
     )+$cssDesc[&lt;br&gt;↪` `(print: _relayTip)
 &lt;br&gt;
     ]
-}]]))</tw-passagedata><tw-passagedata pid="29" name="macro.reveal" tags="startup" position="1100,350" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="30" name="macro.reveal" tags="startup" position="1225,350" size="100,100">{=
 
 &lt;!--scroll to--&gt;
 (set: $funcScrollToHook to (macro: str-type _hookScrollTo, [(out:)[{(print: &quot;&lt;script&gt;setTimeout(() =&gt; {const hook = document.querySelector(&#39;tw-hook[name=\&quot;&quot; + (lowercase:_hookScrollTo) + &quot;\&quot;]&#39;); if (hook) {hook.scrollIntoView({ behavior: &#39;smooth&#39;, block: &#39;center&#39; });}}, 20);&lt;/script&gt;&quot;)&lt;!--end of print--&gt;}]]))
@@ -801,7 +838,7 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
         }]&lt;!--end of link command--&gt;
     }]&lt;!--end of ?rerunableLink--&gt;
 
-}]]))</tw-passagedata><tw-passagedata pid="30" name="TODO.story" tags="" position="1225,350" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="31" name="TODO.story" tags="" position="100,475" size="100,100">{=
 
 &#39;&#39;Story Ideas&#39;&#39;
 &lt;ol&gt;
@@ -812,7 +849,7 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
 
 
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="31" name="TODO.wip" tags="" position="100,475" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="32" name="TODO.wip" tags="" position="225,475" size="100,100">{=
 
 &#39;&#39;WIP Passages&#39;&#39;
 &lt;ol&gt;
@@ -832,7 +869,7 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
     (if: _todo contains &quot;devNote&quot;)+$cssDesc[&lt;br&gt;↪` `(print: _todo&#39;s devNote)]
     &lt;/li&gt;
 }]
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="32" name="TODO" tags="" position="225,475" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="33" name="TODO" tags="" position="350,475" size="100,100">{=
 
 &lt;!--initialize--&gt;
 (set: _display to &quot;wip&quot;)
@@ -859,7 +896,7 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
 [
 (if: _display is &quot;wip&quot;)[(display: &quot;TODO.wip&quot;)]
 (elseif: _display is &quot;story&quot;)[(display: &quot;TODO.story&quot;)]
-]&lt;display|</tw-passagedata><tw-passagedata pid="33" name="Test" tags="" position="350,475" size="100,100">{=
+]&lt;display|</tw-passagedata><tw-passagedata pid="34" name="Test" tags="" position="475,475" size="100,100">{=
 
 &lt;!--activate debug if $testMode is true--&gt;
 (if: $testMode is true)[(debug:)]
@@ -874,18 +911,20 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
 &lt;li&gt;(link: &quot;Test E&quot;)[(goto: &quot;test.E.log&quot;)] $cssDesc[(Logging)]&lt;/li&gt;
 &lt;li&gt;(link: &quot;Test F&quot;)[(goto: &quot;test.F.relay&quot;)] $cssDesc[(Relay)]&lt;/li&gt;
 &lt;li&gt;(link: &quot;Test G&quot;)[(goto: &quot;test.G.event&quot;)] $cssDesc[(Events)]&lt;/li&gt;
+&lt;li&gt;(link: &quot;Test H&quot;)[(goto: &quot;test.H.dice&quot;)] $cssDesc[(Dice and table rolls)]&lt;/li&gt;
 
 
 
 
 
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="34" name="block.testNavigation" tags="" position="475,475" size="100,100">{=
+
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="35" name="block.testNavigation" tags="" position="600,475" size="100,100">{=
 
 &lt;!--to be displayed at the start of all test passages--&gt;
 
 &#39;&#39;(print: (passage:)&#39;s title)&#39;&#39;
-&lt;br&gt;(link: &quot;&lt;= Back&quot;)[(goto: &quot;Test&quot;)]</tw-passagedata><tw-passagedata pid="35" name="test.A.navigation" tags="" position="600,475" size="100,100">{=
+&lt;br&gt;(link: &quot;&lt;= Back&quot;)[(goto: &quot;Test&quot;)]</tw-passagedata><tw-passagedata pid="36" name="test.A.navigation" tags="" position="725,475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test A: Text Navigation&quot;
@@ -1035,7 +1074,7 @@ She is not under the table either.
 |TestA4Reveal)[
 &lt;br&gt;
 ($funcReveal: &quot;Where could she be?&quot;, &quot;where&quot;)|where)[` `Ah, right here, by my side. _resetLink]
-]</tw-passagedata><tw-passagedata pid="36" name="test.B.gainLoss" tags="" position="725,475" size="100,100">{=
+]</tw-passagedata><tw-passagedata pid="37" name="test.B.gainLoss" tags="" position="850,475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test B: Gain &amp; Loss&quot;,
@@ -1075,9 +1114,9 @@ $cssDesc[Create a link, only for gains with no dice rolls. Losses/expenditures a
 &lt;ol&gt;
 &lt;li&gt;($funcGainLink: &quot;Gain 1 Restlessness&quot;, &quot;restless&quot;, 1, [], &quot;test.B.gained&quot;)&lt;/li&gt;
 &lt;li&gt;($funcGainLink: &quot;Gain 1 Restlessness, but time moves forward&quot;, &quot;restless&quot;, 1, [], &quot;code.timePass&quot;)&lt;/li&gt;
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="37" name="test.B.gained" tags="" position="850,475" size="100,100">(link: &quot;Back&quot;)[(goto: &quot;test.B.gainLoss&quot;)]
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="38" name="test.B.gained" tags="" position="975,475" size="100,100">(link: &quot;Back&quot;)[(goto: &quot;test.B.gainLoss&quot;)]
 &lt;br&gt;
-Gained</tw-passagedata><tw-passagedata pid="38" name="test.C.convo" tags="" position="975,475" size="100,100">{=
+Gained</tw-passagedata><tw-passagedata pid="39" name="test.C.convo" tags="" position="1100,475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test C: Conversations&quot;,
@@ -1118,7 +1157,7 @@ _resetLink
 &quot;Ah, if only it was so easy...&quot;
 &lt;br&gt;
 _resetLink
-](getLost|</tw-passagedata><tw-passagedata pid="39" name="test.D.checkGate" tags="" position="1100,475" size="100,100">{=
+](getLost|</tw-passagedata><tw-passagedata pid="40" name="test.D.checkGate" tags="" position="1225,475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test D: Check Gates&quot;,
@@ -1189,15 +1228,15 @@ $cssDesc[With the following parameters:
 &#39;&#39;Luck gate 3&#39;&#39; (chance 20%):
 &lt;li&gt;($funcLuckGate: &quot;A risky challenge&quot;, 20, [], &quot;test.D.success&quot;, &quot;test.D.fail&quot;)&lt;/li&gt;
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="40" name="test.D.success" tags="" position="1225,475" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="41" name="test.D.success" tags="" position="100,600" size="100,100">{=
 
 Succeeded check!
 &lt;br&gt;
-(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="41" name="test.D.fail" tags="" position="100,600" size="100,100">{=
+(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="42" name="test.D.fail" tags="" position="225,600" size="100,100">{=
 
 Failed check...
 &lt;br&gt;
-(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="42" name="test.E.log" tags="" position="225,600" size="100,100">(metadata:
+(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="43" name="test.E.log" tags="" position="350,600" size="100,100">(metadata:
 &quot;title&quot;, &quot;Test E: Logging&quot;,
 )
 
@@ -1286,7 +1325,7 @@ $cssDesc[Note: Consider consolidating readout code (for different logTypes) into
         &lt;/li&gt;
     }]
     &lt;/ol&gt;
-}]</tw-passagedata><tw-passagedata pid="43" name="test.F.relay" tags="" position="350,600" size="100,100">{=
+}]</tw-passagedata><tw-passagedata pid="44" name="test.F.relay" tags="" position="475,600" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test F: Relay&quot;
@@ -1354,7 +1393,7 @@ Set restlessness:
 &lt;br&gt;
 &#39;&#39;Restlessness:&#39;&#39; |testF2&gt;[($funcOutputFlag: &quot;restless&quot;)]
 &lt;br&gt;
-&#39;&#39;Test link:&#39;&#39; |testF2&gt;[($funcRelay: &quot;test.F.relaySample2&quot;, [])]</tw-passagedata><tw-passagedata pid="44" name="test.F.relaySample1" tags="" position="475,600" size="100,100">{=
+&#39;&#39;Test link:&#39;&#39; |testF2&gt;[($funcRelay: &quot;test.F.relaySample2&quot;, [])]</tw-passagedata><tw-passagedata pid="45" name="test.F.relaySample1" tags="" position="600,600" size="100,100">{=
 (metadata:
     &quot;relayCode&quot;, [{
         &lt;!--must always name them _relayLink and _relayDestination.--&gt;
@@ -1373,7 +1412,7 @@ Set restlessness:
         ))
     }],
 
-)</tw-passagedata><tw-passagedata pid="45" name="test.F.relaySample2" tags="" position="600,600" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="46" name="test.F.relaySample2" tags="" position="725,600" size="100,100">{=
 (metadata:
     &quot;relayCode&quot;, [{
         &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
@@ -1399,18 +1438,18 @@ Set restlessness:
         ))
     }],
 
-)</tw-passagedata><tw-passagedata pid="46" name="test.F.destination1" tags="" position="725,600" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="47" name="test.F.destination1" tags="" position="850,600" size="100,100">{=
 (link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
 &lt;br&gt;
-Destination 1</tw-passagedata><tw-passagedata pid="47" name="test.F.destination2" tags="" position="850,600" size="100,100">{=
-(link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
-&lt;br&gt;
-
-Destination 2</tw-passagedata><tw-passagedata pid="48" name="test.F.destination3" tags="" position="975,600" size="100,100">{=
+Destination 1</tw-passagedata><tw-passagedata pid="48" name="test.F.destination2" tags="" position="975,600" size="100,100">{=
 (link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
 &lt;br&gt;
 
-Destination 3</tw-passagedata><tw-passagedata pid="49" name="test.G.event" tags="" position="1100,600" size="100,100">{=
+Destination 2</tw-passagedata><tw-passagedata pid="49" name="test.F.destination3" tags="" position="1100,600" size="100,100">{=
+(link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
+&lt;br&gt;
+
+Destination 3</tw-passagedata><tw-passagedata pid="50" name="test.G.event" tags="" position="1225,600" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test G: Events&quot;,
@@ -1441,14 +1480,86 @@ $cssDesc[Testing with the &quot;party&quot; event. `$funcEventStart` is inserted
 
 &#39;&#39;Testing `$funcEventCountdown`&#39;&#39;
 &lt;br&gt;
-
-(link-rerun: &quot;Count down events.&quot;)[{
-    ($funcEventCountdown:)
+&lt;ol&gt;
+&lt;li&gt;(link-rerun: &quot;Count down by 1 day.&quot;)[{
+    ($funcEventCountdown: 1)
     (t8n: &quot;dissolve&quot;)(rerun: ?TestG1)
+}]&lt;/li&gt;
+
+&lt;li&gt;(link-rerun: &quot;Count down by 2 days.&quot;)[{
+    ($funcEventCountdown: 2)
+    (t8n: &quot;dissolve&quot;)(rerun: ?TestG1)
+}]&lt;/li&gt;
+
+&lt;li&gt;(link-rerun: &quot;Count down by 30 days.&quot;)[{
+    ($funcEventCountdown: 30)
+    (t8n: &quot;dissolve&quot;)(rerun: ?TestG1)
+}]&lt;/li&gt;
+&lt;/ol&gt;
+&lt;br&gt;
+The party: |TestG1&gt;[(if: $world&#39;s events contains &quot;party&quot;)[(print: $world&#39;s events&#39;s party)](else:)[Not started.]]</tw-passagedata><tw-passagedata pid="51" name="test.H.dice" tags="" position="100,725" size="100,100">{=
+
+(metadata:
+&quot;title&quot;, &quot;Test H: Dice and Table Rolls&quot;,
+)
+
+(display: &quot;block.testNavigation&quot;)
+
+&lt;br&gt;
+---
+&lt;br&gt;
+
+&#39;&#39;Testing `$funcTableRoll`&#39;&#39;
+&lt;br&gt;
+$cssDesc[`$funcTableRoll` takes in a (dm:) and gives the raw result as a string. In this example, it is inserted into and executed by the following link. It should yield either of the following output with the following weights: &quot;A&quot; (5), &quot;B&quot; (2), &quot;C&quot;, (3).]
+&lt;br&gt;
+
+(set: _score to (a:))
+
+(link-rerun: &quot;Roll table&quot;)[{
+    &lt;!--roll ($funcTableRoll must be inserted into a temp var, since it is a raw output)--&gt;
+    (set: _result to ($funcTableRoll: (dm: 
+        &quot;A&quot;, 5,
+        &quot;B&quot;, 2,
+        &quot;C&quot;, 3,
+    )))
+    &lt;!--add to score board--&gt;
+    (set: _score to it + (a: _result))
+    &lt;!--rerun--&gt;
+    (t8n: &quot;dissolve&quot;)(rerun: ?TestH1)
 }]
 
 &lt;br&gt;
-The party: |TestG1&gt;[(if: $world&#39;s events contains &quot;party&quot;)[(print: $world&#39;s events&#39;s party)](else:)[Not started.]]</tw-passagedata><tw-passagedata pid="50" name="Header" tags="header" position="1225,600" size="100,100">{=
+&lt;!--default text--&gt;
+(set: _result to &quot;Click on \&quot;Roll Table\&quot; to get result!&quot;)
+
+&lt;!--display result and score--&gt;
+Got:` `[_result]&lt;TestH1|
+&lt;br&gt;
+Score:` `[{
+    (if: _score&#39;s length &gt; 0)[{
+        
+        &lt;!--count--&gt;
+        (set: _scoreA to (count: _score, &quot;A&quot;))
+        (set: _scoreB to (count: _score, &quot;B&quot;))
+        (set: _scoreC to (count: _score, &quot;C&quot;))
+
+        &lt;!--calculate total--&gt;
+        (set: _total to _score&#39;s length)
+
+        &lt;!--display as percentages--&gt;
+        &lt;ul&gt;
+        &lt;li&gt;A: _scoreA ((round: (_scoreA/_total)*100)%)&lt;/li&gt;
+        &lt;li&gt;B: _scoreB ((round: (_scoreB/_total)*100)%)&lt;/li&gt;
+        &lt;li&gt;C: _scoreC ((round: (_scoreC/_total)*100)%)&lt;/li&gt;
+        &lt;/ul&gt;
+
+
+    }]
+    (else:)[_result]
+}]&lt;TestH1|
+&lt;br&gt;
+$cssDesc[The expected score should be roughly 50% A, 20% B, and 30% C.]</tw-passagedata><tw-passagedata pid="52" name="Header" tags="header" position="225,725" size="100,100">{=
 &lt;!--displayed text in header--&gt;
 (align: &quot;=&gt;&lt;=&quot;)+$cssDesc[{
     &lt;!--dayCount--&gt;
@@ -1469,7 +1580,7 @@ The party: |TestG1&gt;[(if: $world&#39;s events contains &quot;party&quot;)[(pri
     
 &lt;br&gt;
 ---
-&lt;br&gt;</tw-passagedata><tw-passagedata pid="51" name="Sidebar" tags="footer" position="100,725" size="100,100">{=
+&lt;br&gt;</tw-passagedata><tw-passagedata pid="53" name="Sidebar" tags="footer" position="350,725" size="100,100">{=
 
 (append: ?Sidebar)[
 [(print: $player&#39;s mind)]&lt;sidebarMind|

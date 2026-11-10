@@ -15,7 +15,7 @@
 }]]))
 
 <!--countdown events (to be triggered at the transition between days - like a "setDay")-->
-(set: $funcEventCountdown to (macro: [(out:)[{
+(set: $funcEventCountdown to (macro: num-type _timeIncrement, [(out:)[{
     <!--if there are registered events, loop through $world's events-->
     (if: (datanames: $world's events)'s length > 0)[{
         (for: each _eventName, ...(datanames: $world's events))[{
@@ -23,10 +23,12 @@
             (set: _eventDM to (passage: "event." + _eventName))
 
             <!--count down-->
-            (set: $world's events's _eventName to it - 1)
+            (set: $world's events's _eventName to it - _timeIncrement)
 
             <!--autoClear-->
-            (if: $world's events's _eventName <= 0 and _eventDM contains "autoClear")[(move: $world's events's _eventName into _trash)]
+            (if: $world's events's _eventName <= 0 and _eventDM contains "autoClear")[{
+                (if: _eventDM's autoClear is true)[(move: $world's events's _eventName into _trash)]
+            }]
         }]<!--end loop-->
     }]<!--end if has events-->
 }]]))

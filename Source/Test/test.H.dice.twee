@@ -1,0 +1,64 @@
+:: test.H.dice
+{=
+
+(metadata:
+"title", "Test H: Dice and Table Rolls",
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+
+''Testing `$funcTableRoll`''
+<br>
+$cssDesc[`$funcTableRoll` takes in a (dm:) and gives the raw result as a string. In this example, it is inserted into and executed by the following link. It should yield either of the following output with the following weights: "A" (5), "B" (2), "C", (3).]
+<br>
+
+(set: _score to (a:))
+
+(link-rerun: "Roll table")[{
+    <!--roll ($funcTableRoll must be inserted into a temp var, since it is a raw output)-->
+    (set: _result to ($funcTableRoll: (dm: 
+        "A", 5,
+        "B", 2,
+        "C", 3,
+    )))
+    <!--add to score board-->
+    (set: _score to it + (a: _result))
+    <!--rerun-->
+    (t8n: "dissolve")(rerun: ?TestH1)
+}]
+
+<br>
+<!--default text-->
+(set: _result to "Click on \"Roll Table\" to get result!")
+
+<!--display result and score-->
+Got:` `[_result]<TestH1|
+<br>
+Score:` `[{
+    (if: _score's length > 0)[{
+        
+        <!--count-->
+        (set: _scoreA to (count: _score, "A"))
+        (set: _scoreB to (count: _score, "B"))
+        (set: _scoreC to (count: _score, "C"))
+
+        <!--calculate total-->
+        (set: _total to _score's length)
+
+        <!--display as percentages-->
+        <ul>
+        <li>A: _scoreA ((round: (_scoreA/_total)*100)%)</li>
+        <li>B: _scoreB ((round: (_scoreB/_total)*100)%)</li>
+        <li>C: _scoreC ((round: (_scoreC/_total)*100)%)</li>
+        </ul>
+
+
+    }]
+    (else:)[_result]
+}]<TestH1|
+<br>
+$cssDesc[The expected score should be roughly 50% A, 20% B, and 30% C.]

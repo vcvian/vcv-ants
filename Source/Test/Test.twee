@@ -14,6 +14,8 @@
 <li>(link: "Test E")[(goto: "test.E.log")] $cssDesc[(Logging)]</li>
 <li>(link: "Test F")[(goto: "test.F.relay")] $cssDesc[(Relay)]</li>
 <li>(link: "Test G")[(goto: "test.G.event")] $cssDesc[(Events)]</li>
+<li>(link: "Test H")[(goto: "test.H.dice")] $cssDesc[(Dice and table rolls)]</li>
+
 
 
 

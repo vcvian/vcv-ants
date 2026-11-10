@@ -30,11 +30,21 @@ $cssDesc[Testing with the "party" event. `$funcEventStart` is inserted into a re
 
 ''Testing `$funcEventCountdown`''
 <br>
-
-(link-rerun: "Count down events.")[{
-    ($funcEventCountdown:)
+<ol>
+<li>(link-rerun: "Count down by 1 day.")[{
+    ($funcEventCountdown: 1)
     (t8n: "dissolve")(rerun: ?TestG1)
-}]
+}]</li>
 
+<li>(link-rerun: "Count down by 2 days.")[{
+    ($funcEventCountdown: 2)
+    (t8n: "dissolve")(rerun: ?TestG1)
+}]</li>
+
+<li>(link-rerun: "Count down by 30 days.")[{
+    ($funcEventCountdown: 30)
+    (t8n: "dissolve")(rerun: ?TestG1)
+}]</li>
+</ol>
 <br>
 The party: |TestG1>[(if: $world's events contains "party")[(print: $world's events's party)](else:)[Not started.]]

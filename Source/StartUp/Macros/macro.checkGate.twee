@@ -13,47 +13,6 @@ a. spend mode
 b. check mode (positive or negative)
 -->
 
-(set: $funcDiceRoll to (macro: num-type _chance, [(out:)[{
-   <!--initialize-->
-    (set: _success to false)
-
-    <!--roll-->
-    (set: _dice to (random: 1,100))
-    (if: _dice >= (100-_chance) or _chance >= 100)[(set: _success to true)]
-
-    <!--notify result-->
-    (if: _chance < 100)[(dialog: [{
-        (if: _success)[(color: green+yellow)[Success!]<br>Fortune has decided to smile on you.]
-        (else:)[(color: red+orange)[Failure...]<br>Fortune, ever the fickle mistress, turns her back on you.]
-        <br>
-        $cssDesc[Threshold: (print: 100-_chance), rolled ''_dice''.]
-    }], "OK.")]
-
-}]]))
-
-(set: $cssChanceColor to (macro: str-type _formattedText, num-type _value, num-type _max, [(out:)[{
-    <!--color gradient for chance-->
-(set: _r to 0)
-(set: _g to 0)
-(set: _half to (round: _max/2))
-(if: _value <= _half)[
-	(set: _r to 255)
-	(set: _g to (round: (_value / _half) * 255))
-		(if: _g > 255)[(set: _g to 255)]
-		(elseif: _g < 0)[(set: _g to 0)]
-]
-(else:)[
-	(set: _r to (round: ((_max - _value) / _half) * 255))
-		(if: _r > 255)[(set: _r to 255)]
-		(elseif: _r < 0)[(set: _r to 0)]
-	(set: _g to 255)
-]
-(set: _chanceColor to (color: (rgb: _r, _g, 0)))
-
-<!--output formatted text-->
-_chanceColor[_formattedText]
-}]]))
-
 <!--check gate-->
 (set: $funcCheckGate to (macro: str-type _linkText, boolean-type _visibleWhenClosed, str-type _flag, num-type _value, boolean-type _spend, num-type _chance, codehook-type _addCode, str-type _gotoSuccess, str-type _gotoFail,  [(out:)[{
     <!--load full flag DM-->
