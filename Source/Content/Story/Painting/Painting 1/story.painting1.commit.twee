@@ -1,0 +1,75 @@
+:: story.painting1.commit [unfinished]
+{=
+
+(metadata:
+    "title", "Attempting to Paint",
+    "devNote", [done choices are not finished (no destination). Consider making it chancy.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+($funcReveal: "You set oil onto the canvas.", "set")` `|set)[(either:
+    [The old oil resists you. Turpentine stings your nose.],
+    [Viscous and pliable, full of promises.],
+    [So begins race against time.],
+    [The paint awaits your command, but not for long.],
+    [It is a most delicate moment. ],
+)]
+
+|set)[
+<br>
+($funcReveal: "Now, try your best.", "best")]` `|best)[(either:
+    [Swish, swash, and a little dot...],
+    [Dribble, dabble, and a line to break the monotony...],
+    [Left, right, and reapply...],
+    [Oh no... That's not right... How about...?],
+    [Stroke by stroke, any quiver of the wrist risks undoing your progress.],
+)]
+
+|best)[
+<br>
+($funcReveal: "A little more...", "little")]` `|little)[(either: 
+    [It is all coming together. But to form what?],
+    [Slowly, familiar shapes emerge, though you cannot say what they are.],
+    [Now and gone again, you glimpse the person that you were.],
+    [The brush, the oil, the canvas - they and you are not strangers after all.],
+    [There is warmth between your fingers. You are so close.],
+)]
+
+|little)[
+<br>
+($funcReveal: "And?", "and")]` `|and)[For a moment, you thought you had made a breakthrough. But no. (either:
+    [You are only making it worse. Happy accidents are happier if left well enough alone - a lesson you always seem to forget.],
+    [Hope seemed so close when viewed at angle, but as you rush headlong towards it, you found out that it was only a trick of the light.],
+    [What were you //thinking//? Of course, nothing. You blacked out. You blame those unsteady hands and deny that they have ever been yours.],
+    [Those with talent knows when to stop. You, however, have wildly overshot.],
+)]
+
+|and)[
+<br>
+(if: ($funcOutputFlag: "restless") < 1)[Clearly, "your best" is not enough today, predictably so.]
+(else:)[No, this cannot be "your best". There is still some left in you - fumes, furious fumes.]
+<br>
+(if: ($funcOutputFlag: "restless") < 1)+$cssDesc[You ought to have given up much sooner.]
+(else:)+$cssDesc[Are you going to just give up, like always?]
+
+(show: ?mainDone)
+]
+
+}],
+
+[{<!--?mainDone-->
+
+<ol>
+<li>($funcGainLink: "Disappointed. Frustrated. You throw the brush aside and go lie down.", "restless", 1, [(display: "code.timePass")], "")</li>
+
+<li>($funcCheckGate: "Power through! It is just over the horizon; you need only reach.", true, "restless", 1, false, 100, [], "", "")</li>
+
+</ol>
+
+}],
+
+
+false
+)

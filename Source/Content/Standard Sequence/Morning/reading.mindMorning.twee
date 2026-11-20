@@ -1,0 +1,40 @@
+:: reading.mindMorning
+{=
+
+(set: _mindOut to (passage: "code.mind")'s output)
+(set: _mindLevel to (str: (_mindOut:)))
+
+<!--mind readout-->
+
+(cond:
+_mindLevel is "dying", [{All is black.
+<br>
+(text-style:"blur")[You shouldn't be here.]}],
+
+_mindLevel is "very low", [{You cannot see the Sun.
+<br>
+You thought you would not wake up today. But somehow, you still did.
+<br>
+You might not be so lucky again. Use your time wisely, the little that's left.}],
+
+_mindLevel is "low", [{You're tired, but you still stir awake. It's gloomy outside.
+<br>
+How did it come to this?}],
+
+_mindLevel is "slightly low", [{Waking up, you feel slightly under the weather. Only slightly. Haven't you always?}],
+
+_mindLevel is "medium", [{You wake up. Light is flittering through the blinds. You might open them today.}],
+
+_mindLevel is "slightly high", [{You've greeted the Sun today. She answers warmly. Anything is possible now!}],
+
+_mindLevel is "high", [{The Sun - she is bright - and you feel her light penetrating you.}],
+
+_mindLevel is "very high", [{You're not used to this feeling. There are fireworks in your skull. Can a day be so bright?}],
+
+_mindLevel is "insane", [{(text-style:"blur")[CAN A DAY BE SO BRIGHT?]}]
+
+
+)
+
+<!--tip-->
+$cssDesc[<br>You are yet alive.]

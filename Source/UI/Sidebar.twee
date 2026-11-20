@@ -7,6 +7,13 @@
 (link-repeat: "🔙")[(print: (passage: "code.timePass")'s timeGoto)]
 (link-repeat: "🧪")[(goto: "Test")]
 (link-repeat: "📜")[(goto: "TODO")]
+(link-repeat: "🧭")[{
+    (set: _compassAction to "")
+    (set: _compassGoto to "")
+    (dialog: bind _compassAction, [(input: bind _compassGoto)], "Cancel", "Go!")
+
+    (if: _compassAction is "Go!")[(goto: _compassGoto)]
+}]
 (link-repeat: "🐞")[(debug:)]
 (link-repeat: "🔄")[(restart:)]
 ]

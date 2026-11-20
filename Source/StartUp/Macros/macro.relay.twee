@@ -22,11 +22,16 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
     <!--create link if destination is not false-->
     (if: _relayDestination is not false)[
         (link-rerun: (str: _relayLink))[{
+    
         <!--run optional _addCode-->
         _addCode
 
-        <!--goto-->
-        (goto: _relayDestination)
+        <!--goto (skipUndo metadata is usually used for activity.napping, but let's leave it open for other possibilities.)-->
+        (if: (passage: _relayDestination) contains "skipUndo")[{
+            (if: (passage: _relayDestination)'s skipUndo is true)[(redirect: _relayDestination)]
+            (else:)[(goto: _relayDestination)]
+        }]
+        (else:)[(goto: _relayDestination)]
         }]
     ]<!--end of if destination is not false-->
 

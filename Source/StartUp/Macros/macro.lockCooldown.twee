@@ -1,0 +1,20 @@
+:: macro.lockCooldown [startup]
+{=
+
+<!--lock, unlock, and cooldown macros, all of which controls story availability (usually in relays)-->
+
+<!--lock-->
+(set: $funcLock to (macro: str-type _storyName, [(out:)[{
+    <!--add this story to $story's lock (once)-->
+    (if: $story's lock does not contain _storyName)[{
+        (set: $story's lock to it + (a: _storyName))
+    }]<!--end of if-->
+}]]))
+
+<!--unlock-->
+(set: $funcUnlock to (macro: str-type _storyName, [(out:)[{
+    <!--add this story to $story's lock (once)-->
+    (if: $story's lock contains _storyName)[{
+        (move: $story's lock's _storyName to _trash)
+    }]<!--end of if-->
+}]]))

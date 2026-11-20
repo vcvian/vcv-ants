@@ -1,0 +1,29 @@
+:: activity.laptop [activity]
+{=
+
+(metadata:
+
+"relayCode", [{
+        <!--must always name them _relayLink and _relayDestination and _relayTip.-->
+        (set: _relayLink to (cond:
+            $story's lock does not contain "story.newsOfWorld", "What news of the world?",
+            $world's state is 1, "Approach your laptop.",
+            false
+        ))
+
+        (set: _relayDestination to (cond:
+            $story's lock does not contain "story.newsOfWorld", "story.newsOfWorld",
+            true, "story.laptop1",
+            false
+        ))
+
+        (set: _relayTip to (cond:
+            $story's lock does not contain "story.newsOfWorld", "Perhaps you are not entirely isolated.",
+            $world's state is 1, "Your portal to the outside world.",
+            false
+        ))
+}],
+
+)
+
+Laptop

@@ -1,0 +1,51 @@
+:: story.laptop1
+{=
+
+(metadata:
+    "title", "The Computer",
+)
+
+<!--the mainDone choices will be available after the first visit, whereupon this passage's name is added to $story's lock-->
+(set: _showDoneChoicesAtBeginning to false)
+(if: $story's lock contains "story.laptop1")[(set: _showDoneChoicesAtBeginning to true)]
+
+($funcMainContent:[{<!--?mainReading--> 
+
+Your crawl towards the low table. Among the empty soda bottles, nail clippings, and ants, there lies ($funcReveal: "a notebook computer", "laptop"), covered with a sticky rag.
+
+|laptop)[
+<br>
+Its screen, dim with age, has been your primary portal to the outside world. Its body is sick with fever, its fan wheezing, its keys clogged with waste, its disk sputter when asked to work. Still, the old thing dutifully brings you ($funcReveal: "missives from beyond.", "hoping")
+]
+
+|hoping)[
+<br>
+You are hoping to see your inquiries answered, or commissions, salaried positions, grants, a mention, any sign that you are not yet dead to the world, and the world yet promises some little life for you.
+<br>
+You have been waiting for a long time. Hope is ($funcReveal: "such a madly addictive thing.", "mainDone")
+]
+
+}],
+
+
+[{<!--?mainDone-->
+
+<!--show last paragraph if already visited-->
+(if: $story's lock contains "story.laptop1")[(show: ?hoping)]
+
+<ol>
+
+<li>($funcOutLink: "Will there be good news today?", "Commit. Time will crawl forward.", "story.laptop.1.use", [{
+    <!--lock-->
+    ($funcLock: (passage:)'s name)
+}])</li>
+
+<li>($funcBackLink: "You prefer to be sober and reasonable.", "", [{
+    <!--lock-->
+    ($funcLock: (passage:)'s name)
+}])</li>
+
+</ol>
+}],
+
+_showDoneChoicesAtBeginning)

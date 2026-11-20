@@ -1,0 +1,46 @@
+:: code.mind [unfinished]
+{=
+
+(metadata:
+"devNote", [Output loop too inefficient/slow.],
+"mindLevels", (dm:
+    "dying", 0,
+    "very low", 2,
+    "low", 5,
+    "slightly low", 8,
+    "medium", 12,
+    "slightly high", 15,
+    "high", 18,
+    "very high", 20,
+    "insane", 10000000,
+),
+
+"output", (macro: [{
+    <!--initialize-->
+    (set: _out to "")
+
+    <!--load levels DM-->
+    (set: _levelsDM to ((passage: "code.mind")'s mindLevels))
+
+    <!--sorted keys/values-->
+    (set: _sortedValues to (sorted: ...(dm-values: _levelsDM)))
+
+    <!--find first/lowest threshold (number that's greater than mind) among the sorted array-->
+    (set: _highestThreshold to -10000)
+    (for: each _value, ..._sortedValues)[{
+        (if: _value >= $player's mind and _highestThreshold is -10000)[(set: _highestThreshold to _value)]
+    }]
+
+    <!--match that new value to a level name (string)-->
+    (set: _out to (find: _match where _levelsDM's _match is _highestThreshold, ...(datanames: _levelsDM))'s 1st)
+
+    <!--output-->
+    (out-data: _out)
+}]),
+
+)
+
+<!--call this code by putting (passage: "code.mind")'s output into an arbitrarily named shorthand temp var, example: (set: _mindOut to (passage: "code.mind")'s output), then call (_mindOut:).
+
+Calling something like (_mindOut: ) should be minimized, as it is performance-heavy. Consider putting it into another temp var as a string. Example: (set: _mindLevel to (str: (_mindOut:)))
+-->

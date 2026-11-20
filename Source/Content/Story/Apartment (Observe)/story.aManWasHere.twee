@@ -1,0 +1,122 @@
+:: story.aManWasHere
+
+(metadata:
+"title", "A Man Was Here"
+)
+
+($funcMainContent: [{<!--_mainReading hook-->
+
+($funcReveal: "A man", "man") used to be here.
+
+<!--trigger to ?sometimes-->
+(set: _trigger to ($funcChainTrigger: "aManSometimes", 5, "sometimes"))
+
+|man)[
+<br>
+($funcReveal: "Where is he now?", "where") |where)[Gone, by your doing. You must have succeeded._trigger]]
+
+|man)[
+<br>
+($funcReveal: "Why was he here?", "why") |why)[He followed, like a moth to a flame. Maybe he wanted to live. Maybe he would have died otherwise - so he believed._trigger]]
+
+|man)[
+<br>
+($funcReveal: "What was his name?", "name") |name)[You |cannot>[($funcReveal: "cannot", "recall")] recall. |recall)[It does not matter anymore. Names can be shed like skin - painfully._trigger (t8n:"dissolve")+(replace: ?cannot)[do not want to]]]]
+
+|man)[
+<br>
+($funcReveal: "Who was he?", "who") |who)[A //model//, beautiful once, but he withered, as you currently are. Flesh is sadly prone to decay._trigger]]
+
+|man)[
+<br>
+($funcReveal: "What was he to you?", "what") |what)[As it appeared to most, he was one half of a whole, and you were the other. An easy mistake to make, more difficult to correct._trigger]]
+
+|sometimes)[
+<br>
+Sometimes, you can still feel his presence. You can even ($funcReveal: "//smell//", "stink") him.]
+
+|stink)[
+<br>
+The whole apartment stinks. It is flooded with //his// trash, //his// rot. Anyone can tell that this ($funcReveal: "has been a man's place.", "mainDone")]
+
+
+}],
+
+[{<!--_mainDone hook-->
+
+($funcOutLink: "Assess the damage.", "Behold...", "story.apartmentStudioDirty", [{
+    <!--lock-->
+    ($funcLock: (passage:)'s name)
+}])
+
+
+}],
+
+false )
+
+
+
+:: story.aManWasHere (old)
+
+(metadata:
+"title", "A Man Was Here"
+)
+
+($funcMainContent: [{<!--_mainReading hook-->
+
+($funcReveal: "A man", "man") used to be here.
+
+<!--trigger to ?sometimes-->
+(set: _trigger to ($funcChainTrigger: "aManSometimes", 4, "sometimes"))
+
+|man)[
+<br>
+($funcReveal: "Where is he now?", "where")` `|where)[Gone, by your own doing. Perhaps you have finally succeeded. Presently, there is no evidence that you have failed, at least in that specific respect._trigger]
+]
+
+|man)[
+<br>
+($funcReveal: "Why was he here?", "why")` `|why)[Why, indeed. Maybe he wanted to live. He would have died otherwise, so he kept telling you._trigger]
+]
+
+|man)[
+<br>
+($funcReveal: "What was his name?", "who")` `|who)[You |cannotReplace>[($funcReveal: "cannot", "name")] recall.` `|name)[Names can be shed like skin - painfully._trigger(replace: ?cannotReplace)[do not want to]]]
+]
+
+|man)[
+<br>
+($funcReveal: "What was he to you?", "what")` `|what)[Looking from outside, most would say that he was one half and you the other, both comprising a bland, domestic whole, and the individuals may as well be one and the same. The thought makes your stomach churn._trigger]
+]
+
+
+|sometimes)[
+<br>
+Sometimes, you can still feel ($funcReveal: "his presence", "presence") in the corner of your eyes.]|presence)[` `You can even ($funcReveal: "//smell//", "smell") him.]
+
+|smell)[
+<br>
+Oh no, is it the apartment itself? Does it //feel// like a man's? What if you will never get this stink off of you?
+<br>
+Ah, but that is no longer ($funcReveal: "your biggest problem", "problem"), is it?]
+
+|problem)[
+<br>
+Between the moldy, rotting towers of refuse and the eye-burning, inescapable solvent fumes, no-one would mistake this little apartment for a woman's, nor would they think it was a man's.
+<br>
+They would know that this is ($funcReveal: "a place where an animal dwells.", "mainDone")]
+
+
+}],
+
+[{<!--_mainDone hook-->
+
+($funcOutLink: "Observe its dwelling place.", "Behold...", "story.apartmentStudioDirty", [{
+    <!--lock-->
+    ($funcLock: (passage:)'s name)
+}])
+
+
+}],
+
+false )

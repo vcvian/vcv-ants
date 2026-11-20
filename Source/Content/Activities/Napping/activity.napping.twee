@@ -5,6 +5,8 @@
 
 "devNote", [Normally, napping should not incur damage. Its behavior and relay conditions should later be changed once the ants have been implemented.],
 
+"skipUndo", true,
+
 "relayCode", [{
         <!--must always name them _relayLink and _relayDestination and _relayTip.-->
         (set: _relayLink to (cond:

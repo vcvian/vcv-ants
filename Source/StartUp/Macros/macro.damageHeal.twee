@@ -31,7 +31,7 @@
             (dialog: [{
                 ''_dialogHeader''
                 <br>(print: _reason)
-                <br>$cssDesc[Your mind is now: (print: $player's mind)]
+                <br>$cssDesc[Your ''Mind'' is now (print: $player's mind).]
             }], "✓")
         }]
 

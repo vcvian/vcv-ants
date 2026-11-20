@@ -1,0 +1,18 @@
+:: reading.spaceMorning
+{=
+
+(metadata: "devNote", [Need to set up ants flag],)
+
+<!--apartment/ants-->
+(cond:
+
+($funcOutputFlag: "ants") > 0, [],
+
+[You breathe in. Stale, sour air. It is your apartment, no doubt about it. You are still here and nowhere else.]
+
+
+
+)
+
+<!--tip-->
+$cssDesc[<br>You are at home.]

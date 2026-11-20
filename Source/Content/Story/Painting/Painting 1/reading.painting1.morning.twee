@@ -1,0 +1,41 @@
+:: reading.painting1.morning
+{=
+
+The moment you lift the veil, whatever that was beckoning you flees.
+
+<br>
+Ah, ($funcReveal: "the Sun", "closingEyes") is still up, under whose light the painting - a mere imitation - pales. Your muse is yet in hiding.
+
+|closingEyes)[
+<br>
+Closing your eyes, you see ($funcReveal: "a brilliant star.", "vision")]` `|vision)[(either: "Its hundred flanges wiggling out into the void of your mind.", "The mere thought of it has your throat seizing and sets your heart aflame.", "It roils and roars in the heavens. A million teeth appears and disappears.")]
+
+|vision)[
+<br>
+But this is not ($funcReveal: "what is on the canvas.", "isLeft")]
+
+|isLeft)[
+<br>
+What is left before you is simply your failure - thus far - to render your vision in oil, only tentatively alive in places, though already desiccating everywhere else.
+
+<br>
+There is ($funcReveal: "no use", "mainDone") in trying right now.
+
+<br>
+$cssDesc[Wait until evening, when there is no more excuses.]
+]<!--end of isLeft-->
+
+
+:: done.painting1.morning
+{=
+
+<!--reveal an extra paragraph if you've already read everything-->
+(if: $story's lock contains "reading.painting1.morning")[(show: ?isLeft)]
+
+<!--choices-->
+<ol>
+<li>($funcBackLink: "And no use dwelling on it.", "", [{
+    ($funcLock: "reading.painting1.morning")
+}])</li>
+<li>($funcDummyLink: "Peel the flakes from the brushes and attempt to paint. Again.", "Perhaps later in the day. Always later. Always a reason.")</li>
+</ol>

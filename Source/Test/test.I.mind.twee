@@ -1,0 +1,46 @@
+:: test.I.mind
+{=
+
+(metadata:
+"title", "Test H: Dice and Table Rolls",
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+
+''Testing mind readout''
+<br>
+$cssDesc[Mind is a number, which corresponds to a level name. `''(passage: "code.mind")'s out''` is used to output the raw string for the current mind's level's name ("dying", "very low", "low", "slightly low", "medium", "slightly high", "very high", or "insane"). It references the table in `''(passage: "code.mind")'s mindLevels''`.
+<br>
+It is best practice to put the output macro into a temp var so that it can easily be called inside a passage.
+]
+<br>
+
+<!--refresh short hand-->
+(set: _refresh to [(t8n: "dissolve")(rerun: ?TestI1)(rerun: ?sidebarMind)])
+<ul>
+<li>(link-rerun: "Set player's mind")[{
+    (dialog: [(input: bind $player's mind)], "OK")
+    (set: $player's mind to (num: $player's mind))
+    _refresh
+}]</li>
+<li>(link-rerun: "Decrease mind")[{
+    (set: $player's mind to it -1)
+    _refresh
+}]</li>
+<li>(link-rerun: "Increase mind")[{
+    (set: $player's mind to it +1)
+    _refresh
+}]</li>
+<li>(link-rerun: "Reset mind")[{
+    (set: $player's mind to 10)
+    _refresh
+}]</li>
+</ul>
+<br>
+<!--short hand-->
+(set: _outputMind to (passage: "code.mind")'s output)
+Mind: [(print: $player's mind) ((_outputMind:))]<TestI1|

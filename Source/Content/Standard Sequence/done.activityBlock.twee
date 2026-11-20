@@ -1,5 +1,9 @@
-:: code.activityBlock
+:: done.activityBlock [unfinished]
 {=
+
+(metadata:
+"devNote", [Eventually, need to add a "socialize" option.],
+)
 
 <ol>
 

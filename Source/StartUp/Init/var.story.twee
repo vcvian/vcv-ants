@@ -1,0 +1,7 @@
+:: var.story [startup]
+{=
+
+(set: $story to (dm:
+"lock", (a:),
+"cooldown", (dm:),
+))

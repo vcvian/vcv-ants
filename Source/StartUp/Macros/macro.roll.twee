@@ -1,4 +1,4 @@
-:: macro.dice [startup]
+:: macro.roll [startup]
 {=
 
 <!--basic dice roll, output a _success boolean & notification. Front-facing.-->

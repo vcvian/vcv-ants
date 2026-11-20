@@ -1,0 +1,22 @@
+:: Evening [unfinished]
+{=
+
+(metadata:
+"devNote", [Nothing here.],
+"title", "Evening",
+)
+
+<!--Use $funcMainContent: 1. main reading content hook, 2. done choices hook, 3. true/false if choices are available at the beginning; else, it must be made available via a $funcReveal, using the special "mainDone" hook name-->
+($funcMainContent:
+
+[{<!--_mainReading hook-->
+
+
+}],
+
+[{<!--_mainDone hook-->
+(display: "done.activityBlock")
+}],
+
+true
+)<!--end of $funcMainContent-->

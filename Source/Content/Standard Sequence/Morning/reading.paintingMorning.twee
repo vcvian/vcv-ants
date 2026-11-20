@@ -1,0 +1,19 @@
+:: reading.paintingMorning [unfinished]
+{=
+
+(metadata: "devNote", [Need to set up painting flag],)
+
+<!--painting-->
+(cond:
+($funcOutputFlag: "painting") > 0, [],
+
+[And //it// is still there in the corner. Presently, a makeshift curtain made of butcher's paper is hiding it, thought you can feel the malformed thing gazing at you from behind milky sheets, waiting.]
+
+)
+
+<!--tip-->
+$cssDesc[{<br>(cond:
+    $story's lock does not contain "story.paintingWhatIs", [Your Work is not yet done.],
+    true, [Your painting is unfinished.],
+    false
+)}]

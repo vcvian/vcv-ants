@@ -1,0 +1,25 @@
+:: macro.layout [startup]
+
+<!--a macro that automatically formats the game's main reading content-->
+
+(set: $funcMainContent to (macro: codehook-type _mainReadingContent, codehook-type _mainDoneChoices, boolean-type _showDoneChoicesAtBeginning, [(out:)[{
+    <!--display page title-->
+    (if: (passage:) contains "title")[{
+        <h3>(print: (passage:)'s title)</h3>
+    }]<mainTitle|
+    
+    <!--display reading content-->
+    [_mainReadingContent]<mainReading|
+
+
+    <!--done choices-->
+    [{
+<br>
+---
+
+    _mainDoneChoices        
+    }](mainDone|
+
+    <!--show at beginning?-->
+    (if: _showDoneChoicesAtBeginning)[(show: ?mainDone)]
+}]]))

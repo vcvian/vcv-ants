@@ -1,0 +1,62 @@
+:: macro.navigate [startup]
+{=
+
+<!--these are miscellaneous macros for frequently used navigation actions-->
+
+<!--back out to a daily sequence-->
+(set: $funcBackLink to (macro: str-type _linkText, str-type _tipOverride, codehook-type _addCode, [(out:)[{
+    <!--create link-->
+    (link-rerun: _linkText)[{
+        <!--run optional _addCode-->
+        _addCode
+
+        <!--goto (timeGoto does not advance time; it only takes the player back to the current time)-->
+        (print: (passage: "code.timePass")'s timeGoto)
+    }]<!--end of link-->
+
+    <!--tip-->
+    $cssDesc[{
+        <br>↪
+        (if: _tipOverride's length > 0)[_tipOverride
+<br>
+        ]
+        (else:)[Consider other activities.
+<br>
+        ]
+    }]
+
+}]]))
+
+<!--regular outbounding link with an extra tip section (so I don't have to retype the damn thing all the time)-->
+(set: $funcOutLink to (macro: str-type _linkText, str-type _tipText, str-type _destination, codehook-type _addCode, [(out:)[{
+    <!--create link-->
+    (link-rerun: _linkText)[{
+        <!--run optional _addCode-->
+        _addCode
+
+        <!--goto (timeGoto does not advance time; it only takes the player back to the current time)-->
+        (goto: _destination)
+    }]<!--end of link-->
+
+    <!--tip-->
+    $cssDesc[{
+        (if: _tipText's length > 0)[<br>↪` `_tipText
+<br>
+        ]
+    }]
+
+}]]))
+
+<!--dummy link, a pretend-gate, mainly for tip and flavor-->
+(set: $funcDummyLink to (macro: str-type _linkText, str-type _tipText, [(out:)[{
+    <!--fake link-->
+    ~~_linkText~~
+
+    <!--tip-->
+    $cssDesc[{
+        (if: _tipText's length > 0)[<br>↪` `_tipText
+<br>
+        ]
+    }]
+
+}]]))

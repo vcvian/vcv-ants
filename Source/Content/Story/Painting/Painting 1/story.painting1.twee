@@ -1,0 +1,45 @@
+:: story.painting1
+{=
+
+(metadata:
+    "title", "Your Unfinished Painting",
+)
+
+<!--_timeOfDay shorthand-->
+(set: _timeOfDay to (passage: "code.timePass")'s timeFullNames's ($time's timeOfDay))
+
+<!--the mainDone choices will be available after the first visit, whereupon this passage's name is added to $story's lock-->
+(set: _showDoneChoicesAtBeginning to false)
+(if: _timeOfDay is "morning" and $story's lock contains "reading.painting1.morning")[(set: _showDoneChoicesAtBeginning to true)]
+(if: _timeOfDay is "evening" and $story's lock contains "reading.painting1.evening")[(set: _showDoneChoicesAtBeginning to true)]
+
+
+($funcMainContent:[{<!--?mainReading-->
+
+(if: _timeOfDay is "morning")[{
+    (display: "reading.painting1.morning")
+}]<!--end of morning-->
+
+(elseif: _timeOfDay is "evening")[{
+    (display: "reading.painting1.evening")
+}]<!--end of evening-->
+
+}],
+
+[{<!--?mainDone-->
+
+(if: _timeOfDay is "morning")[{
+    (display: "done.painting1.morning")
+}]<!--end of morning-->
+
+(elseif: _timeOfDay is "evening")[{
+    (display: "done.painting1.evening")
+}]<!--end of evening-->
+
+}],
+
+_showDoneChoicesAtBeginning
+
+)
+
+

@@ -1,0 +1,36 @@
+:: Morning [unfinished]
+{=
+(metadata:
+"devNote", [Nothing here.],
+
+"title", "Morning",
+)
+
+<!--Use $funcMainContent: 1. main reading content hook, 2. done choices hook, 3. true/false if choices are available at the beginning; else, it must be made available via a $funcReveal, using the special "mainDone" hook name-->
+($funcMainContent:
+
+[{<!--_mainReading hook-->
+<!--mind-->
+(display: "reading.mindMorning")
+<br>
+
+<!--space-->
+(display: "reading.spaceMorning")
+<br>
+
+<!--painting/art-->
+(display: "reading.paintingMorning")
+<br>
+
+<!--time-->
+(display: "reading.timeMorning")
+
+}],
+
+[{<!--_mainDone hook-->
+(display: "done.activityBlock")
+}],
+
+true
+)<!--end of $funcMainContent-->
+

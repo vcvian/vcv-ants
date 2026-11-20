@@ -38,7 +38,7 @@
     (set: _currentLink to (datanames: _choicesText)'s _cyclingCount)
 
     <!--check thresholds to prevent an accidental lock. _lastRevealThreshold should be at least the same as _seqThreshold, otherwise the next passage will never be displayed-->
-    (if: _seqThreshold > _lastRevealThreshold)[(set: _lastRevealThreshold to _seqThreshold)]
+    (if: _seqThreshold > _lastRevealThreshold and _seqMode is true)[(set: _lastRevealThreshold to _seqThreshold)]
     
     <!--initialize $stuff (unfortunately, this is the only way I know how to break out of the macro's scope, as (replace:) doesn't work out of it). Otherwise, I really don't like to use helper variables like $stuff-->
     (if: $stuff does not contain "cyclingDisplay")[(set: $stuff's cyclingDisplay to (dm:))]

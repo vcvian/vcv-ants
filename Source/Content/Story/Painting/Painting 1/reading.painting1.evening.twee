@@ -1,0 +1,55 @@
+:: reading.painting1.evening
+{=
+
+It is dark outside, but your mind is alight. You close your eyes and ($funcReveal: "see...", "see")
+
+|see)[(either:
+    [` `the Sun's ($funcReveal: "twin sister", "openedEyes") - red, rippling, and roiling beneath the surface of an obsidian lake.],
+    [` `a red ($funcReveal: "slit", "openedEyes") in space, where the air peels to reveal what lies dreaming behind all things.],
+    [` `violet ($funcReveal: "rays", "openedEyes") pulsating across the blackness of your lids, tracing the path with which the stars hurl through the void.],
+)]
+
+|see)[
+<br>
+There it is. In the light of night, all the hidden creatures have come out to play.
+]
+
+|openedEyes)[
+<br>
+But with open eyes, reality yet falls short. Here, the canvas depicts only your failure - thus far - to render this vision in oil.
+<br>
+($funcReveal: "What else is there to do but paint?", "work")
+
+]
+
+|work)[
+<br>
+Your Work has always been performed when the world sleeps. No-one will see. No-one will know. No sneer nor praise.
+<br>
+$cssDesc[And no more excuses.]
+
+(t8n: "dissolve")(show:?mainDone)
+]
+
+:: done.painting1.evening [unfinished]
+{=
+
+(metadata: "devNote", ["Paint." link should vary up depending on current flags (especially if inspired). Might use a ''relay''.],)
+
+<!--reveal an extra paragraph if you've already read everything-->
+(if: $story's lock contains "reading.painting1.evening")[(show: ?openedEyes)]
+
+<!--choices-->
+<ol>
+
+<li>($funcOutLink: "Paint.", "Commit. Time will crawl forward.", "story.painting1.commit", [{
+    <!--lock-->
+    ($funcLock: "reading.painting1.evening")
+}])</li>
+
+<li>($funcBackLink: "Actually... it can wait another night.", "Consider other activities... if you truly think they are more worthwhile.", [{
+    <!--lock-->
+    ($funcLock: "reading.painting1.evening")
+}])</li>
+</ol>
+

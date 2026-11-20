@@ -1,0 +1,57 @@
+:: story.laptop.1.use
+{=
+
+(metadata:
+    "title", "Waiting for Good News",
+)
+
+($funcMainContent:[{<!--?mainReading--> 
+
+<!--cycling-->
+(t8n: "dissolve")+(link: "Click.")[($funcCycling: "click", (dm:
+    "<!--1-->Click.", "Thank you for your interest in our gallery...",
+    "<!--2-->Click.", "... peace talks breaking down amidst allegations of...",
+    "<!--3-->Click.", "Earn passive income with affiliated marketing, here's...",
+    "<!--4-->Click.", "... Our curatorial team regrets to inform you of...",
+    "<!--5-->Click.", "... a series of disappearances...",
+    "<!--6-->Click.", "... the position you applied for is very competitive, and...",
+    "<!--7-->Click.", "... the catatonia-like conditions dubbed mannequin's...",
+    "<!--8-->Click.", "Are you still there? Are you alive or dead? I've...",
+    "<!--9-->Click.", "Donate to your alma mater - for the future of the arts...",
+), "clickDisplay", true, 12, "clickReveal", false, 0)
+` `[//"(print: $stuff's cyclingDisplay's click)"//]<clickDisplay|
+]<!--end of initial click-->
+
+
+|clickReveal)[
+<br>
+Nothing new, it seems. Nothing good. What did you expect? After all, you have not done anything of note since you last checked. Why should the world reward your idleness?
+<br>
+
+<!--_timeOfDay shorthand-->
+(set: _timeOfDay to (passage: "code.timePass")'s timeFullNames's ($time's timeOfDay))
+
+(if: _timeOfDay is "morning")[But the Sun - the beautiful Sun - is already too high and too terrible to behold, and the morning passes you by while you stare at this dim and false light.]
+(elseif: _timeOfDay is "evening")[You could have spent tonight actually painting instead of convincing strangers that you could. Alas, darkness has enveloped the world while you stared at this dim and false light. Now, you are too tired.]
+
+<!--tip-->
+$cssDesc[
+<br>
+You should stop wasting time.
+]
+
+
+(show: ?mainDone)
+]<!--end of ?clickReveal-->
+
+}],
+
+
+[{<!--?mainDone-->
+
+<!--to move forward, leave goto (last parameter) blank and run (display: "code.timePass") in addCode codehook-->
+($funcGainLink: "You feel anxious, more than you already have.", "restless", 1, [(display: "code.timePass")], "")
+
+}],
+
+false)

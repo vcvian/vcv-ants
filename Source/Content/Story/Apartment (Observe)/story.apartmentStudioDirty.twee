@@ -1,0 +1,77 @@
+:: story.apartmentStudioDirty [unfinished]
+
+(metadata:
+"title", "Your Place of Living...",
+"devNote", [Need to mention Jesse's presence being the only positive.],
+)
+
+<!--the mainDone choices will be available after the first visit, whereupon this passage's name is added to $story's lock-->
+(set: _showDoneChoicesAtBeginning to false)
+(if: $story's lock contains "story.apartmentStudioDirty")[(set: _showDoneChoicesAtBeginning to true)]
+
+($funcMainContent: [{<!--_mainReading hook-->
+This filthy place is too small to be a ($funcReveal: "mansion", "mansion") but not small enough to be a ($funcReveal: "prison cell", "prison"). This is what they call a ($funcReveal: "\"studio apartment\".", "studio")
+
+|mansion)[
+<br>
+Once, you had hoped to be living in some grand place, or at least some place that is not so degrading, by the time you reach this age. You //are// getting older by the second. You //are// still stuck here.]
+
+|prison)[
+<br>
+You would imagine that even a prison cell would be a tad cleaner and better smelling. Inmates are forced to clean up after themselves. Here, no-one expects anything from you.]
+
+|studio)[
+<br>
+Yes, this is your ($funcReveal: "studio", "artist") ($funcReveal: "apart", "apart")ment.]
+
+|artist)[
+<br>
+A studio... you are nothing if not an ($funcReveal: "artist.", "artwork")]
+
+|artwork)[
+<br>
+Behold, ($funcCycling: "behold", (dm:
+    "<!--1-->an excursion into architecture,", "a tower of Chinese takeout boxes, glued together with grease, weighed down with leftover bones - a fine living space for ants and phorid flies, finer than the unseen nooks of the world from which they incessantly spawn.",
+    "<!--2-->an attempt at installation,", "consisting of a stained, half-covered mattress and a pile of unwashed laundry. It has been done before, in 1998 to be exact, but what about the sanitary pads on the wall? What about the fermenting juice bottle? What about the flies? There are always boundaries to be pushed.",
+    "<!--3-->something \"biophilic\" -", "the organic form is everywhere. What brush can capture the subtle value shifts of mold? What pencil can render those tendrils made of ants? Never has a room been more cave-like. Praise be to Nature, and shame be upon Man.",
+    "<!--4-->that //thing//", "in the corner.",
+), "beholdText", true, 3, "beholdReveal", false, 0)
+` `[(print: $stuff's cyclingDisplay's behold)]<beholdText|
+]
+
+|beholdReveal)[
+<br>
+It has been ($funcReveal: "many years", "years") since you began your Work, and it is ($funcReveal: "still unfinished.", "thatIsWhy")] |thatIsWhy)[` `//It// is the reason you are not in a better place yet.]
+
+|years)[
+<br>
+You were younger then, and surrounded by ($funcReveal: "admirers", "filthy").]
+
+
+<!--trigger to ?mainDone-->
+(set: _trigger to ($funcChainTrigger: "apartmentObserveDone", 2, "mainDone"))
+
+|apart)[
+<br>
+Now, you are quite apart from anyone you've ever known_trigger]|filthy)[, and you are drowning in trash, seeped with sweat and blood, and so, so many ants._trigger]
+
+|mainDone)[
+<br>
+$cssDesc[You must escape from this rotting place.]
+]
+
+}],
+
+[{<!--_mainDone hook-->
+
+<!--Vary up the link text on a second visit-->
+(set: _linkText to "You'll get to them. All of them. One day.")
+(if: $story's lock contains "story.apartmentStudioDirty")[(set: _linkText to "One day, you will be in a better place.")]
+
+<!--the link itself-->
+($funcBackLink: _linkText, "", [($funcLock: (passage:)'s name)])
+
+}],
+
+_showDoneChoicesAtBeginning )
+<!--the boolean _showDoneChoicesAtBeginning at the end of $funcMainContent can be a (cond:) to only hide ?mainDone at the first visit but show it in the other visits-->

@@ -1,4 +1,4 @@
-:: test.H.dice
+:: test.H.roll
 {=
 
 (metadata:
@@ -12,6 +12,8 @@
 <br>
 
 ''Testing `$funcTableRoll`''
+<br>
+''Test 1:'' A, B, and C
 <br>
 $cssDesc[`$funcTableRoll` takes in a (dm:) and gives the raw result as a string. In this example, it is inserted into and executed by the following link. It should yield either of the following output with the following weights: "A" (5), "B" (2), "C", (3).]
 <br>
@@ -62,3 +64,59 @@ Score:` `[{
 }]<TestH1|
 <br>
 $cssDesc[The expected score should be roughly 50% A, 20% B, and 30% C.]
+
+<br>
+---
+<br>
+
+<br>
+''Test 2:'' Less alphanumeric input.
+<br>
+$cssDesc[Testing with "Bird", "1ALiph", and "0Zeta"]
+<br>
+
+(set: _score2 to (a:))
+
+(link-rerun: "Roll table 2")[{
+    <!--roll ($funcTableRoll must be inserted into a temp var, since it is a raw output)-->
+    (set: _result2 to ($funcTableRoll: (dm: 
+        "Bird", 1,
+        "1ALiph", 7,
+        "0Zeta", 2,
+    )))
+    <!--add to score board-->
+    (set: _score2 to it + (a: _result2))
+    <!--rerun-->
+    (t8n: "dissolve")(rerun: ?TestH2)
+}]
+
+
+<br>
+<!--default text-->
+(set: _result2 to "Click on \"Roll Table 2\" to get result!")
+
+<!--display result and score-->
+Got:` `[_result2]<TestH2|
+<br>
+Score:` `[{
+    (if: _score2's length > 0)[{
+        
+        <!--count-->
+        (set: _score2A to (count: _score2, "Bird"))
+        (set: _score2B to (count: _score2, "1ALiph"))
+        (set: _score2C to (count: _score2, "0Zeta"))
+
+        <!--calculate total-->
+        (set: _total2 to _score2's length)
+
+        <!--display as percentages-->
+        <ul>
+        <li>Bird: _score2A ((round: (_score2A/_total2)*100)%)</li>
+        <li>1ALiph: _score2B ((round: (_score2B/_total2)*100)%)</li>
+        <li>0Zeta: _score2C ((round: (_score2C/_total2)*100)%)</li>
+        </ul>
+    }]
+    (else:)[_result2]
+}]<TestH2|
+<br>
+$cssDesc[The expected score should be roughly 10% Bird, 70% 1ALiph, and 20% 0Zeta.]

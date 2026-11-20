@@ -1,0 +1,16 @@
+:: reading.timeMorning
+{=
+
+<!--add more conditions for when there are active events-->
+
+(cond:
+
+$world's state is 1, [{
+Wiping the rheum from your eyes, you slowly accept the stark, inescapable condition of your being: That time, so much of it, is once again yours to dispense, wisely or otherwise.
+}],
+
+[The world's state is wrong.],
+
+)
+
+$cssDesc[<br>Do something.]

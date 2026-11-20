@@ -1,0 +1,126 @@
+:: story.newsOfWorld
+{=
+
+(metadata:
+    "title", "What News of the World?",
+)
+
+
+($funcMainContent:[{<!--?mainReading-->
+
+Your thoughts begin to wander to ($funcReveal: "the world outside.", "anxiety") What has become of it? ($funcReveal: "Has anything changed?", "perhaps")
+
+<!--Short hand for chain trigger-->
+(set: _trigger to ($funcChainTrigger: "newsOfWord", 2, "window"))
+
+
+|anxiety)[_trigger
+<br>
+Your face wrinkles up. There is a twisting in your gut. Unseen hands are on your throat, and your veins struggle under its fingers.
+<br>
+You have been waiting for something from outside, perhaps some good news.
+]
+
+
+|perhaps)[_trigger
+<br>
+Perhaps the weather has cleared, and the Sun has risen. Perhaps peace reigns on this Earth, and all the collective miseries of humanity has been quieted. Perhaps your name has been spoken of somewhere. Perhaps some previously closed doors have been opened. Perhaps, beyond the silken veil of this cocoon, there still is an "outside" after all.
+]
+
+|window)[
+<br>
+You need only look.
+<br>
+There is ($funcReveal: "a window", "notebook") for that.
+]
+
+|notebook)[
+<br>
+There, up against the wall, covered by a rag, is ($funcReveal: "your notebook computer", "mainDone"), wired to the internet.
+]
+
+
+
+}],
+
+[{<!--?mainDone-->
+
+($funcOutLink: "Approach your notebook computer.", "Maybe things will be different this time.", "story.laptop1", [{
+    <!--lock-->
+    ($funcLock: (passage:)'s name)
+}])
+
+}],
+
+false
+
+)
+
+
+:: story.newsOfWorld (old)
+{=
+
+(metadata:
+    "title", "What News of the World?",
+)
+
+
+($funcMainContent:[{<!--?mainReading-->
+
+Once in a while, something unreasonable - like ($funcReveal: "hope", "wondering") - crosses your mind.
+
+|wondering)[
+<br>
+You find yourself wondering how things are ($funcReveal: "//out there//", "manyDoors"), and whether anything has ($funcReveal: "changed.", "unlikely")]
+
+|manyDoors)[
+<br>
+Years ago, before you were confined to this cell, you where //out there//, all the time, and there were so many things to look forward to, and ($funcReveal: "so many doors.", "window")]
+
+<!--the "primary portal to the outside world." link has variable behavior-->
+(set: _revealedWindow to false)
+(set: _revealedUnlikely to false)
+(set: _destinationWindow to "withdrawal")
+(set: _destinationUnlikely to "withdrawal")
+|codeCheck>[
+    (set: _destinationWindow to "withdrawal")
+    (set: _destinationUnlikely to "withdrawal")
+
+    (if: _revealedWindow is false)[{
+        (set: _destinationUnlikely to "window")
+    }]
+    (if: _revealedUnlikely is false)[{
+        (set: _destinationWindow to "unlikely")
+    }]
+
+]
+
+|window)[(set: _revealedWindow to true)(rerun: ?codeCheck)
+<br>
+Now, all you have is a window: Your ($funcReveal: "laptop", _destinationWindow) - bleary and complaintive - has been your primary portal to the outside world.]
+
+|unlikely)[(set: _revealedUnlikely to true)(rerun: ?codeCheck)
+<br>
+Gone were the good days, and it is unlikely that things have changed since, that your correspondences and inquiries are answered, that your name is spoken of, that the door to some great gallery has opened, that rescue has arrived, that the lost has been found, that peace reigns, that the world is, finally, better. Hope is the ($funcReveal: "mad craving", _destinationUnlikely) for disappointment.
+]
+
+|withdrawal)[
+<br>
+But you, newly awakened, are in withdrawal. You want to ($funcReveal: "glimpse at the world and see what you have already known.", "mainDone")]
+
+}],
+
+[{<!--?mainDone-->
+
+($funcOutLink: "Approach your laptop.", "Maybe things will be different this time.", "story.laptop1", [{
+    <!--lock-->
+    ($funcLock: (passage:)'s name)
+}])
+
+}],
+
+false
+
+)
+
+
