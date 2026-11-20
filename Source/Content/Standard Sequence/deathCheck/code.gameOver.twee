@@ -1,0 +1,15 @@
+:: code.gameOver
+{=
+
+<!--Use: (display: "code.gameOver") in all death passages-->
+
+<!--If $testMode is on-->
+(if: $testMode is true)[{
+    <!--notify-->
+    (dialog: [''Game Over''<br>But `$testMode` is on.<br>$cssDesc[Time crawls forward, nonetheless.]])
+    <!--time passes normally-->
+    (display: "code.timePass")
+}]
+
+<!--default behavior-->
+(if: $testMode is false)[(restart:)]

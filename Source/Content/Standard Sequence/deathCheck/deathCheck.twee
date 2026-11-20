@@ -1,9 +1,30 @@
 :: deathCheck [unfinished]
 {=
 (metadata:
-"devNote", [No death check mechanics yet. The link to pass time must also run a sort of "setDay" code (maybe inside of "code.timePass") before landing on newDay.],
+"devNote", [Need to add more conditions/scenarios. Then, add setDay mechanics (countdown, for example)],
 )
 
-''deathCheck''
-<br>
-(link: "NEXT")[(display: "code.timePass")]
+<!--dead or not?-->
+(set: _isAlive to true)
+(if: $player's mind <= 0)[(set: _isAlive to false)]
+
+(set: _scenario to "default1")
+<!--If alive, go on living-->
+(if: _isAlive)[{  
+    (set: _scenario to (cond:
+        true, "default1",
+        false
+    ))
+}]
+<!--end of isAlive-->
+
+<!--else, dead-->
+(else:)[{
+    (set: _scenario to (cond:
+        true, "dead1",
+        false
+    ))
+}]
+
+<!--redirect-->
+(redirect: "deathCheck." + _scenario)

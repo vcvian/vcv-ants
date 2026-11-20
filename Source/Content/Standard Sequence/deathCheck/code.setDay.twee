@@ -1,0 +1,10 @@
+:: code.setDay
+{=
+
+<!--(display: "code.setDay") at the end of all deathCheck out links-->
+
+<!--count down events-->
+($funcEventCountdown: 1)
+
+<!--reroll $dice-->
+(set: $dice to (random: 1,100))

@@ -1,0 +1,36 @@
+:: deathCheck.dead1 [unfinished]
+{=
+
+(metadata:
+    "title", "Judgment",
+    "devNote", [Placeholder.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+While your body stirs awake to a lonely night, your mind is too weak to do likewise.
+<br>
+Your Sun - lovely and terrible - is dashed away, shattered, pieces falling into a black void.
+<br>
+You are now crawling about with the ants, letting them overtake you and lead your tired flesh. You follow them.
+<br>
+Wherever you'll go tonight, whatever you'll do, you will not see your Sun again tomorrow.
+<br>
+Count yourself lucky.
+
+}],
+[{<!--?mainDone-->
+
+<!--the destination parameter is empty since the addCode "code.timePass" will handle the goto behavior-->
+<h2>($funcOutLink: "A stillborn tale. A premature end.", "", "", [{
+    <!--run standard game over code-->
+    (display: "code.gameOver")
+}])</h2>
+
+}],
+
+true
+
+)
+

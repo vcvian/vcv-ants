@@ -1,0 +1,31 @@
+:: deathCheck.default1 [unfinished]
+{=
+
+(metadata:
+    "devNote", [Placeholder.],
+    "title", "Judgment",
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+Well done. You have made it through another night.
+<br>
+That means you will have to make it through another day.
+<br>
+The Sun beckons.
+
+}],
+[{<!--?mainDone-->
+
+<!--the destination parameter is empty since the addCode "code.timePass" will handle the goto behavior-->
+($funcOutLink: "Continue.", "Time crawls forward.", "", [{
+    <!--setDay-->
+    (display: "code.setDay")
+    <!--pass the time-->
+    (display: "code.timePass")
+}])
+
+}],
+true
+)

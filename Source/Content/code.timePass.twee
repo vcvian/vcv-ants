@@ -19,10 +19,9 @@
 }],
 
 "timeDayAdvance", [{
+    <!--this only affects time. Other mechanics like countdowns will be handled inside of "code.setDay"-->
     <!--reset-->
     (set: $time's timeOfDay to 1)
-    <!--advance events-->
-    ($funcEventCountdown: 1)
     <!--up the dayCount-->
     (set: $time's dayCount to it + 1)
 }],

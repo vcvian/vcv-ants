@@ -3,7 +3,7 @@
 
 (metadata:
     "title", "Attempting to Paint",
-    "devNote", [done choices are not finished (no destination). Consider making it chancy.],
+    "devNote", [Haven't figured out game economy yet, done choices are not finished (no destination). Consider making it chancy.],
 )
 
 ($funcMainContent:
