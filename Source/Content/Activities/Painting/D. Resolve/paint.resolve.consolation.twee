@@ -1,0 +1,19 @@
+:: paint.resolve.consolation [unfinished]
+{=
+
+(metadata:
+	"title","Resolution (Consolation)",
+	"devNote", [Placeholder. Need state-variable text.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+At least you feel satisfied.
+
+}],
+[{<!--?mainDone-->
+($funcGainLink: "Gain 1 Satisfaction, and rest.", "satisfaction", 1, [(display: "code.timePass")], "")
+}],
+
+true
+)

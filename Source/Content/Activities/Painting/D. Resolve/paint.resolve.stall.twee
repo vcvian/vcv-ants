@@ -1,0 +1,19 @@
+:: paint.resolve.stall [unfinished]
+{=
+
+(metadata:
+	"title","Resolution (Stall)",
+	"devNote", [Placeholder. Need state-variable text. Probably need to rethink the 2 restlessness payout also.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+Uh oh... your progress has stalled.
+}],
+[{<!--?mainDone-->
+($funcGainLink: "Gain 2 Restlessness", "restless", 2, [(display: "code.timePass")], "")
+
+}],
+
+true
+)

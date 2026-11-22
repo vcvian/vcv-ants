@@ -1,0 +1,12 @@
+:: flag.confidence [flag unfinished]
+
+(metadata:
+"devNote", [Entirely placeholder.],
+
+"id", [Confidence],
+"type", (a: "att"),
+"desc", [(confidence desc)],
+"tip", [(confidence tip)],
+"gainText", [(confidence gainText)],
+"lossText", [(confidence lossText)],
+)

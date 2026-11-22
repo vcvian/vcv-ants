@@ -1,8 +1,13 @@
 :: story.aManWasHere
+{=
+(storylet: when
+    $story's lock does not contain "story.aManWasHere"
+)
 
 (metadata:
 "title", "A Man Was Here"
 )
+
 
 ($funcMainContent: [{<!--_mainReading hook-->
 

@@ -10,7 +10,7 @@
     (if: _value < 0)[(set: _type to "loss")]
 
     <!--execute gainLoss, only if value is not 0-->
-    (if: _value is not 0)[
+    (if: _value is not 0)[{
         <!--Execute, already have?-->
         (if: $player's flags contains _flag)[(set: $player's flags's _flag to it + _value)]
         (else:)[(set: $player's flags to it + (dm: _flag, _value))]
@@ -21,7 +21,7 @@
 
         <!--notify & log-->
         ($funcNotifyLog: _flag, _value)
-    ]<!--end of execute gainLoss (if _value is not 0)-->
+    }]<!--end of execute gainLoss (if _value is not 0)-->
 
 
 }]]))
@@ -35,7 +35,7 @@
     (if: _value <= 0)[(set: _value to 0)]
 
     <!--create link-->
-    (link: _linkText)[{
+    (link-rerun: _linkText)[{
         <!--gain the flag-->
         ($funcGainLoss: _flag, _value)
         

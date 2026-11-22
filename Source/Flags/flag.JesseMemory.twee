@@ -1,0 +1,11 @@
+:: flag.JesseMemory [flag]
+{=
+
+(metadata:
+"id", [A Pleasant Memory of Jesse],
+"type", (a: "att"),
+"desc", [How old is she? Four? Five? Even if she is twelve or twenty, she is still a baby to you.],
+"tip", [Some comfort for your nightly travels.],
+"gainText", [You //should// feel happier, and yet, there is only emptiness. Nonetheless, you hold onto the memory.],
+"lossText", [The more you think about her, the more she fades away. She is bound for better places than your mind. But while she remains, other troubling thoughts are quieted.],
+)

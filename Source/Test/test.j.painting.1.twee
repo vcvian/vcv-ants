@@ -1,0 +1,223 @@
+:: test.j.painting.1
+{=
+
+:: test.j.painting.1.pickApproach
+{=
+
+(metadata:
+"title", "Pattern 1: Pick Approach",
+)
+
+($funcMainContent:
+[{This is simple picking, 100% success. Probably have to write a tip to clarify that it being a "sure" thing here does not guarantee later success.}],
+[{
+<ol>
+
+<li>($funcOutLink: "Brute-force approach.", "No check.", "test.j.painting.1.brute.step1", [])</li>
+<li>($funcCheckGate: "Methodical approach.", true, "confidence", 1, false, 100, [], "test.j.painting.1.methodical", "")</li>
+<li>($funcCheckGate: "Inspired approach.", true, "confidence", 1, false, 100, [], "test.j.painting.1.inspired", "")</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.1.brute.step1
+{=
+
+(metadata:
+"title", "Pattern 1: Brute-Force (Step 1)",
+)
+
+($funcMainContent:
+[{A repeating, chancy challenge. Chance should be modified by various flags.
+<br>
+Fixation increases chance.}],
+[{
+<ol>
+
+<li>($funcLuckGate: "Try.", 90, [], "test.j.painting.1.brute.step2", "test.j.painting.1.brute.retry")</li>
+<li>($funcDummyLink: "Quit.", "But you just started!")</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.1.brute.step2
+{=
+
+(metadata:
+"title", "Pattern 1: Brute-Force (Step 2)",
+)
+
+($funcMainContent:
+[{Succeeded once. Now do it again!
+<br>
+Fixation increases chance.
+<br>
+Quitting becomes available; it is the most attractive early on. Its chance should be reduced by having fixation. Reading content should signal the presence of fixation.}],
+[{
+<ol>
+
+<li>($funcLuckGate: "Try.", 80, [], "test.j.painting.1.brute.step3", "test.j.painting.1.brute.retry")</li>
+<li>($funcLuckGate: "Quit.", 100, [], "test.j.painting.1.resolve.quit", "test.j.painting.1.resolve.stall")</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.1.brute.step3
+{=
+
+(metadata:
+"title", "Pattern 1: Brute-Force (Step 3)",
+)
+
+($funcMainContent:
+[{Succeeded twice! Again!
+<br>
+Fixation increases chance.
+<br>
+Quitting should be somewhat less attractive.}],
+[{
+<ol>
+
+<li>($funcLuckGate: "Try.", 70, [], "test.j.painting.1.roadblock", "test.j.painting.1.brute.retry")</li>
+<li>($funcLuckGate: "Quit.", 70, [], "test.j.painting.1.resolve.quit", "test.j.painting.1.resolve.stall")</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.1.brute.retry
+{=
+
+(metadata:
+"title", "Pattern 1: Brute-Force (Retry?)",
+)
+
+($funcMainContent:
+[{Failed challenge.
+<br>
+Retry (boosted by fixation) or quit (reduced by fixation)?
+<br>
+Quitting is not very attractive at this point.}],
+[{
+<ol>
+
+<li>($funcCheckGate: "Spend a fixation to retry.", true, "fixation", 1, false, 100, [], "test.j.painting.1.brute.step1", "")</li>
+<li>($funcLuckGate: "Quit.", 50, [], "test.j.painting.1.resolve.quit", "test.j.painting.1.resolve.stall")</li>
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.1.roadblock
+{=
+
+(metadata:
+"title", "Pattern 1: Roadblock",
+)
+
+($funcMainContent:
+[{At a crossroad...}],
+[{
+<ol>
+
+<li>($funcLuckGate: "Challenge 1.", 50, [], "test.j.painting.1.roadblock.1.success", "test.j.painting.1.roadblock.1.fail")</li>
+
+Or...
+<li>($funcOutLink: "Worry about that later. Good place as any to stop...", "Know when to quit.", "test.j.painting.1.resolve.consolation", [])</li>
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.1.resolve.consolation
+{=
+
+(metadata:
+"title", "Pattern 1: Resolution (Consolation)",
+)
+
+($funcMainContent:
+[{At least you feel satisfied.
+<br>
+Gain 2, as opposed to 1 (quitting early).}],
+[{
+($funcGainLink: "Gain 2 Satisfaction", "satisfaction", 2, [], "test.j.painting")
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.1.resolve.quit
+{=
+
+(metadata:
+"title", "Pattern 1: Resolution (Quit)",
+)
+
+($funcMainContent:
+[{Quit while you're still ahead.
+<br>
+Gain 1, as opposed to 2 (full maturity).}],
+[{
+($funcGainLink: "Gain 1 Satisfaction", "satisfaction", 1, [], "test.j.painting")
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.1.resolve.stall
+{=
+
+(metadata:
+"title", "Pattern 1: Resolution (Stall)",
+)
+
+($funcMainContent:
+[{The worst has been confirmed: Your painting is going nowhere.
+}],
+[{
+($funcGainLink: "Gain 1 Restlessness", "restless", 1, [], "test.j.painting")
+
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)

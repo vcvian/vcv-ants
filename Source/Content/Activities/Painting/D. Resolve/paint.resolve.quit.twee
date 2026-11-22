@@ -1,0 +1,18 @@
+:: paint.resolve.quit [unfinished]
+{=
+
+(metadata:
+	"title","Resolution (Quit)",
+	"devNote", [Placeholder. Need state-variable text.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+Quit while you're ahead.
+}],
+[{<!--?mainDone-->
+($funcGainLink: "Gain 1 Restlessness, and move on.", "restless", 1, [(display: "code.timePass")], "")
+}],
+
+true
+)

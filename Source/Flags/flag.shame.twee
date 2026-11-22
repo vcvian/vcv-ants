@@ -1,0 +1,12 @@
+:: flag.shame [flag unfinished]
+
+(metadata:
+"devNote", [Entirely placeholder.],
+
+"id", [Shame],
+"type", (a: "att"),
+"desc", [(shame desc)],
+"tip", [(shame tip)],
+"gainText", [(shame gainText)],
+"lossText", [(shame lossText)],
+)

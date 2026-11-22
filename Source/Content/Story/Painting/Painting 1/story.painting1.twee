@@ -1,6 +1,10 @@
 :: story.painting1
 {=
 
+(storylet: when
+    $world's state is 1
+)
+
 (metadata:
     "title", "Your Unfinished Painting",
 )

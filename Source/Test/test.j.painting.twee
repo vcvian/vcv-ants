@@ -1,0 +1,42 @@
+:: test.j.painting
+{=
+
+(metadata:
+"title", "Test J: Painting Sequence",
+)
+
+(display: "block.testNavigation")
+
+<br>
+---
+<br>
+
+(display: "test.cheatConsole")
+
+<br>
+---
+<br>
+
+''Pattern 1''
+<br>
+$cssDesc[Pattern 1 begins the painting activity by first picking an approach - easier to harder. The harder approaches are more chancy but does not requiring anything for entry.
+<br>
+The player can quit at any point, but it is not always so easy to do so.
+<br>
+Succeeding in successive rolls will take the player to a "boss fight" - a creative roadblock - overcoming which will create an opportunity to progress the story/painting.
+<br>
+Only the hard approach is implemented in this test, as the other approaches are not qualitatively different.]
+<br>
+($funcOutLink: "Begin pattern 1", "Begin painting.", "test.j.painting.1.pickApproach", [])
+
+<br>
+---
+<br>
+
+''Pattern 2''
+<br>
+$cssDesc[Pattern 2 is a vertical test of the most basic economic loop: painting -> restlessness -> fixation.
+<br>
+The purpose is to test variable chance.]
+<br>
+($funcOutLink: "Begin pattern 2", "Begin painting.", "test.j.painting.2.pickApproach", [])

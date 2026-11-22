@@ -1,0 +1,12 @@
+:: flag.inspiration [flag unfinished]
+
+(metadata:
+"devNote", [Entirely placeholder.],
+
+"id", [Inspiration],
+"type", (a: "att"),
+"desc", [(inspiration desc)],
+"tip", [(inspiration tip)],
+"gainText", [(inspiration gainText)],
+"lossText", [(inspiration lossText)],
+)

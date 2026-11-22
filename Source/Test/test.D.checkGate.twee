@@ -72,6 +72,46 @@ $cssDesc[With the following parameters:
 
 </ol>
 
+<br>
+---
+<br>
+
+''Testing `$funcChance` and other macros related to chance-modifying''
+<br>
+$cssDesc[Let's say that the base chance is 50; each restlessness will -5, and each fixation will +10.]
+<br>
+(display: "test.cheatConsole")
+<br>
+
+<!--set values-->
+(set: _chanceBaseSample to 80)
+(set: _factorListSample to (dm:
+    "restless", -5,
+    "fixation", 10,
+))
+(set: _chanceBaseSample2 to 50)
+(set: _factorListSample2 to (dm:
+    "satisfaction", 5,
+    "fixation", -10,
+))
+
+<!--it is best practice to divide them into columns-->
+<ol>
+<li>[
+|=
+|mainDone>[($funcLuckGate: "A Challenge", ($funcChance: _chanceBaseSample, _factorListSample), [], "test.D.success", "test.D.fail")]
+=|
+|mainDone>[($funcChanceReadout: _chanceBaseSample, _factorListSample)]
+]</li>
+
+<li>[
+||=
+|mainDone>[($funcLuckGate: "Another Challenge with like really, really long text, just to see how it will appear on screen, ya dig?", ($funcChance: _chanceBaseSample2, _factorListSample2), [], "test.D.success", "test.D.fail")]
+=|
+|mainDone>[($funcChanceReadout: _chanceBaseSample2, _factorListSample2)]
+]</li>
+
+</ol>
 :: test.D.success
 {=
 

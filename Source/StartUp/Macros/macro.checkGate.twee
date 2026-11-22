@@ -87,7 +87,7 @@ b. check mode (positive or negative)
 
         <!--spacing-->
 <br>
-    }]<!--end of -->
+    }]<!--end of tip text-->
 
 }]]))
 
@@ -100,7 +100,7 @@ b. check mode (positive or negative)
     (if: _chance > 100)[(set: _chance to 100)]
     
     <!--create link-->
-    (link: _linkText)[{
+    (link-rerun: _linkText)[{
         <!--roll dice-->
         (set: _success to false)
         ($funcDiceRoll: _chance)

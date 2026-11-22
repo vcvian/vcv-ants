@@ -1,6 +1,8 @@
-:: flag.restless [flag]
+:: flag.restless [flag unfinished]
 
 (metadata:
+"devNote", [Get rid of numeric mind readouts and tip. It's not very immersive.],
+
 "id", [Restlessness],
 "type", (a: "att"),
 "desc", [Frustrated energy. Hurts to have, hurts to let go. May motivate you to push through with certain tasks, but it will hurt.],

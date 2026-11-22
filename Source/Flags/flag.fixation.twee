@@ -1,0 +1,12 @@
+:: flag.fixation [flag unfinished]
+
+(metadata:
+"devNote", [Entirely placeholder.],
+
+"id", [Fixation],
+"type", (a: "att"),
+"desc", [(fixate desc)],
+"tip", [(fixate tip)],
+"gainText", [(fixate gainText)],
+"lossText", [(fixate lossText)],
+)

@@ -1,0 +1,31 @@
+:: paint.brute.step3 [unfinished]
+{=
+
+(metadata:
+	"title","Brute-Force (Step 3)",
+	"devNote", [Placeholder. Need state-variable text.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+Almost there...
+
+}],
+[{<!--?mainDone-->
+<ol>
+
+<li>
+<!--setup-->
+(set: _baseChance to 40)
+(set: _factorList to (passage: "table.chanceMod")'s paintBrute)
+|=
+($funcLuckGate: "Try.", ($funcChance: _baseChance, _factorList), [], "paint.roadblock", "paint.brute.retry")
+=|
+($funcChanceReadout: _baseChance, _factorList)
+</li>
+
+</ol>
+}],
+
+true
+)

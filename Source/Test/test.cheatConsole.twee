@@ -1,0 +1,35 @@
+:: test.cheatConsole
+{=
+
+$cssDesc[gainLoss for all flags in game.]
+<br>
+
+(box: "X", 10)+(bg: gray+black)[{
+    <ol>
+    (for: each _flagDM, ...(passages: where its name contains "flag."))[{
+        <!--flag name-->
+        (set: _flag to (trimmed: "flag.", _flagDM's name))
+        
+        <li>''(print: _flagDM's id)''` `
+        (link-rerun: "gain")[{
+            ($funcGainLoss: _flag, 1)
+            (t8n: "dissolve")(rerun: (hooks-named: _flag + "displayHook"))
+            (t8n: "dissolve")(rerun:?mainReading)
+            (t8n: "dissolve")(rerun:?mainDone)
+        }]` `
+        (link-rerun: "lose")[{
+            ($funcGainLoss: _flag, -1)
+            (t8n: "dissolve")(rerun: (hooks-named: _flag + "displayHook"))
+            (t8n: "dissolve")(rerun:?mainReading)
+            (t8n: "dissolve")(rerun:?mainDone)
+        }]` `
+        (link-rerun: "reset")[{
+            (if: $player's flags contains _flag)[(move: $player's flags's _flag into _trash)]
+            (t8n: "dissolve")(rerun: (hooks-named: _flag + "displayHook"))
+            (t8n: "dissolve")(rerun:?mainReading)
+            (t8n: "dissolve")(rerun:?mainDone)
+        }]` `
+        (hook: _flag + "displayHook")[($funcOutputFlag: _flag)]
+    }]
+    </ol>
+}]

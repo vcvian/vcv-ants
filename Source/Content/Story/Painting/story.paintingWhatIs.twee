@@ -1,6 +1,10 @@
 :: story.paintingWhatIs
 {=
 
+(storylet: when
+    $story's lock does not contain "story.paintingWhatIs"
+)
+
 (metadata:
 "title", "That Thing in the Corner",
 )

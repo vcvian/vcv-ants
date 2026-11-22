@@ -1,4 +1,10 @@
 :: story.apartmentStudioDirty [unfinished]
+{=
+
+(storylet: when
+    $world's state is 1
+)
+
 
 (metadata:
 "title", "Your Place of Living...",

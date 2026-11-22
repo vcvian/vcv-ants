@@ -5,8 +5,8 @@
 (if: $testMode is true)[(debug:)]
 (else:)[(redirect: "newDay")]
 
-''Test Mode''
-<ol>
+''Test Rooms''
+<ol style="column-count: 2;">
 <li>(link: "Test A")[(goto: "test.A.navigation")] $cssDesc[(Text navigation)]</li>
 <li>(link: "Test B")[(goto: "test.B.gainLoss")] $cssDesc[(Gain & loss)]</li>
 <li>(link: "Test C")[(goto: "test.C.convo")] $cssDesc[(Conversations)]</li>
@@ -16,5 +16,9 @@
 <li>(link: "Test G")[(goto: "test.G.event")] $cssDesc[(Events)]</li>
 <li>(link: "Test H")[(goto: "test.H.roll")] $cssDesc[(Dice and table rolls)]</li>
 <li>(link: "Test I")[(goto: "test.I.mind")] $cssDesc[(Mind)]</li>
+<li>(link: "Test J")[(goto: "test.j.painting")] $cssDesc[(Paint)]</li>
 
 </ol>
+
+
+

@@ -1,0 +1,16 @@
+:: table.chanceMod [unfinished]
+{=
+
+(metadata:
+    "devNote", [Keep adding in more standard chance mod tables here],
+    "paintBrute", (dm:
+        "restless", -5,
+        "fixation", 20,
+        "inspiration", -10,
+    ),
+    "paintQuit", (dm:
+        "restless", 5,
+        "satisfaction", 10,
+        "fixation", -20,
+    )
+)

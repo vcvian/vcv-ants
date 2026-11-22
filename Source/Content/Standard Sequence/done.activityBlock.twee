@@ -2,7 +2,9 @@
 {=
 
 (metadata:
-"devNote", [Eventually, need to add a "socialize" option.],
+"devNote", [Eventually, need to add a "socialize" option.
+<br>
+VERY IMPORTANT: Use `storylet:` to globally determine a story's availability. Right now, I'm re-writing conditions too much inside relays. Relays should ideally only check for `open-storylets:`.],
 )
 
 <ol>

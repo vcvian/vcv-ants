@@ -1,0 +1,28 @@
+:: paint.roadblock [unfinished]
+{=
+
+(metadata:
+	"title","Hitting a Roadblock",
+	"devNote", [Placeholder. Need state-variable text.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+At a crossroad... there is a blockage...
+
+}],
+[{<!--?mainDone-->
+
+<ol>
+
+<li>($funcDummyLink: "This is a dummy link.", "It will be replaced with a proper challenge later. Reaching this point is sufficient in this test.")</li>
+
+Or...
+<li>($funcOutLink: "Worry about that later. Good place as any to stop...", "Know when to quit.", "paint.resolve.consolation", [])</li>
+
+</ol>
+
+}],
+
+true
+)

@@ -6,20 +6,20 @@
 "relayCode", [{
         <!--must always name them _relayLink and _relayDestination and _relayTip.-->
         (set: _relayLink to (cond:
-            $story's lock does not contain "story.aManWasHere", "A man was here...",
-            true, "Observe your place of living.",
+            ($funcOpenStorylets:) contains "story.aManWasHere", "A man was here...",
+            ($funcOpenStorylets:) contains "story.apartmentStudioDirty", "Observe your place of living.",
             "Look at your apartment"
         ))
 
         (set: _relayDestination to (cond:
-            $story's lock does not contain "story.aManWasHere", "story.aManWasHere",
-            true, "story.apartmentStudioDirty",
+            ($funcOpenStorylets:) contains "story.aManWasHere", "story.aManWasHere",
+            ($funcOpenStorylets:) contains "story.apartmentStudioDirty", "story.apartmentStudioDirty",
             false
         ))
 
         (set: _relayTip to (cond:
-            $story's lock does not contain "story.aManWasHere", "You can sense him.",
-            true, "Look around.",
+            ($funcOpenStorylets:) contains "story.aManWasHere", "You can sense him.",
+            ($funcOpenStorylets:) contains "story.apartmentStudioDirty", "Look around.",
             false
         ))
 }],

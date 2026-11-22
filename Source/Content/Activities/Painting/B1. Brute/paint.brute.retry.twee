@@ -1,0 +1,34 @@
+:: paint.brute.retry [unfinished]
+{=
+
+(metadata:
+	"title","Brute-Force (Retry?)",
+	"devNote", [Placeholder. Need state-variable text.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+(Retry?)
+
+}],
+[{<!--?mainDone-->
+<ol>
+
+<li>($funcCheckGate: "Spend a fixation to retry.", true, "fixation", 1, true, 100, [], "paint.brute.step1", "")</li>
+
+<li>
+<!--setup-->
+(set: _baseChance to 80)
+(set: _factorList to (passage: "table.chanceMod")'s paintQuit)
+|=
+($funcLuckGate: "Nah, make peace with this...", ($funcChance: _baseChance, _factorList), [], "paint.resolve.quit", "paint.resolve.stall")
+=|
+($funcChanceReadout: _baseChance, _factorList)
+</li>
+
+</ol>
+}],
+
+true
+)

@@ -1,6 +1,10 @@
 :: story.newsOfWorld
 {=
 
+(storylet: when
+    $story's lock does not contain "story.newsOfWorld"
+)
+
 (metadata:
     "title", "What News of the World?",
 )

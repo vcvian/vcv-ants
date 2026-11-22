@@ -1,0 +1,58 @@
+:: macro.chance [startup]
+{=
+
+<!--calculate a _chance number; output raw number-->
+(set: $funcChance to (macro: num-type _chanceBase, dm-type _factorList, [{
+    <!--initialize result-->
+    (set: _out to _chanceBase)
+    
+    <!--loop through list and add-->
+    (for: each _factor, ...(datanames: _factorList))[{
+        <!--does the player have the flag?-->
+        (set: _flagHas to false)
+        (if: ($funcOutputFlag: _factor) > 0)[(set: _flagHas to true)]
+
+        <!--if has flag, then add its quantity * its factor-->
+        (if: _flagHas is true)[{
+            (set: _out to it + (($funcOutputFlag: _factor) * _factorList's _factor))
+        }]
+    }]<!--end loop-->
+
+    <!--output number-->
+    (out-data: _out)
+}]))
+
+
+<!--Prosaic readout of the same info used in a $funcChance-->
+(set: $funcChanceReadout to (macro: num-type _chanceBase, dm-type _factorList, [(out:)[{
+    <!--initial text-->
+    $cssDesc[Base: ($cssChanceColor: (str:_chanceBase)+"%", _chanceBase, 100)]
+<ol>
+    (for: each _factor, ...(datanames: _factorList))[{
+        <!--load flag DM-->
+        (set: _factorDM to (passage: "flag." + _factor))
+
+        <!--print factor's readout-->
+        $cssDesc[<li>
+        <!--name-->
+        ''(print: _factorDM's id):''
+        <!--quantity-->
+        (if: ($funcOutputFlag: _factor) > 0)+(color:white)[($funcOutputFlag: _factor)]
+        (else:)[($funcOutputFlag: _factor)]
+        <!--times-->
+        ` `×` `
+        <!--weight-->
+        (set: _weight to _factorList's _factor)
+        (if: _weight > 0)+(color:green+yellow)[_weight]
+        (else:)+(color:red+orange)[_weight]
+        <!--equals-->
+        ` `=` `
+        (set: _sum to _weight * ($funcOutputFlag: _factor))
+        (if: _weight > 0)+(color:green+yellow)[(if: _sum>0)[+]_sum]
+        (else:)+(color:red+orange)[_sum]
+        </li>]
+    }]<!--end looping-->
+</ol>
+    <!--final result-->
+    $cssDesc[Final: ($cssChanceColor: (str:($funcChance: _chanceBase, _factorList))+"%", ($funcChance: _chanceBase, _factorList), 100)]
+}]]))

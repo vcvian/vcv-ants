@@ -1,0 +1,18 @@
+:: macro.storylet [startup]
+{=
+
+<!--these macros perform various functions related to storylets. Might potentially be redundant with relays-->
+
+<!--this one gets only a list of open storylets' names as an array (in the same order), as the native (open-storylets:) macro gets an entire DM-->
+(set: $funcOpenStorylets to (macro: [{
+    <!--initialize list array-->
+    (set: _storyletList to (a:))
+
+    <!--loop through all open storylets-->
+    (for: each _storylet, ...(open-storylets:))[{
+        (set: _storyletList to it + (a: _storylet's name))
+    }]<!--end loop-->
+
+    <!--output-->
+    (out-data: _storyletList)
+}]))

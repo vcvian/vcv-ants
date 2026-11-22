@@ -5,20 +5,20 @@
 "relayCode", [{
         <!--must always name them _relayLink and _relayDestination and _relayTip.-->
         (set: _relayLink to (cond:
-            $story's lock does not contain "story.paintingWhatIs", "That //thing// in the corner...",
-            $world's state is 1, "Approach your painting.",
+            ($funcOpenStorylets:) contains "story.paintingWhatIs", "That //thing// in the corner...",
+            ($funcOpenStorylets:) contains "story.painting1", "Approach your painting.",
             false
         ))
 
         (set: _relayDestination to (cond:
-            $story's lock does not contain "story.paintingWhatIs", "story.paintingWhatIs",
-            $world's state is 1, "story.painting1",
+            ($funcOpenStorylets:) contains "story.paintingWhatIs", "story.paintingWhatIs",
+            ($funcOpenStorylets:) contains "story.painting1", "story.painting1",
             false
         ))
 
         (set: _relayTip to (cond:
-            $story's lock does not contain "story.paintingWhatIs", "Covered by only a thin skin, it beckons you.",
-            $world's state is 1, "Your Work is not yet done.",
+            ($funcOpenStorylets:) contains "story.paintingWhatIs", "Covered by only a thin skin, it beckons you.",
+            ($funcOpenStorylets:) contains "story.painting1", "Your Work is not yet done.",
             false
         ))
 }],

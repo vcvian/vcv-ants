@@ -26,7 +26,7 @@ But with open eyes, reality yet falls short. Here, the canvas depicts only your 
 <br>
 Your Work has always been performed when the world sleeps. No-one will see. No-one will know. No sneer nor praise.
 <br>
-$cssDesc[And no more excuses.]
+$cssDesc[No time like now.]
 
 (t8n: "dissolve")(show:?mainDone)
 ]
@@ -42,7 +42,7 @@ $cssDesc[And no more excuses.]
 <!--choices-->
 <ol>
 
-<li>($funcOutLink: "Paint.", "Commit. Time will crawl forward.", "story.painting1.commit", [{
+<li>($funcOutLink: "Paint.", "Commit to a painful experience. Time will crawl forward.", "paint.pickApproach", [{
     <!--lock-->
     ($funcLock: "reading.painting1.evening")
 }])</li>

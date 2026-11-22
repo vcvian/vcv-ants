@@ -15,8 +15,20 @@
         (if: _success)[(color: green+yellow)[Success!]<br>Fortune has decided to smile on you.]
         (else:)[(color: red+orange)[Failure...]<br>Fortune, ever the fickle mistress, turns her back on you.]
         <br>
-        $cssDesc[Threshold: (print: 100-_chance), rolled ''_dice''.]
+        $cssDesc[Threshold (print: 100-_chance), rolled ''_dice''.]
     }], "OK.")]
+
+    <!--log result-->
+    (set: $log to it + (a: (dm:
+        "logID", $log's length + 1,
+        "logType", "roll",
+        "logDayCount", $time's dayCount,
+        "logTimeOfDay", $time's timeOfDay,
+        "logPassage", (str: (passage:)'s name),
+        "logChance", _chance,
+        "logRoll", _dice,
+        "logSuccess", _success,
+    )))
 
 }]]))
 

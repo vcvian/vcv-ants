@@ -1,0 +1,12 @@
+:: flag.satisfaction [flag unfinished]
+
+(metadata:
+"devNote", [Entirely placeholder.],
+
+"id", [Satisfaction],
+"type", (a: "att"),
+"desc", [(satisfaction desc)],
+"tip", [(satisfaction tip)],
+"gainText", [(satisfaction gainText)],
+"lossText", [(satisfaction lossText)],
+)

@@ -1,0 +1,296 @@
+:: test.j.painting.2.pickApproach
+{=
+
+(metadata: "title", "Pattern 2: Pick Approach")
+
+($funcMainContent:
+[{
+For this test, only 1 approach is available.
+}],
+[{
+<ol>
+
+<li>($funcOutLink: "Brute-force approach.", "No check.", "test.j.painting.2.brute.step1", [])</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")}],
+true
+)
+
+
+:: test.j.painting.2.brute.step1
+{=
+
+(metadata: "title", "Pattern 2: Brute-Force (Step 1)")
+
+($funcMainContent:
+[{
+The player cannot back down until they fail.
+<br>
+Chance should be variable.
+}],
+[{
+<ol>
+
+<li>
+(set: _baseChance to 70)
+|=
+($funcLuckGate: "Try.", ($funcChance: _baseChance, (passage: "table.chanceMod")'s paintBrute), [], "test.j.painting.2.brute.step2", "test.j.painting.2.brute.retry")
+=|
+($funcChanceReadout: _baseChance, (passage: "table.chanceMod")'s paintBrute)
+</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")}],
+true
+)
+
+
+:: test.j.painting.2.brute.step2
+{=
+
+(metadata: "title", "Pattern 2: Brute-Force (Step 2)")
+
+($funcMainContent:
+[{
+Step 2... half-way there.
+<br>
+Chance should be variable.
+}],
+[{
+<ol>
+
+<li>
+(set: _baseChance to 60)
+|=
+($funcLuckGate: "Try.", ($funcChance: _baseChance, (passage: "table.chanceMod")'s paintBrute), [], "test.j.painting.2.brute.step3", "test.j.painting.2.brute.retry")
+=|
+($funcChanceReadout: _baseChance, (passage: "table.chanceMod")'s paintBrute)
+</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")}],
+true
+)
+
+
+:: test.j.painting.2.brute.step3
+{=
+
+(metadata: "title", "Pattern 2: Brute-Force (Step 3)")
+
+($funcMainContent:
+[{
+Step 3... almost there.
+<br>
+Chance should be variable.
+}],
+[{
+<ol>
+
+<li>
+(set: _baseChance to 40)
+|=
+($funcLuckGate: "Try.", ($funcChance: _baseChance, (passage: "table.chanceMod")'s paintBrute), [], "test.j.painting.2.roadblock", "test.j.painting.2.brute.retry")
+=|
+($funcChanceReadout: _baseChance, (passage: "table.chanceMod")'s paintBrute)
+</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")}],
+true
+)
+
+
+:: test.j.painting.2.brute.retry
+{=
+
+(metadata: "title", "Pattern 2: Brute-Force (Retry)")
+
+($funcMainContent:
+[{
+Dang it... Retry? (Spend fixation)
+<br>
+Having fixation should make it more difficult to quit.
+}],
+[{
+<ol>
+<li>($funcCheckGate: "Spend a fixation to retry.", true, "fixation", 1, true, 100, [], "test.j.painting.2.brute.step1", "")</li>
+<li>
+(set: _baseChance to 80)
+|=
+($funcLuckGate: "Nah, make peace with this...", ($funcChance: _baseChance, (passage: "table.chanceMod")'s paintQuit), [], "test.j.painting.2.resolve.quit", "test.j.painting.2.resolve.stall")
+=|
+($funcChanceReadout: _baseChance, (passage: "table.chanceMod")'s paintQuit)
+</li>
+</ol>
+
+<br>
+(display: "test.cheatConsole")}],
+true
+)
+
+
+:: test.j.painting.2.resolve.quit
+{=
+
+(metadata: "title", "Pattern 2: Resolution (Quit)")
+
+($funcMainContent:
+[{
+Quit while you're ahead.
+}],
+[{
+($funcGainLink: "Gain 1 Restlessness", "restless", 1, [], "test.j.painting.2.dream")
+
+
+<br>
+(display: "test.cheatConsole")}],
+true
+)
+
+
+:: test.j.painting.2.resolve.stall
+{=
+
+(metadata: "title", "Pattern 2: Resolution (Stall)")
+
+($funcMainContent:
+[{
+You are too fixated, so you waste some more time to no avail.
+}],
+[{
+($funcGainLink: "Gain 2 Restlessness", "restless", 2, [], "test.j.painting.2.dream")
+
+
+<br>
+(display: "test.cheatConsole")}],
+true
+)
+
+
+:: test.j.painting.2.roadblock
+{=
+
+(metadata:
+"title", "Pattern 2: Roadblock",
+)
+
+($funcMainContent:
+[{At a crossroad...}],
+[{
+<ol>
+
+<li>($funcDummyLink: "This is a dummy link.", "It will be replaced with a proper challenge later. Reaching this point is sufficient in this test.")</li>
+
+Or...
+<li>($funcOutLink: "Worry about that later. Good place as any to stop...", "Know when to quit.", "test.j.painting.2.resolve.consolation", [])</li>
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.2.resolve.consolation
+{=
+
+(metadata:
+"title", "Pattern 2: Resolution (Consolation)",
+)
+
+($funcMainContent:
+[{At least you feel satisfied.}],
+[{
+($funcGainLink: "Gain 1 Satisfaction", "satisfaction", 1, [], "test.j.painting.2.dream")
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.2.dream
+{=
+
+(metadata:
+"title", "Pattern 2: Dreaming",
+)
+
+($funcMainContent:
+[{You are dreaming...
+<br>
+Exchange rate is 1:1 for this test.
+}],
+[{
+<ol>
+
+<li>($funcCheckGate: "Fixate on what is stressing you out.", true, "restless", 1, true, 100, [], "test.j.painting.2.dream.fixate", "")</li>
+
+<li>($funcCheckGate: "Heal yourself.", true, "satisfaction", 1, true, 100, [], "test.j.painting.2.dream.heal", "")</li>
+
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.2.dream.fixate
+{=
+
+(metadata:
+"title", "Pattern 2: Dreaming (Fixation)",
+)
+
+($funcMainContent:
+[{Stress! Fixation!}],
+[{
+($funcGainLink: "Gain 1 Fixation and wake up.", "fixation", 1, [], "test.j.painting.2.pickApproach")
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
+
+
+:: test.j.painting.2.dream.heal
+{=
+
+(metadata:
+"title", "Pattern 2: Dreaming (Healing)",
+)
+
+($funcMainContent:
+[{You are healing...}],
+[{
+<ol>
+
+($funcOutLink: "Heal! And wake up.", "Gain 1 mind.", "test.j.painting.2.pickApproach", [{
+    ($funcHurtHeal: 1, "Spent satisfaction in a dream to heal.", true)
+}])
+
+
+</ol>
+
+<br>
+(display: "test.cheatConsole")
+
+}],
+true)
