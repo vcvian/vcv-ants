@@ -4,8 +4,9 @@
 (append: ?Sidebar)[
 [(print: $player's mind)]<sidebarMind|
 <br>
-(link-repeat: "🔙")[(print: (passage: "code.timePass")'s timeGoto)]
-(link-repeat: "➡️")[(display: "code.timePass")]
+(link-repeat: "↩️")[(print: (passage: "code.timePass")'s timeGoto)]
+($funcReveal: "▶️", "mainDone")
+(link-repeat: "⏭️")[(display: "code.timePass")]
 (link-repeat: "🧪")[(goto: "Test")]
 (link-repeat: "📜")[(goto: "TODO")]
 (link-repeat: "🧭")[{

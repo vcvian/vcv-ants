@@ -1,0 +1,63 @@
+:: reading.paint.start.evening
+{=
+
+The makeshift curtain has ($funcReveal: "gone cold.", "dark") It shudders at your touch.
+
+|dark)[
+<br>
+Though it is dark outside, your mind is alight. You close your eyes and ($funcReveal: "see...", "see")]
+
+|see)[(either:
+    [` `the Sun's ($funcReveal: "twin sister", "there") - red, rippling, and roiling beneath the surface of an obsidian lake.],
+    [` `a red ($funcReveal: "slit", "there") in space, where the air peels to reveal what lies dreaming behind all things.],
+    [` `violet ($funcReveal: "rays", "there") pulsating across the blackness of your lids, tracing the path with which the stars hurl through the void.],
+)]
+
+|there)[
+<br>
+There it is. All the hidden creatures have ($funcReveal: "come out to play.", "nurse")
+]
+
+|nurse)[
+<br>
+Absent the true Sun, it will have to latch onto your mind and nurse from that far light, that dwindling warmth.
+(t8n: "dissolve")(show:?work)
+]
+
+|work)[
+<br>
+Your Work has always been performed when the world sleeps. No-one will see. No-one will know.
+<br>
+$cssDesc[No time like now.]
+
+(t8n: "dissolve")(show:?mainDone)
+]
+
+
+:: done.paint.start.evening
+{=
+
+<!--reveal an extra paragraph if you've already read everything-->
+(if: $story's lock contains "reading.painting1.evening")[(show: ?work)]
+
+<!--choices-->
+<ol>
+
+<li>
+<!--setup-->
+(set: _baseChance to 50)
+(set: _factorList to (passage: "table.chanceMod")'s paintStart)
+|=
+($funcLuckGate: "Lift up the veil.", ($funcChance: _baseChance, _factorList), [{
+    <!--lock-->
+    ($funcLock: "reading.painting1.evening")
+}], "paint.pickApproach", "paint.failToStart")
+=|
+($funcChanceReadout: _baseChance, _factorList)
+</li>
+
+<li>($funcBackLink: "Actually... it can wait another night.", "Consider other activities... if you truly think they are more worthwhile.", [{
+    <!--lock-->
+    ($funcLock: "reading.painting1.evening")
+}])</li>
+</ol>

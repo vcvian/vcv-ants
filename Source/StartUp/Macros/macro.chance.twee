@@ -43,16 +43,20 @@
         ` `×` `
         <!--weight-->
         (set: _weight to _factorList's _factor)
-        (if: _weight > 0)+(color:green+yellow)[_weight]
-        (else:)+(color:red+orange)[_weight]
+        (if: _weight > 0)+(color:green+yellow)[_weight%]
+        (else:)+(color:red+orange)[_weight%]
         <!--equals-->
         ` `=` `
+        <!--sum-->
         (set: _sum to _weight * ($funcOutputFlag: _factor))
-        (if: _weight > 0)+(color:green+yellow)[(if: _sum>0)[+]_sum]
-        (else:)+(color:red+orange)[_sum]
+        (if: _sum > 0)+(color:green+yellow)[_sum]
+        (elseif: _sum is 0)[_sum]
+        (else:)+(color:red+orange)[_sum]        
         </li>]
     }]<!--end looping-->
 </ol>
     <!--final result-->
     $cssDesc[Final: ($cssChanceColor: (str:($funcChance: _chanceBase, _factorList))+"%", ($funcChance: _chanceBase, _factorList), 100)]
+<!--space-->
+<br>
 }]]))

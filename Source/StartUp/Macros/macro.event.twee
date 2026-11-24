@@ -1,9 +1,7 @@
-:: macro.event [startup unfinished]
+:: macro.event [startup]
 {=
 
-(metadata:
-"devNote", [Design and test (G) event system.],
-)
+<!--events (those with autoClear) can be used as a temporary lock/condition.-->
 
 <!--add an event into the $world's events queue-->
 (set: $funcEventStart to (macro: str-type _eventName, [(out:)[{
@@ -32,3 +30,17 @@
         }]<!--end loop-->
     }]<!--end if has events-->
 }]]))
+
+<!--output raw data about a queried event (stored in $world's events DM). It gives a false by default (no such event exists) or a number (timer, if event exists)-->
+(set: $funcEventOutput to (macro: str-type _eventName, [{
+    <!--initialize-->
+    (set: _out to false)
+
+    <!--If event exists, then change output to the current timer-->
+    (if: $world's events contains _eventName)[{
+        (set: _out to $world's events's _eventName)
+    }]
+
+    <!--output-->
+    (out-data: _out)
+}]))

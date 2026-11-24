@@ -1,0 +1,46 @@
+:: reading.paint.start.morning
+{=
+
+Sun-light warms ($funcReveal: "the makeshift curtain,", "veil") (either:
+    [sparkling diamond-sands on a supple beach,],
+    [gold and amber and red and red and red,],
+    [gentle echoes of that which roars in the heavens,],
+)
+` `which you find yourself hesitant to touch, let alone disturb.
+
+|veil)[
+<br>
+Behind this illuminated veil is the unfinished painting - a pale imitation of the splendor that is presently plain to your eyes. If only you could ($funcReveal: "steal this light,", "stolen") then you would accept any Promethean punishment.]
+
+|stolen)[
+<br>
+Alas, stolen, you have not. Your own ability has thus far fallen short. ($funcReveal: "How cruel", "mockery") it would be to expose the malformed fetus to its superior.]
+
+|mockery)[
+<br>
+It would be a mockery for both you and your subject.
+(t8n: "dissolve")(show: ?notRightNow)
+]
+
+|notRightNow)[
+<br>
+No, not right now. Your muse, ever Sun-shy, is in hiding, so you tell yourself.
+(t8n: "dissolve")(show: ?mainDone)
+]
+
+:: done.paint.start.morning
+{=
+
+<!--reveal an extra paragraph if you've already read everything-->
+(if: $story's lock contains "reading.painting1.morning")[(t8n: "dissolve")(show: ?notRightNow)]
+
+<!--choices-->
+<ol>
+
+<li>($funcDummyLink: "Lift up the veil.", "Perhaps later in the day, when your excuse has disappeared below the horizon.")</li>
+
+<li>($funcBackLink: "Leave it be for now.", "", [{
+    ($funcLock: "reading.painting1.morning")
+}])</li>
+
+</ol>

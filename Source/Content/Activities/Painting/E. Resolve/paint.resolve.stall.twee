@@ -11,7 +11,7 @@
 Uh oh... your progress has stalled.
 }],
 [{<!--?mainDone-->
-($funcGainLink: "Gain 2 Restlessness", "restless", 2, [(display: "code.timePass")], "")
+($funcGainLink: "Gain 1 shame", "shame", 1, [(display: "code.timePass")], "")
 
 }],
 

@@ -34,7 +34,7 @@ $cssDesc[No time like now.]
 :: done.painting1.evening [unfinished]
 {=
 
-(metadata: "devNote", ["Paint." link should vary up depending on current flags (especially if inspired). Might use a ''relay''.],)
+(metadata: "devNote", ["Paint." link should vary up depending on current flags (especially if inspired). Also, starting to paint might be a challenge also: (1) Rewrite both morning and evening passages so that we're only about to lift the curtain and (2) Design a "failed to get started" passage.],)
 
 <!--reveal an extra paragraph if you've already read everything-->
 (if: $story's lock contains "reading.painting1.evening")[(show: ?openedEyes)]
@@ -42,10 +42,20 @@ $cssDesc[No time like now.]
 <!--choices-->
 <ol>
 
-<li>($funcOutLink: "Paint.", "Commit to a painful experience. Time will crawl forward.", "paint.pickApproach", [{
+<li>
+<!--setup-->
+(set: _baseChance to 50)
+(set: _factorList to (passage: "table.chanceMod")'s paintStart)
+|=
+($funcLuckGate: "Lift up the veil.", ($funcChance: _baseChance, _factorList), [], "paint.pickApproach", "paint.failToStart")
+=|
+($funcChanceReadout: _baseChance, _factorList)
+</li>
+
+[<li>($funcOutLink: "Paint.", "Commit to a painful experience. Time will crawl forward.", "paint.pickApproach", [{
     <!--lock-->
     ($funcLock: "reading.painting1.evening")
-}])</li>
+}])</li>](old|
 
 <li>($funcBackLink: "Actually... it can wait another night.", "Consider other activities... if you truly think they are more worthwhile.", [{
     <!--lock-->

@@ -1,0 +1,20 @@
+:: dream.default.gainFixation [unfinished]
+{=
+
+(metadata:
+	"title","Dream: Gain Fixation",
+	"devNote", [Placeholder.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+(I be fixatiiiiingg.....)
+
+}],
+[{<!--?mainDone-->
+($funcGainLink: "Gain 1 Fixation", "fixation", 1, [(display: "code.timePass")], "")
+}],
+
+true
+)

@@ -3,6 +3,9 @@
 (metadata:
 "devNote", [Figure out full structure of an event's DM. Right now, there is only a duration entry.],
 
+"title", "A Party",
+"desc", "There will be a party down the hall.",
+"key", (a: "worldEvent"),
 "duration", 7,
 "autoClear", false,
 )

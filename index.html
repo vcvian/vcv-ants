@@ -9,7 +9,7 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play Ants.</tw-noscript></noscript></tw-story>
-<!-- UUID://E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A// --><tw-storydata name="Ants" startnode="79" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A" zoom="0.6" format="Harlowe" format-version="3.3.9" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">// ~ tilde key (`) shortcut to show/hide debugger
+<!-- UUID://E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A// --><tw-storydata name="Ants" startnode="82" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="E891C582-97F7-4BF6-B1E0-02EAE2AD1C1A" zoom="0.6" format="Harlowe" format-version="3.3.9" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript">// ~ tilde key (`) shortcut to show/hide debugger
 $(document).on('keydown', function (ev) {
     if (ev.key === '`') {
         if (window.Engine && window.Engine.options) {
@@ -148,11 +148,216 @@ Laptop</tw-passagedata><tw-passagedata pid="4" name="activity.napping" tags="unf
         (display: &quot;code.timePass&quot;) 
     }],
     [&lt;!--else, time passes without consequence--&gt;(display: &quot;code.timePass&quot;)]
-)</tw-passagedata><tw-passagedata pid="5" name="paint.pickApproach" tags="unfinished" position="600,100" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="5" name="paint.failToStart" tags="unfinished" position="600,100" size="100,100">{=
+
+(storylet: when
+    ($funcEventOutput: &quot;paintFail&quot;) is not false
+)
+
+(metadata:
+    &quot;title&quot;, &quot;Hesitation...&quot;,
+    &quot;devNote&quot;, [Write.],
+)
+
+
+&lt;!--the mainDone choices will be available after the first visit, whereupon this passage&#39;s name is added to $story&#39;s lock--&gt;
+(set: _showDoneChoicesAtBeginning to false)
+(if: $story&#39;s lock contains &quot;paint.failToStart&quot;)[(set: _showDoneChoicesAtBeginning to true)]
+
+
+($funcMainContent:
+[{&lt;!--?mainReading--&gt;
+
+The veil - so ethereal as to not exist - is leaden to your hands. ($funcReveal: &quot;Thoughts of failure&quot;, &quot;thoughts1&quot;) weight heavy in the pit of your stomach.
+
+|thoughts1)[
+&lt;br&gt;
+With fingers so frail and heart so weak, ($funcReveal: &quot;how could you ever hope&quot;, &quot;thoughts2&quot;) to pick up a brush?]
+|thoughts2)[` `What is an artist ($funcReveal: &quot;who does not make art?&quot;, &quot;thoughts3&quot;)]
+|thoughts3)[` `($funcReveal: &quot;What are you&quot;, &quot;thoughts4&quot;) if not an artist?]
+|thoughts4)[` `Perhaps you are ($funcReveal: &quot;//nothing//.&quot;, &quot;thoughts5&quot;)]
+|thoughts5)[` `If so, then what good is this body, this flesh?
+(t8n: &quot;dissolve&quot;)(show:?tomorrow)
+(t8n: &quot;dissolve&quot;)(show:?mainDone)
+]
+
+|tomorrow)[
+&lt;br&gt;
+No, you yet live. Tomorrow, you will be readier.
+&lt;br&gt;
+$cssDesc[There is always a &quot;later&quot; with you, isn&#39;t there?]]
+
+}],
+[{&lt;!--?mainDone--&gt;
+
+&lt;!--reveal an extra paragraph if you&#39;ve already read everything--&gt;
+(if: $story&#39;s lock contains &quot;paint.failToStart&quot;)[(show: ?tomorrow)]
+
+&lt;!--choices--&gt;
+&lt;ol&gt;
+
+&lt;li&gt;($funcDummyLink: &quot;Lift up the veil.&quot;, &quot;Another day. Always another.&quot;)&lt;/li&gt;
+
+&lt;li&gt;($funcBackLink: &quot;Leave it be for now.&quot;, &quot;At least you still have the rest of your &quot; + (str: (passage: &quot;code.timePass&quot;)&#39;s timeFullNames&#39;s ($time&#39;s timeOfDay)) + &quot;.&quot;, [{
+    &lt;!--temporary lock; start the &quot;paintFail&quot; event--&gt;
+    ($funcEventStart: &quot;paintFail&quot;)
+    &lt;!--lock this passage (read)--&gt;
+    ($funcLock: &quot;paint.failToStart&quot;)
+}])&lt;/li&gt;
+
+&lt;/ol&gt;
+
+}],
+
+_showDoneChoicesAtBeginning
+)</tw-passagedata><tw-passagedata pid="6" name="paint.start" tags="" position="725,100" size="100,100">{=
+
+(storylet: when
+    ($funcEventOutput: &quot;paintFail&quot;) is false
+)
+
+(metadata:
+    &quot;title&quot;, &quot;Your Unfinished Painting&quot;,
+)
+
+&lt;!--_timeOfDay shorthand--&gt;
+(set: _timeOfDay to (passage: &quot;code.timePass&quot;)&#39;s timeFullNames&#39;s ($time&#39;s timeOfDay))
+
+&lt;!--the mainDone choices will be available after the first visit, whereupon this passage&#39;s name is added to $story&#39;s lock--&gt;
+(set: _showDoneChoicesAtBeginning to false)
+(if: _timeOfDay is &quot;morning&quot; and $story&#39;s lock contains &quot;reading.painting1.morning&quot;)[(set: _showDoneChoicesAtBeginning to true)]
+(if: _timeOfDay is &quot;evening&quot; and $story&#39;s lock contains &quot;reading.painting1.evening&quot;)[(set: _showDoneChoicesAtBeginning to true)]
+
+
+($funcMainContent:[{&lt;!--?mainReading--&gt;
+
+(if: _timeOfDay is &quot;morning&quot;)[{
+    (display: &quot;reading.paint.start.morning&quot;)
+}]&lt;!--end of morning--&gt;
+
+(elseif: _timeOfDay is &quot;evening&quot;)[{
+    (display: &quot;reading.paint.start.evening&quot;)
+}]&lt;!--end of evening--&gt;
+
+}],
+
+[{&lt;!--?mainDone--&gt;
+
+(if: _timeOfDay is &quot;morning&quot;)[{
+    (display: &quot;done.paint.start.morning&quot;)
+}]&lt;!--end of morning--&gt;
+
+(elseif: _timeOfDay is &quot;evening&quot;)[{
+    (display: &quot;done.paint.start.evening&quot;)
+}]&lt;!--end of evening--&gt;
+
+}],
+
+_showDoneChoicesAtBeginning
+
+)</tw-passagedata><tw-passagedata pid="7" name="reading.paint.start.evening" tags="" position="850,100" size="100,100">{=
+
+The makeshift curtain has ($funcReveal: &quot;gone cold.&quot;, &quot;dark&quot;) It shudders at your touch.
+
+|dark)[
+&lt;br&gt;
+Though it is dark outside, your mind is alight. You close your eyes and ($funcReveal: &quot;see...&quot;, &quot;see&quot;)]
+
+|see)[(either:
+    [` `the Sun&#39;s ($funcReveal: &quot;twin sister&quot;, &quot;there&quot;) - red, rippling, and roiling beneath the surface of an obsidian lake.],
+    [` `a red ($funcReveal: &quot;slit&quot;, &quot;there&quot;) in space, where the air peels to reveal what lies dreaming behind all things.],
+    [` `violet ($funcReveal: &quot;rays&quot;, &quot;there&quot;) pulsating across the blackness of your lids, tracing the path with which the stars hurl through the void.],
+)]
+
+|there)[
+&lt;br&gt;
+There it is. All the hidden creatures have ($funcReveal: &quot;come out to play.&quot;, &quot;nurse&quot;)
+]
+
+|nurse)[
+&lt;br&gt;
+Absent the true Sun, it will have to latch onto your mind and nurse from that far light, that dwindling warmth.
+(t8n: &quot;dissolve&quot;)(show:?work)
+]
+
+|work)[
+&lt;br&gt;
+Your Work has always been performed when the world sleeps. No-one will see. No-one will know.
+&lt;br&gt;
+$cssDesc[No time like now.]
+
+(t8n: &quot;dissolve&quot;)(show:?mainDone)
+]</tw-passagedata><tw-passagedata pid="8" name="done.paint.start.evening" tags="" position="975,100" size="100,100">{=
+
+&lt;!--reveal an extra paragraph if you&#39;ve already read everything--&gt;
+(if: $story&#39;s lock contains &quot;reading.painting1.evening&quot;)[(show: ?work)]
+
+&lt;!--choices--&gt;
+&lt;ol&gt;
+
+&lt;li&gt;
+&lt;!--setup--&gt;
+(set: _baseChance to 50)
+(set: _factorList to (passage: &quot;table.chanceMod&quot;)&#39;s paintStart)
+|=
+($funcLuckGate: &quot;Lift up the veil.&quot;, ($funcChance: _baseChance, _factorList), [{
+    &lt;!--lock--&gt;
+    ($funcLock: &quot;reading.painting1.evening&quot;)
+}], &quot;paint.pickApproach&quot;, &quot;paint.failToStart&quot;)
+=|
+($funcChanceReadout: _baseChance, _factorList)
+&lt;/li&gt;
+
+&lt;li&gt;($funcBackLink: &quot;Actually... it can wait another night.&quot;, &quot;Consider other activities... if you truly think they are more worthwhile.&quot;, [{
+    &lt;!--lock--&gt;
+    ($funcLock: &quot;reading.painting1.evening&quot;)
+}])&lt;/li&gt;
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="9" name="reading.paint.start.morning" tags="" position="1100,100" size="100,100">{=
+
+Sun-light warms ($funcReveal: &quot;the makeshift curtain,&quot;, &quot;veil&quot;) (either:
+    [sparkling diamond-sands on a supple beach,],
+    [gold and amber and red and red and red,],
+    [gentle echoes of that which roars in the heavens,],
+)
+` `which you find yourself hesitant to touch, let alone disturb.
+
+|veil)[
+&lt;br&gt;
+Behind this illuminated veil is the unfinished painting - a pale imitation of the splendor that is presently plain to your eyes. If only you could ($funcReveal: &quot;steal this light,&quot;, &quot;stolen&quot;) then you would accept any Promethean punishment.]
+
+|stolen)[
+&lt;br&gt;
+Alas, stolen, you have not. Your own ability has thus far fallen short. ($funcReveal: &quot;How cruel&quot;, &quot;mockery&quot;) it would be to expose the malformed fetus to its superior.]
+
+|mockery)[
+&lt;br&gt;
+It would be a mockery for both you and your subject.
+(t8n: &quot;dissolve&quot;)(show: ?notRightNow)
+]
+
+|notRightNow)[
+&lt;br&gt;
+No, not right now. Your muse, ever Sun-shy, is in hiding, so you tell yourself.
+(t8n: &quot;dissolve&quot;)(show: ?mainDone)
+]</tw-passagedata><tw-passagedata pid="10" name="done.paint.start.morning" tags="" position="1225,100" size="100,100">{=
+
+&lt;!--reveal an extra paragraph if you&#39;ve already read everything--&gt;
+(if: $story&#39;s lock contains &quot;reading.painting1.morning&quot;)[(t8n: &quot;dissolve&quot;)(show: ?notRightNow)]
+
+&lt;!--choices--&gt;
+&lt;ol&gt;
+
+&lt;li&gt;($funcDummyLink: &quot;Lift up the veil.&quot;, &quot;Perhaps later in the day, when your excuse has disappeared below the horizon.&quot;)&lt;/li&gt;
+
+&lt;li&gt;($funcBackLink: &quot;Leave it be for now.&quot;, &quot;&quot;, [{
+    ($funcLock: &quot;reading.painting1.morning&quot;)
+}])&lt;/li&gt;
+
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="11" name="paint.pickApproach" tags="unfinished" position="100,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Pick Approach&quot;,
-    &quot;devNote&quot;, [Placeholder. Need state-variable text. So far, there is only 1 approach :(],
+    &quot;devNote&quot;, [Placeholder. Need state-variable text. So far, there is only 1 approach :( Better balance the approaches carefully. You //want// the brute-force to get progressively easier in early game, but it might get so easy that it becomes completely superior to the other approaches later down the life. Right now, 4 fixations - which is easy to get - can make all 3 steps of the brute-force approach trivial.],
 )
 
 ($funcMainContent:
@@ -170,7 +375,7 @@ Laptop</tw-passagedata><tw-passagedata pid="4" name="activity.napping" tags="unf
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="6" name="paint.brute.retry" tags="unfinished" position="725,100" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="12" name="paint.brute.retry" tags="unfinished" position="225,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Brute-Force (Retry?)&quot;,
@@ -190,7 +395,7 @@ true
 
 &lt;li&gt;
 &lt;!--setup--&gt;
-(set: _baseChance to 80)
+(set: _baseChance to 70)
 (set: _factorList to (passage: &quot;table.chanceMod&quot;)&#39;s paintQuit)
 |=
 ($funcLuckGate: &quot;Nah, make peace with this...&quot;, ($funcChance: _baseChance, _factorList), [], &quot;paint.resolve.quit&quot;, &quot;paint.resolve.stall&quot;)
@@ -202,7 +407,7 @@ true
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="7" name="paint.brute.step1" tags="unfinished" position="850,100" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="13" name="paint.brute.step1" tags="unfinished" position="350,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Brute-Force (Step 1)&quot;,
@@ -231,7 +436,7 @@ Getting started...
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="8" name="paint.brute.step2" tags="unfinished" position="975,100" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="14" name="paint.brute.step2" tags="unfinished" position="475,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Brute-Force (Step 2)&quot;,
@@ -260,7 +465,7 @@ It&#39;s going...
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="9" name="paint.brute.step3" tags="unfinished" position="1100,100" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="15" name="paint.brute.step3" tags="unfinished" position="600,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Brute-Force (Step 3)&quot;,
@@ -289,11 +494,11 @@ Almost there...
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="10" name="paint.roadblock" tags="unfinished" position="1225,100" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="16" name="paint.roadblock" tags="unfinished" position="725,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Hitting a Roadblock&quot;,
-	&quot;devNote&quot;, [Placeholder. Need state-variable text.],
+	&quot;devNote&quot;, [Placeholder. Need state-variable text. Consolation reward links may vary depending on the approach.],
 )
 
 ($funcMainContent:
@@ -305,6 +510,7 @@ At a crossroad... there is a blockage...
 
 &lt;ol&gt;
 
+&lt;!--might migrate the list of &quot;boss fights&quot; to its own place, so that we can have multiple, approach-dependent roadblocks (for different consolation prizes)--&gt;
 &lt;li&gt;($funcDummyLink: &quot;This is a dummy link.&quot;, &quot;It will be replaced with a proper challenge later. Reaching this point is sufficient in this test.&quot;)&lt;/li&gt;
 
 Or...
@@ -315,7 +521,7 @@ Or...
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="11" name="paint.resolve.consolation" tags="unfinished" position="100,225" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="17" name="paint.resolve.consolation" tags="unfinished" position="850,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Resolution (Consolation)&quot;,
@@ -332,7 +538,7 @@ At least you feel satisfied.
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="12" name="paint.resolve.quit" tags="unfinished" position="225,225" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="18" name="paint.resolve.quit" tags="unfinished" position="975,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Resolution (Quit)&quot;,
@@ -348,7 +554,7 @@ Quit while you&#39;re ahead.
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="13" name="paint.resolve.stall" tags="unfinished" position="350,225" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="19" name="paint.resolve.stall" tags="unfinished" position="1100,225" size="100,100">{=
 
 (metadata:
 	&quot;title&quot;,&quot;Resolution (Stall)&quot;,
@@ -360,45 +566,133 @@ true
 Uh oh... your progress has stalled.
 }],
 [{&lt;!--?mainDone--&gt;
-($funcGainLink: &quot;Gain 2 Restlessness&quot;, &quot;restless&quot;, 2, [(display: &quot;code.timePass&quot;)], &quot;&quot;)
+($funcGainLink: &quot;Gain 1 shame&quot;, &quot;shame&quot;, 1, [(display: &quot;code.timePass&quot;)], &quot;&quot;)
 
 }],
 
 true
-)</tw-passagedata><tw-passagedata pid="14" name="activity.painting" tags="activity" position="475,225" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="20" name="activity.painting" tags="activity" position="1225,225" size="100,100">{=
 (metadata:
 
 &quot;relayCode&quot;, [{
         &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
         (set: _relayLink to (cond:
+            ($funcOpenStorylets:) contains &quot;paint.failToStart&quot;, &quot;Approach your painting... again?&quot;,
             ($funcOpenStorylets:) contains &quot;story.paintingWhatIs&quot;, &quot;That //thing// in the corner...&quot;,
-            ($funcOpenStorylets:) contains &quot;story.painting1&quot;, &quot;Approach your painting.&quot;,
+            ($funcOpenStorylets:) contains &quot;paint.start&quot;, &quot;Approach your painting.&quot;,
             false
         ))
 
         (set: _relayDestination to (cond:
+            ($funcOpenStorylets:) contains &quot;paint.failToStart&quot;, &quot;paint.failToStart&quot;,
             ($funcOpenStorylets:) contains &quot;story.paintingWhatIs&quot;, &quot;story.paintingWhatIs&quot;,
-            ($funcOpenStorylets:) contains &quot;story.painting1&quot;, &quot;story.painting1&quot;,
+            ($funcOpenStorylets:) contains &quot;paint.start&quot;, &quot;paint.start&quot;,
             false
         ))
 
         (set: _relayTip to (cond:
+            ($funcOpenStorylets:) contains &quot;paint.failToStart&quot;, &quot;You cannot bring yourself to lift up the veil today.&quot;,
             ($funcOpenStorylets:) contains &quot;story.paintingWhatIs&quot;, &quot;Covered by only a thin skin, it beckons you.&quot;,
-            ($funcOpenStorylets:) contains &quot;story.painting1&quot;, &quot;Your Work is not yet done.&quot;,
+            ($funcOpenStorylets:) contains &quot;paint.start&quot;, &quot;Your Work is not yet done.&quot;,
             false
         ))
 }],
 
 )
 
-Painting</tw-passagedata><tw-passagedata pid="15" name="Dream" tags="unfinished" position="600,225" size="100,100">{=
+Painting</tw-passagedata><tw-passagedata pid="21" name="Dream" tags="unfinished" position="100,350" size="100,100">{=
 (metadata:
-&quot;devNote&quot;, [Figure out dream relays.],
+&quot;devNote&quot;, [Add more dream redirects.],
 )
 
-&#39;&#39;Dream&#39;&#39;
-&lt;br&gt;
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="16" name="Evening" tags="unfinished" position="725,225" size="100,100">{=
+&lt;!--for now, passages like midday, dream, and deathCheck are treated like one big redirect block--&gt;
+
+&lt;!--will add more conditions later--&gt;
+(set: _dream to (cond:
+    ($funcOpenStorylets:) contains &quot;dream.default&quot;, &quot;dream.default&quot;,
+    &quot;dream.default&quot;
+))
+
+&lt;!--finally, redirect--&gt;
+(redirect: _dream)</tw-passagedata><tw-passagedata pid="22" name="dream.default.gainConfidence" tags="unfinished" position="225,350" size="100,100">{=
+
+(metadata:
+	&quot;title&quot;,&quot;Dream: Gain Confidence&quot;,
+	&quot;devNote&quot;, [Placeholder.],
+)
+
+($funcMainContent:
+[{&lt;!--?mainReading--&gt;
+
+(I be confidencing.....)
+
+}],
+[{&lt;!--?mainDone--&gt;
+($funcGainLink: &quot;Gain 1 Confidence&quot;, &quot;confidence&quot;, 1, [(display: &quot;code.timePass&quot;)], &quot;&quot;)
+}],
+
+true
+)</tw-passagedata><tw-passagedata pid="23" name="dream.default.gainFixation" tags="unfinished" position="350,350" size="100,100">{=
+
+(metadata:
+	&quot;title&quot;,&quot;Dream: Gain Fixation&quot;,
+	&quot;devNote&quot;, [Placeholder.],
+)
+
+($funcMainContent:
+[{&lt;!--?mainReading--&gt;
+
+(I be fixatiiiiingg.....)
+
+}],
+[{&lt;!--?mainDone--&gt;
+($funcGainLink: &quot;Gain 1 Fixation&quot;, &quot;fixation&quot;, 1, [(display: &quot;code.timePass&quot;)], &quot;&quot;)
+}],
+
+true
+)</tw-passagedata><tw-passagedata pid="24" name="dream.default" tags="unfinished" position="475,350" size="100,100">{=
+
+(storylet: when
+    true
+)
+
+(metadata:
+    &quot;devNote&quot;, [Entirely placeholder. Right now, it is sufficient as a marketplace.],
+    &quot;title&quot;, &quot;Default Dream&quot;
+)
+
+($funcMainContent:
+[{&lt;!--?mainReading--&gt;
+
+(Dream text, depending on mind.)
+
+}],
+[{&lt;!--?mainDone--&gt;
+
+&lt;ol&gt;
+You...
+&lt;li&gt;($funcCheckGate: &quot;Fixate on your restlessness.&quot;, true, &quot;restless&quot;, 1, true, 100, [], &quot;dream.default.gainFixation&quot;, &quot;&quot;)&lt;/li&gt;
+
+&lt;li&gt;($funcCheckGate: &quot;Think about what you&#39;ve achieved.&quot;, true, &quot;satisfaction&quot;, 2, true, 100, [], &quot;dream.default.gainConfidence&quot;, &quot;&quot;)&lt;/li&gt;
+
+
+
+Or, let yourself drift...
+&lt;li&gt;($funcCheckGate: &quot;And hold onto a good memory, like a lifebuoy.&quot;, true, &quot;JesseMemory&quot;, 1, true, 100, [(display: &quot;code.timePass&quot;)], &quot;&quot;, &quot;&quot;)&lt;/li&gt;
+
+&lt;li&gt;($funcOutLink: &quot;And drift... and drift...&quot;, &quot;This will hurt.&quot;, &quot;&quot;, [{
+    &lt;!--hurt--&gt;
+    ($funcHurtHeal: -1, &quot;Drifted in a dream.&quot;, true)
+    &lt;!--pass time--&gt;
+    (display: &quot;code.timePass&quot;)
+}])&lt;/li&gt;
+
+&lt;/ol&gt;
+
+}],
+
+true
+)</tw-passagedata><tw-passagedata pid="25" name="Evening" tags="unfinished" position="600,350" size="100,100">{=
 
 (metadata:
 &quot;devNote&quot;, [Nothing here.],
@@ -418,7 +712,7 @@ Painting</tw-passagedata><tw-passagedata pid="15" name="Dream" tags="unfinished"
 }],
 
 true
-)&lt;!--end of $funcMainContent--&gt;</tw-passagedata><tw-passagedata pid="17" name="Midday" tags="unfinished" position="850,225" size="100,100">(metadata:
+)&lt;!--end of $funcMainContent--&gt;</tw-passagedata><tw-passagedata pid="26" name="Midday" tags="unfinished" position="725,350" size="100,100">(metadata:
 &quot;devNote&quot;, [Figure out midday relays.],
 )
 
@@ -427,7 +721,7 @@ true
 &#39;&#39;Midday&#39;&#39;
 &lt;br&gt;
 ---
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="18" name="Morning" tags="unfinished" position="975,225" size="100,100">{=
+(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="27" name="Morning" tags="unfinished" position="850,350" size="100,100">{=
 (metadata:
 &quot;devNote&quot;, [Nothing here.],
 
@@ -460,7 +754,7 @@ true
 }],
 
 true
-)&lt;!--end of $funcMainContent--&gt;</tw-passagedata><tw-passagedata pid="19" name="reading.mindMorning" tags="" position="1100,225" size="100,100">{=
+)&lt;!--end of $funcMainContent--&gt;</tw-passagedata><tw-passagedata pid="28" name="reading.mindMorning" tags="" position="975,350" size="100,100">{=
 
 (set: _mindOut to (passage: &quot;code.mind&quot;)&#39;s output)
 (set: _mindLevel to (str: (_mindOut:)))
@@ -498,7 +792,7 @@ _mindLevel is &quot;insane&quot;, [{(text-style:&quot;blur&quot;)[CAN A DAY BE S
 )
 
 &lt;!--tip--&gt;
-$cssDesc[&lt;br&gt;You are yet alive.]</tw-passagedata><tw-passagedata pid="20" name="reading.paintingMorning" tags="unfinished" position="1225,225" size="100,100">{=
+$cssDesc[&lt;br&gt;You are yet alive.]</tw-passagedata><tw-passagedata pid="29" name="reading.paintingMorning" tags="unfinished" position="1100,350" size="100,100">{=
 
 (metadata: &quot;devNote&quot;, [Need to set up painting flag],)
 
@@ -515,7 +809,7 @@ $cssDesc[{&lt;br&gt;(cond:
     $story&#39;s lock does not contain &quot;story.paintingWhatIs&quot;, [Your Work is not yet done.],
     true, [Your painting is unfinished.],
     false
-)}]</tw-passagedata><tw-passagedata pid="21" name="reading.spaceMorning" tags="" position="100,350" size="100,100">{=
+)}]</tw-passagedata><tw-passagedata pid="30" name="reading.spaceMorning" tags="" position="1225,350" size="100,100">{=
 
 (metadata: &quot;devNote&quot;, [Need to set up ants flag],)
 
@@ -531,7 +825,7 @@ $cssDesc[{&lt;br&gt;(cond:
 )
 
 &lt;!--tip--&gt;
-$cssDesc[&lt;br&gt;You are at home.]</tw-passagedata><tw-passagedata pid="22" name="reading.timeMorning" tags="" position="225,350" size="100,100">{=
+$cssDesc[&lt;br&gt;You are at home.]</tw-passagedata><tw-passagedata pid="31" name="reading.timeMorning" tags="" position="100,475" size="100,100">{=
 
 &lt;!--add more conditions for when there are active events--&gt;
 
@@ -545,7 +839,7 @@ Wiping the rheum from your eyes, you slowly accept the stark, inescapable condit
 
 )
 
-$cssDesc[&lt;br&gt;Do something.]</tw-passagedata><tw-passagedata pid="23" name="deathCheck.default1" tags="unfinished" position="350,350" size="100,100">{=
+$cssDesc[&lt;br&gt;Do something.]</tw-passagedata><tw-passagedata pid="32" name="deathCheck.default1" tags="unfinished" position="225,475" size="100,100">{=
 
 (metadata:
     &quot;devNote&quot;, [Placeholder.],
@@ -574,7 +868,7 @@ The Sun beckons.
 
 }],
 true
-)</tw-passagedata><tw-passagedata pid="24" name="deathCheck.dead1" tags="unfinished" position="475,350" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="33" name="deathCheck.dead1" tags="unfinished" position="350,475" size="100,100">{=
 
 (metadata:
     &quot;title&quot;, &quot;Judgment&quot;,
@@ -607,7 +901,7 @@ Count yourself lucky.
 
 true
 
-)</tw-passagedata><tw-passagedata pid="25" name="code.gameOver" tags="" position="600,350" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="34" name="code.gameOver" tags="" position="475,475" size="100,100">{=
 
 &lt;!--Use: (display: &quot;code.gameOver&quot;) in all death passages--&gt;
 
@@ -620,7 +914,7 @@ true
 }]
 
 &lt;!--default behavior--&gt;
-(if: $testMode is false)[(restart:)]</tw-passagedata><tw-passagedata pid="26" name="code.setDay" tags="" position="725,350" size="100,100">{=
+(if: $testMode is false)[(restart:)]</tw-passagedata><tw-passagedata pid="35" name="code.setDay" tags="" position="600,475" size="100,100">{=
 
 &lt;!--(display: &quot;code.setDay&quot;) at the end of all deathCheck out links--&gt;
 
@@ -628,16 +922,18 @@ true
 ($funcEventCountdown: 1)
 
 &lt;!--reroll $dice--&gt;
-(set: $dice to (random: 1,100))</tw-passagedata><tw-passagedata pid="27" name="deathCheck" tags="unfinished" position="850,350" size="100,100">{=
+(set: $dice to (random: 1,100))</tw-passagedata><tw-passagedata pid="36" name="deathCheck" tags="unfinished" position="725,475" size="100,100">{=
 (metadata:
-&quot;devNote&quot;, [Need to add more conditions/scenarios. Then, add setDay mechanics (countdown, for example)],
+&quot;devNote&quot;, [Need to add more conditions/scenarios. Then, add setDay mechanics (countdown, for example). Also, do something about the &quot;at home&quot; in the header - it should be a &quot;???&quot;.],
 )
 
 &lt;!--dead or not?--&gt;
 (set: _isAlive to true)
 (if: $player&#39;s mind &lt;= 0)[(set: _isAlive to false)]
 
+&lt;!--initial, default value, which will be used as part of a passage&#39;s name, so be very careful with how deathCheck passages are named--&gt;
 (set: _scenario to &quot;default1&quot;)
+
 &lt;!--If alive, go on living--&gt;
 (if: _isAlive)[{  
     (set: _scenario to (cond:
@@ -656,7 +952,7 @@ true
 }]
 
 &lt;!--redirect--&gt;
-(redirect: &quot;deathCheck.&quot; + _scenario)</tw-passagedata><tw-passagedata pid="28" name="done.activityBlock" tags="unfinished" position="975,350" size="100,100">{=
+(redirect: &quot;deathCheck.&quot; + _scenario)</tw-passagedata><tw-passagedata pid="37" name="done.activityBlock" tags="unfinished" position="850,475" size="100,100">{=
 
 (metadata:
 &quot;devNote&quot;, [Eventually, need to add a &quot;socialize&quot; option.
@@ -681,7 +977,7 @@ VERY IMPORTANT: Use `storylet:` to globally determine a story&#39;s availability
 &lt;!--nap, pass--&gt;
 &lt;li&gt;($funcRelay: &quot;activity.napping&quot;, [])&lt;/li&gt;
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="29" name="newDay" tags="unfinished" position="1100,350" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="38" name="newDay" tags="unfinished" position="975,475" size="100,100">{=
 
 (metadata:
 &quot;devNote&quot;, [Nothing here yet. Remember: newDay should not have any daily time passing code. Code must be ran prior, maybe inside of &quot;code.timePass&quot;],
@@ -689,7 +985,7 @@ VERY IMPORTANT: Use `storylet:` to globally determine a story&#39;s availability
 
 &#39;&#39;newDay&#39;&#39;
 &lt;br&gt;
-(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="30" name="story.aManWasHere" tags="" position="1225,350" size="100,100">{=
+(link: &quot;NEXT&quot;)[(display: &quot;code.timePass&quot;)]</tw-passagedata><tw-passagedata pid="39" name="story.aManWasHere" tags="" position="1100,475" size="100,100">{=
 (storylet: when
     $story&#39;s lock does not contain &quot;story.aManWasHere&quot;
 )
@@ -747,7 +1043,7 @@ The whole apartment stinks. It is flooded with //his// trash, //his// rot. Anyon
 
 }],
 
-false )</tw-passagedata><tw-passagedata pid="31" name="story.apartmentStudioDirty" tags="unfinished" position="100,475" size="100,100">{=
+false )</tw-passagedata><tw-passagedata pid="40" name="story.apartmentStudioDirty" tags="unfinished" position="1225,475" size="100,100">{=
 
 (storylet: when
     $world&#39;s state is 1
@@ -828,7 +1124,7 @@ $cssDesc[You must escape from this rotting place.]
 }],
 
 _showDoneChoicesAtBeginning )
-&lt;!--the boolean _showDoneChoicesAtBeginning at the end of $funcMainContent can be a (cond:) to only hide ?mainDone at the first visit but show it in the other visits--&gt;</tw-passagedata><tw-passagedata pid="32" name="story.laptop.1.use" tags="" position="225,475" size="100,100">{=
+&lt;!--the boolean _showDoneChoicesAtBeginning at the end of $funcMainContent can be a (cond:) to only hide ?mainDone at the first visit but show it in the other visits--&gt;</tw-passagedata><tw-passagedata pid="41" name="story.laptop.1.use" tags="" position="100,600" size="100,100">{=
 
 (metadata:
     &quot;title&quot;, &quot;Waiting for Good News&quot;,
@@ -883,7 +1179,7 @@ You should stop wasting time.
 
 }],
 
-false)</tw-passagedata><tw-passagedata pid="33" name="story.laptop1" tags="" position="350,475" size="100,100">{=
+false)</tw-passagedata><tw-passagedata pid="42" name="story.laptop1" tags="" position="225,600" size="100,100">{=
 
 (storylet: when
     $world&#39;s state is 1
@@ -936,7 +1232,7 @@ You have been waiting for a long time. Hope is ($funcReveal: &quot;such a madly 
 &lt;/ol&gt;
 }],
 
-_showDoneChoicesAtBeginning)</tw-passagedata><tw-passagedata pid="34" name="story.newsOfWorld" tags="" position="475,475" size="100,100">{=
+_showDoneChoicesAtBeginning)</tw-passagedata><tw-passagedata pid="43" name="story.newsOfWorld" tags="" position="350,600" size="100,100">{=
 
 (storylet: when
     $story&#39;s lock does not contain &quot;story.newsOfWorld&quot;
@@ -995,7 +1291,7 @@ There, up against the wall, covered by a rag, is ($funcReveal: &quot;your notebo
 
 false
 
-)</tw-passagedata><tw-passagedata pid="35" name="story.newsOfWorld (old)" tags="" position="600,475" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="44" name="story.newsOfWorld (old)" tags="" position="475,600" size="100,100">{=
 
 (metadata:
     &quot;title&quot;, &quot;What News of the World?&quot;,
@@ -1058,209 +1354,7 @@ But you, newly awakened, are in withdrawal. You want to ($funcReveal: &quot;glim
 
 false
 
-)</tw-passagedata><tw-passagedata pid="36" name="reading.painting1.evening" tags="" position="725,475" size="100,100">{=
-
-It is dark outside, but your mind is alight. You close your eyes and ($funcReveal: &quot;see...&quot;, &quot;see&quot;)
-
-|see)[(either:
-    [` `the Sun&#39;s ($funcReveal: &quot;twin sister&quot;, &quot;openedEyes&quot;) - red, rippling, and roiling beneath the surface of an obsidian lake.],
-    [` `a red ($funcReveal: &quot;slit&quot;, &quot;openedEyes&quot;) in space, where the air peels to reveal what lies dreaming behind all things.],
-    [` `violet ($funcReveal: &quot;rays&quot;, &quot;openedEyes&quot;) pulsating across the blackness of your lids, tracing the path with which the stars hurl through the void.],
-)]
-
-|see)[
-&lt;br&gt;
-There it is. In the light of night, all the hidden creatures have come out to play.
-]
-
-|openedEyes)[
-&lt;br&gt;
-But with open eyes, reality yet falls short. Here, the canvas depicts only your failure - thus far - to render this vision in oil.
-&lt;br&gt;
-($funcReveal: &quot;What else is there to do but paint?&quot;, &quot;work&quot;)
-
-]
-
-|work)[
-&lt;br&gt;
-Your Work has always been performed when the world sleeps. No-one will see. No-one will know. No sneer nor praise.
-&lt;br&gt;
-$cssDesc[No time like now.]
-
-(t8n: &quot;dissolve&quot;)(show:?mainDone)
-]</tw-passagedata><tw-passagedata pid="37" name="done.painting1.evening" tags="unfinished" position="850,475" size="100,100">{=
-
-(metadata: &quot;devNote&quot;, [&quot;Paint.&quot; link should vary up depending on current flags (especially if inspired). Might use a &#39;&#39;relay&#39;&#39;.],)
-
-&lt;!--reveal an extra paragraph if you&#39;ve already read everything--&gt;
-(if: $story&#39;s lock contains &quot;reading.painting1.evening&quot;)[(show: ?openedEyes)]
-
-&lt;!--choices--&gt;
-&lt;ol&gt;
-
-&lt;li&gt;($funcOutLink: &quot;Paint.&quot;, &quot;Commit to a painful experience. Time will crawl forward.&quot;, &quot;paint.pickApproach&quot;, [{
-    &lt;!--lock--&gt;
-    ($funcLock: &quot;reading.painting1.evening&quot;)
-}])&lt;/li&gt;
-
-&lt;li&gt;($funcBackLink: &quot;Actually... it can wait another night.&quot;, &quot;Consider other activities... if you truly think they are more worthwhile.&quot;, [{
-    &lt;!--lock--&gt;
-    ($funcLock: &quot;reading.painting1.evening&quot;)
-}])&lt;/li&gt;
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="38" name="reading.painting1.morning" tags="" position="975,475" size="100,100">{=
-
-The moment you lift the veil, whatever that was beckoning you flees.
-
-&lt;br&gt;
-Ah, ($funcReveal: &quot;the Sun&quot;, &quot;closingEyes&quot;) is still up, under whose light the painting - a mere imitation - pales. Your muse is yet in hiding.
-
-|closingEyes)[
-&lt;br&gt;
-Closing your eyes, you see ($funcReveal: &quot;a brilliant star.&quot;, &quot;vision&quot;)]` `|vision)[(either: &quot;Its hundred flanges wiggling out into the void of your mind.&quot;, &quot;The mere thought of it has your throat seizing and sets your heart aflame.&quot;, &quot;It roils and roars in the heavens. A million teeth appears and disappears.&quot;)]
-
-|vision)[
-&lt;br&gt;
-But this is not ($funcReveal: &quot;what is on the canvas.&quot;, &quot;isLeft&quot;)]
-
-|isLeft)[
-&lt;br&gt;
-What is left before you is simply your failure - thus far - to render your vision in oil, only tentatively alive in places, though already desiccating everywhere else.
-
-&lt;br&gt;
-There is ($funcReveal: &quot;no use&quot;, &quot;mainDone&quot;) in trying right now.
-
-&lt;br&gt;
-$cssDesc[Wait until evening, when there is no more excuses.]
-]&lt;!--end of isLeft--&gt;</tw-passagedata><tw-passagedata pid="39" name="done.painting1.morning" tags="" position="1100,475" size="100,100">{=
-
-&lt;!--reveal an extra paragraph if you&#39;ve already read everything--&gt;
-(if: $story&#39;s lock contains &quot;reading.painting1.morning&quot;)[(show: ?isLeft)]
-
-&lt;!--choices--&gt;
-&lt;ol&gt;
-&lt;li&gt;($funcBackLink: &quot;And no use dwelling on it.&quot;, &quot;&quot;, [{
-    ($funcLock: &quot;reading.painting1.morning&quot;)
-}])&lt;/li&gt;
-&lt;li&gt;($funcDummyLink: &quot;Peel the flakes from the brushes and attempt to paint. Again.&quot;, &quot;Perhaps later in the day. Always later. Always a reason.&quot;)&lt;/li&gt;
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="40" name="story.painting1.commit" tags="unfinished" position="1225,475" size="100,100">{=
-
-(metadata:
-    &quot;title&quot;, &quot;Attempting to Paint&quot;,
-    &quot;devNote&quot;, [Haven&#39;t figured out game economy yet, done choices are not finished (no destination). Consider making it chancy.],
-)
-
-($funcMainContent:
-[{&lt;!--?mainReading--&gt;
-
-($funcReveal: &quot;You set oil onto the canvas.&quot;, &quot;set&quot;)` `|set)[(either:
-    [The old oil resists you. Turpentine stings your nose.],
-    [Viscous and pliable, full of promises.],
-    [So begins race against time.],
-    [The paint awaits your command, but not for long.],
-    [It is a most delicate moment. ],
-)]
-
-|set)[
-&lt;br&gt;
-($funcReveal: &quot;Now, try your best.&quot;, &quot;best&quot;)]` `|best)[(either:
-    [Swish, swash, and a little dot...],
-    [Dribble, dabble, and a line to break the monotony...],
-    [Left, right, and reapply...],
-    [Oh no... That&#39;s not right... How about...?],
-    [Stroke by stroke, any quiver of the wrist risks undoing your progress.],
-)]
-
-|best)[
-&lt;br&gt;
-($funcReveal: &quot;A little more...&quot;, &quot;little&quot;)]` `|little)[(either: 
-    [It is all coming together. But to form what?],
-    [Slowly, familiar shapes emerge, though you cannot say what they are.],
-    [Now and gone again, you glimpse the person that you were.],
-    [The brush, the oil, the canvas - they and you are not strangers after all.],
-    [There is warmth between your fingers. You are so close.],
-)]
-
-|little)[
-&lt;br&gt;
-($funcReveal: &quot;And?&quot;, &quot;and&quot;)]` `|and)[For a moment, you thought you had made a breakthrough. But no. (either:
-    [You are only making it worse. Happy accidents are happier if left well enough alone - a lesson you always seem to forget.],
-    [Hope seemed so close when viewed at angle, but as you rush headlong towards it, you found out that it was only a trick of the light.],
-    [What were you //thinking//? Of course, nothing. You blacked out. You blame those unsteady hands and deny that they have ever been yours.],
-    [Those with talent knows when to stop. You, however, have wildly overshot.],
-)]
-
-|and)[
-&lt;br&gt;
-(if: ($funcOutputFlag: &quot;restless&quot;) &lt; 1)[Clearly, &quot;your best&quot; is not enough today, predictably so.]
-(else:)[No, this cannot be &quot;your best&quot;. There is still some left in you - fumes, furious fumes.]
-&lt;br&gt;
-(if: ($funcOutputFlag: &quot;restless&quot;) &lt; 1)+$cssDesc[You ought to have given up much sooner.]
-(else:)+$cssDesc[Are you going to just give up, like always?]
-
-(show: ?mainDone)
-]
-
-}],
-
-[{&lt;!--?mainDone--&gt;
-
-&lt;ol&gt;
-&lt;li&gt;($funcGainLink: &quot;Disappointed. Frustrated. You throw the brush aside and go lie down.&quot;, &quot;restless&quot;, 1, [(display: &quot;code.timePass&quot;)], &quot;&quot;)&lt;/li&gt;
-
-&lt;li&gt;($funcCheckGate: &quot;Power through! It is just over the horizon; you need only reach.&quot;, true, &quot;restless&quot;, 1, false, 100, [], &quot;&quot;, &quot;&quot;)&lt;/li&gt;
-
-&lt;/ol&gt;
-
-}],
-
-
-false
-)</tw-passagedata><tw-passagedata pid="41" name="story.painting1" tags="" position="100,600" size="100,100">{=
-
-(storylet: when
-    $world&#39;s state is 1
-)
-
-(metadata:
-    &quot;title&quot;, &quot;Your Unfinished Painting&quot;,
-)
-
-&lt;!--_timeOfDay shorthand--&gt;
-(set: _timeOfDay to (passage: &quot;code.timePass&quot;)&#39;s timeFullNames&#39;s ($time&#39;s timeOfDay))
-
-&lt;!--the mainDone choices will be available after the first visit, whereupon this passage&#39;s name is added to $story&#39;s lock--&gt;
-(set: _showDoneChoicesAtBeginning to false)
-(if: _timeOfDay is &quot;morning&quot; and $story&#39;s lock contains &quot;reading.painting1.morning&quot;)[(set: _showDoneChoicesAtBeginning to true)]
-(if: _timeOfDay is &quot;evening&quot; and $story&#39;s lock contains &quot;reading.painting1.evening&quot;)[(set: _showDoneChoicesAtBeginning to true)]
-
-
-($funcMainContent:[{&lt;!--?mainReading--&gt;
-
-(if: _timeOfDay is &quot;morning&quot;)[{
-    (display: &quot;reading.painting1.morning&quot;)
-}]&lt;!--end of morning--&gt;
-
-(elseif: _timeOfDay is &quot;evening&quot;)[{
-    (display: &quot;reading.painting1.evening&quot;)
-}]&lt;!--end of evening--&gt;
-
-}],
-
-[{&lt;!--?mainDone--&gt;
-
-(if: _timeOfDay is &quot;morning&quot;)[{
-    (display: &quot;done.painting1.morning&quot;)
-}]&lt;!--end of morning--&gt;
-
-(elseif: _timeOfDay is &quot;evening&quot;)[{
-    (display: &quot;done.painting1.evening&quot;)
-}]&lt;!--end of evening--&gt;
-
-}],
-
-_showDoneChoicesAtBeginning
-
-)</tw-passagedata><tw-passagedata pid="42" name="story.paintingWhatIs" tags="" position="225,600" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="45" name="story.paintingWhatIs" tags="" position="600,600" size="100,100">{=
 
 (storylet: when
     $story&#39;s lock does not contain &quot;story.paintingWhatIs&quot;
@@ -1276,12 +1370,12 @@ It appears to be a ($funcReveal: &quot;curtained window.&quot;, &quot;curtain&qu
 
 |curtain)[
 &lt;br&gt;
-A metal rack is installed about ten feet up the wall. Hanging from it is a makeshift curtain made up of translucent paper - you want to say glassine, but it is butcher&#39;s paper - veiling ($funcReveal: &quot;whatever that is inside&quot;, &quot;what&quot;) from ($funcReveal: &quot;the world&quot;, &quot;notReady&quot;), and more importantly, preventing ($funcReveal: &quot;you&quot;, &quot;you&quot;) from staring at it all day long.
+A metal rack is installed about ten feet up the wall. Hanging from it is a makeshift curtain made up of a translucent material - you want to say glassine, but perhaps butcher&#39;s paper - veiling ($funcReveal: &quot;whatever that is inside&quot;, &quot;what&quot;) from ($funcReveal: &quot;the world&quot;, &quot;notReady&quot;), and more importantly, preventing ($funcReveal: &quot;you&quot;, &quot;you&quot;) from staring at it all day long.
 ]
 
 |what)[
 &lt;br&gt;
-($funcReveal: &quot;//What// is behind the curtain?&quot;, &quot;painting&quot;)
+($funcReveal: &quot;//What// is behind this veil?&quot;, &quot;painting&quot;)
 ]
 
 |painting)[
@@ -1351,132 +1445,13 @@ Your Work is not yet done. It is calling out to you.
 (t8n: &quot;dissolve&quot;)(show: ?you)
 
 &lt;!--link--&gt;
-($funcOutLink: &quot;Lift the veil.&quot;, &quot;And attempt to paint.&quot;, &quot;story.painting1&quot;, [{
+($funcOutLink: &quot;Approach it.&quot;, &quot;Warm, like skin.&quot;, &quot;paint.start&quot;, [{
     &lt;!--lock--&gt;
     ($funcLock: (passage:)&#39;s name)
 }])
 
 }],
-false)</tw-passagedata><tw-passagedata pid="43" name="story.paintingWhatIs (old)" tags="" position="350,600" size="100,100">{=
-
-(metadata:
-&quot;title&quot;, &quot;That Thing in the Corner&quot;,
-)
-
-($funcMainContent:[{&lt;!--?mainReading--&gt;
-
-It appears to be a ($funcReveal: &quot;curtained window.&quot;, &quot;curtain&quot;)|curtain)[ Or perhaps a shower.]
-
-|curtain)[
-&lt;br&gt;
-A metal rack is installed about ten feet up the wall. Hanging from it is a makeshift curtain made up of translucent paper - you want to say glassine, but it is butcher&#39;s paper - veiling ($funcReveal: &quot;whatever that is inside&quot;, &quot;what&quot;) from ($funcReveal: &quot;the world&quot;, &quot;notReady&quot;), and more importantly, preventing ($funcReveal: &quot;you&quot;, &quot;you&quot;) from staring at it all day long.
-]
-
-|what)[
-&lt;br&gt;
-($funcReveal: &quot;//What// is behind the curtain?&quot;, &quot;painting&quot;)
-]
-
-&lt;!--trigger for ?yesBut--&gt;
-(set: _triggerYesBut to ($funcChainTrigger: &quot;paintingQuestions&quot;, 3, &quot;yesBut&quot;))
-
-|painting)[
-&lt;br&gt;
-Art.
-]
-
-|painting)[
-&lt;br&gt;
-($funcReveal: &quot;A portrait?&quot;, &quot;portrait&quot;)
-]
-
-|portrait)[
-&lt;br&gt;
-Sure, there was a girl - //Katherine// - who was the spark, but the kindling was already there.
-&lt;br&gt;
-If you lift the veil, you will see no face. Not hers. Perhaps not anyone&#39;s, though there will be eyes, and a nose, and a mouth, ($funcReveal: &quot;and teeth&quot;, &quot;teeth1&quot;)|teeth1)[($funcReveal: &quot; and teeth&quot;, &quot;teeth2&quot;)]|teeth2)[($funcReveal: &quot; and teeth&quot;, &quot;teeth3&quot;)]|teeth3)[($funcReveal: &quot; and teeth&quot;, &quot;teeth4&quot;)]|teeth4)[($funcReveal: &quot; and teeth&quot;, &quot;teeth5&quot;)]|teeth5)[($funcReveal: &quot; and teeth..&quot;, &quot;teeth6&quot;)]. 
-
-|teeth6)[
-&lt;br&gt;
-No, this is too heavenly to be called a face._triggerYesBut
-]
-]&lt;!--end ?portrait--&gt;
-
-|painting)[
-&lt;br&gt;
-($funcReveal: &quot;A landscape?&quot;, &quot;landscape&quot;)
-]
-
-|landscape)[
-&lt;br&gt;
-In every landscape, there is a ($funcReveal: &quot;Sun&quot;, &quot;suns&quot;)|suns)[` `- red upon the misty horizon, a perfect white dot upon a black sky, or gray hints within roiling clouds]. And yet, there is no ($funcReveal: &quot;//land//&quot;, &quot;dirt&quot;) on Earth that would see a light such as this!
-
-|dirt)[
-&lt;br&gt;
-What need is there for dirt? You long to be above it all. This is //the thing itself//._triggerYesBut
-]
-
-]&lt;!--end ?landscape--&gt;
-
-
-|painting)[
-&lt;br&gt;
-($funcReveal: &quot;A still life?&quot;, &quot;stillLife&quot;)
-]
-
-|stillLife)[
-&lt;br&gt;
-
-&lt;!--trigger for ?noneOfThoseThings--&gt;
-(set: _triggerStillLife to ($funcChainTrigger: &quot;stillLife&quot;, 2, &quot;noneOfThoseThings&quot;))
-
-($funcReveal: &quot;Still&quot;, &quot;still&quot;)|still)[, but not dead, only sleeping._triggerStillLife]` `($funcReveal: &quot;Life&quot;, &quot;life&quot;)|life)[, but not bound toward old age or death._triggerStillLife]
-
-|noneOfThoseThings)[
-&lt;br&gt;
-But, alas, this is none of those things. It is  ($funcReveal: &quot;only a painting,&quot;, &quot;onlyPainting&quot;)]
-
-|onlyPainting)[` `a mimesis of something brought back from the slumbering heavens, a pale reminder for all that lives that there is yet a greater kind of life._triggerYesBut]
-
-]&lt;!--end ?stillLife--&gt;
-
-
-|yesBut)[
-&lt;br&gt;
-Yes, but what //is// it? ($funcReveal: &quot;What will one sees if one looks?&quot;, &quot;theSun&quot;)
-]
-
-|theSun)[
-&lt;br&gt;
-The Sun. It is a painting of ($funcReveal: &quot;the Sun.&quot;, &quot;mainDone&quot;)
-]
-
-|notReady)[
-&lt;br&gt;
-The world is not ready.
-]
-
-|you)[
-&lt;br&gt;
-Your Work is not yet done. It is calling out to you.
-]
-
-
-}],
-[{&lt;!--?mainDone--&gt;
-
-&lt;!--just in case those 2 haven&#39;t shown--&gt;
-(t8n: &quot;dissolve&quot;)(show: ?notReady)
-(t8n: &quot;dissolve&quot;)(show: ?you)
-
-&lt;!--link--&gt;
-($funcOutLink: &quot;Lift the veil.&quot;, &quot;And attempt to paint.&quot;, &quot;story.painting1&quot;, [{
-    &lt;!--lock--&gt;
-    ($funcLock: (passage:)&#39;s name)
-}])
-
-}],
-false)</tw-passagedata><tw-passagedata pid="44" name="code.mind" tags="unfinished" position="475,600" size="100,100">{=
+false)</tw-passagedata><tw-passagedata pid="46" name="code.mind" tags="unfinished" position="725,600" size="100,100">{=
 
 (metadata:
 &quot;devNote&quot;, [Output loop too inefficient/slow.],
@@ -1520,7 +1495,7 @@ false)</tw-passagedata><tw-passagedata pid="44" name="code.mind" tags="unfinishe
 &lt;!--call this code by putting (passage: &quot;code.mind&quot;)&#39;s output into an arbitrarily named shorthand temp var, example: (set: _mindOut to (passage: &quot;code.mind&quot;)&#39;s output), then call (_mindOut:).
 
 Calling something like (_mindOut: ) should be minimized, as it is performance-heavy. Consider putting it into another temp var as a string. Example: (set: _mindLevel to (str: (_mindOut:)))
---&gt;</tw-passagedata><tw-passagedata pid="45" name="code.timePass" tags="" position="600,600" size="100,100">{=
+--&gt;</tw-passagedata><tw-passagedata pid="47" name="code.timePass" tags="" position="850,600" size="100,100">{=
 
 
 (metadata:
@@ -1556,12 +1531,22 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
 &lt;!--all-in-one code execution; proceed to new day by writing only (display: &quot;code.timePass&quot;)--&gt;
 (set: $stuff to (dm:))
 (print: (passage: &quot;code.timePass&quot;)&#39;s timeAdvance)
-(print: (passage: &quot;code.timePass&quot;)&#39;s timeGoto)</tw-passagedata><tw-passagedata pid="46" name="event.party" tags="unfinished" position="725,600" size="100,100">(metadata:
+(print: (passage: &quot;code.timePass&quot;)&#39;s timeGoto)</tw-passagedata><tw-passagedata pid="48" name="event.paintFail" tags="" position="975,600" size="100,100">(metadata:
+&quot;devNote&quot;, [Use this as a temporary lock. Find a way to query events.],
+&quot;title&quot;, &quot;Hesitation to Paint&quot;,
+&quot;desc&quot;, &quot;You cannot bring yourself to lift up that veil.&quot;,
+&quot;key&quot;, (a: &quot;cooldown&quot;),
+&quot;duration&quot;, 1,
+&quot;autoClear&quot;, true,
+)</tw-passagedata><tw-passagedata pid="49" name="event.party" tags="unfinished" position="1100,600" size="100,100">(metadata:
 &quot;devNote&quot;, [Figure out full structure of an event&#39;s DM. Right now, there is only a duration entry.],
 
+&quot;title&quot;, &quot;A Party&quot;,
+&quot;desc&quot;, &quot;There will be a party down the hall.&quot;,
+&quot;key&quot;, (a: &quot;worldEvent&quot;),
 &quot;duration&quot;, 7,
 &quot;autoClear&quot;, false,
-)</tw-passagedata><tw-passagedata pid="47" name="flag.JesseMemory" tags="flag" position="850,600" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="50" name="flag.JesseMemory" tags="flag" position="1225,600" size="100,100">{=
 
 (metadata:
 &quot;id&quot;, [A Pleasant Memory of Jesse],
@@ -1570,7 +1555,7 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
 &quot;tip&quot;, [Some comfort for your nightly travels.],
 &quot;gainText&quot;, [You //should// feel happier, and yet, there is only emptiness. Nonetheless, you hold onto the memory.],
 &quot;lossText&quot;, [The more you think about her, the more she fades away. She is bound for better places than your mind. But while she remains, other troubling thoughts are quieted.],
-)</tw-passagedata><tw-passagedata pid="48" name="flag.confidence" tags="flag unfinished" position="975,600" size="100,100">(metadata:
+)</tw-passagedata><tw-passagedata pid="51" name="flag.confidence" tags="flag unfinished" position="100,725" size="100,100">(metadata:
 &quot;devNote&quot;, [Entirely placeholder.],
 
 &quot;id&quot;, [Confidence],
@@ -1579,7 +1564,7 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
 &quot;tip&quot;, [(confidence tip)],
 &quot;gainText&quot;, [(confidence gainText)],
 &quot;lossText&quot;, [(confidence lossText)],
-)</tw-passagedata><tw-passagedata pid="49" name="flag.fixation" tags="flag unfinished" position="1100,600" size="100,100">(metadata:
+)</tw-passagedata><tw-passagedata pid="52" name="flag.fixation" tags="flag unfinished" position="225,725" size="100,100">(metadata:
 &quot;devNote&quot;, [Entirely placeholder.],
 
 &quot;id&quot;, [Fixation],
@@ -1588,7 +1573,7 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
 &quot;tip&quot;, [(fixate tip)],
 &quot;gainText&quot;, [(fixate gainText)],
 &quot;lossText&quot;, [(fixate lossText)],
-)</tw-passagedata><tw-passagedata pid="50" name="flag.inspiration" tags="flag unfinished" position="1225,600" size="100,100">(metadata:
+)</tw-passagedata><tw-passagedata pid="53" name="flag.inspiration" tags="flag unfinished" position="350,725" size="100,100">(metadata:
 &quot;devNote&quot;, [Entirely placeholder.],
 
 &quot;id&quot;, [Inspiration],
@@ -1597,18 +1582,16 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
 &quot;tip&quot;, [(inspiration tip)],
 &quot;gainText&quot;, [(inspiration gainText)],
 &quot;lossText&quot;, [(inspiration lossText)],
-)</tw-passagedata><tw-passagedata pid="51" name="flag.restless" tags="flag unfinished" position="100,725" size="100,100">(metadata:
-&quot;devNote&quot;, [Get rid of numeric mind readouts and tip. It&#39;s not very immersive.],
-
+)</tw-passagedata><tw-passagedata pid="54" name="flag.restless" tags="flag" position="475,725" size="100,100">(metadata:
 &quot;id&quot;, [Restlessness],
 &quot;type&quot;, (a: &quot;att&quot;),
-&quot;desc&quot;, [Frustrated energy. Hurts to have, hurts to let go. May motivate you to push through with certain tasks, but it will hurt.],
+&quot;desc&quot;, [Impatience. Frustration, even. Your nerves are a frayed thread.],
 &quot;tip&quot;, [Each decreases your &#39;&#39;Mind&#39;&#39; by 1, which is now &#39;&#39;(print: $player&#39;s mind)&#39;&#39;.],
-&quot;gainText&quot;, [You become restless, and though your mind suffers for it, it is nonetheless vital energy.],
-&quot;lossText&quot;, [You put your frustrated energy to work. You feel better.],
+&quot;gainText&quot;, [You sigh because you forget to breathe. You fret because you forget how to move. You hurt yourself because you forget how to be.],
+&quot;lossText&quot;, [Breathing comes easier, as though a hand has been lifted from your neck.],
 &quot;gainEffect&quot;, (macro: num-type _value, [(out:)[($funcHurtHeal: -_value, &quot;Due to the stresses of having an unquiet mind.&quot;, false)(rerun: ?sidebarMind)]]),
 &quot;lossEffect&quot;, (macro: num-type _value, [(out:)[($funcHurtHeal: (abs: _value), &quot;Things have quieted somewhat.&quot;, false)(rerun: ?sidebarMind)]]),
-)</tw-passagedata><tw-passagedata pid="52" name="flag.satisfaction" tags="flag unfinished" position="225,725" size="100,100">(metadata:
+)</tw-passagedata><tw-passagedata pid="55" name="flag.satisfaction" tags="flag unfinished" position="600,725" size="100,100">(metadata:
 &quot;devNote&quot;, [Entirely placeholder.],
 
 &quot;id&quot;, [Satisfaction],
@@ -1617,7 +1600,7 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
 &quot;tip&quot;, [(satisfaction tip)],
 &quot;gainText&quot;, [(satisfaction gainText)],
 &quot;lossText&quot;, [(satisfaction lossText)],
-)</tw-passagedata><tw-passagedata pid="53" name="flag.shame" tags="flag unfinished" position="350,725" size="100,100">(metadata:
+)</tw-passagedata><tw-passagedata pid="56" name="flag.shame" tags="flag unfinished" position="725,725" size="100,100">(metadata:
 &quot;devNote&quot;, [Entirely placeholder.],
 
 &quot;id&quot;, [Shame],
@@ -1626,21 +1609,28 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
 &quot;tip&quot;, [(shame tip)],
 &quot;gainText&quot;, [(shame gainText)],
 &quot;lossText&quot;, [(shame lossText)],
-)</tw-passagedata><tw-passagedata pid="54" name="table.chanceMod" tags="unfinished" position="475,725" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="57" name="table.chanceMod" tags="unfinished" position="850,725" size="100,100">{=
 
 (metadata:
     &quot;devNote&quot;, [Keep adding in more standard chance mod tables here],
+    &quot;paintStart&quot;, (dm:
+        &quot;restless&quot;, -5,
+        &quot;fixation&quot;, 10,
+        &quot;inspiration&quot;, 12,
+        &quot;confidence&quot;, 8,
+        &quot;shame&quot;, -10,
+    ),
     &quot;paintBrute&quot;, (dm:
         &quot;restless&quot;, -5,
         &quot;fixation&quot;, 20,
-        &quot;inspiration&quot;, -10,
+        &quot;inspiration&quot;, -20,
     ),
     &quot;paintQuit&quot;, (dm:
         &quot;restless&quot;, 5,
         &quot;satisfaction&quot;, 10,
         &quot;fixation&quot;, -20,
     )
-)</tw-passagedata><tw-passagedata pid="55" name="var.initial" tags="startup" position="600,725" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="58" name="var.initial" tags="startup" position="975,725" size="100,100">{=
 
 (set: $testMode to true)
 
@@ -1649,29 +1639,29 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
 (set: $log to (a:))
 
 &lt;!--$stuff is a &quot;helper&quot; variable. It is more durable than temporary variables, and it can break out of scope. It is meant to be cleared upon time&#39;s advance (displaying &quot;code.timePass&quot;). An example of things that uses $stuff is the $funcCycling macro.--&gt;
-(set: $stuff to (dm:))</tw-passagedata><tw-passagedata pid="56" name="var.player" tags="startup" position="725,725" size="100,100">{=
+(set: $stuff to (dm:))</tw-passagedata><tw-passagedata pid="59" name="var.player" tags="startup" position="1100,725" size="100,100">{=
 
 (set: $player to (dm:
     &quot;mind&quot;, 10,
     &quot;flags&quot;, (dm:),
     &quot;location&quot;, &quot;at home&quot;,
     &quot;activity&quot;, &quot;being idle&quot;,
-))</tw-passagedata><tw-passagedata pid="57" name="var.story" tags="startup" position="850,725" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="60" name="var.story" tags="startup" position="1225,725" size="100,100">{=
 
 (set: $story to (dm:
 &quot;lock&quot;, (a:),
 &quot;cooldown&quot;, (dm:),
-))</tw-passagedata><tw-passagedata pid="58" name="var.time" tags="startup" position="975,725" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="61" name="var.time" tags="startup" position="100,850" size="100,100">{=
 
 (set: $time to (dm:
     &quot;dayCount&quot;, 1,
     &quot;timeOfDay&quot;, 1,
-))</tw-passagedata><tw-passagedata pid="59" name="var.world" tags="startup" position="1100,725" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="62" name="var.world" tags="startup" position="225,850" size="100,100">{=
 
 (set: $world to (dm:
  &quot;state&quot;, 1,
  &quot;events&quot;, (dm:),
-))</tw-passagedata><tw-passagedata pid="60" name="macro.chance" tags="startup" position="1225,725" size="100,100">{=
+))</tw-passagedata><tw-passagedata pid="63" name="macro.chance" tags="startup" position="350,850" size="100,100">{=
 
 &lt;!--calculate a _chance number; output raw number--&gt;
 (set: $funcChance to (macro: num-type _chanceBase, dm-type _factorList, [{
@@ -1715,19 +1705,23 @@ Calling something like (_mindOut: ) should be minimized, as it is performance-he
         ` `×` `
         &lt;!--weight--&gt;
         (set: _weight to _factorList&#39;s _factor)
-        (if: _weight &gt; 0)+(color:green+yellow)[_weight]
-        (else:)+(color:red+orange)[_weight]
+        (if: _weight &gt; 0)+(color:green+yellow)[_weight%]
+        (else:)+(color:red+orange)[_weight%]
         &lt;!--equals--&gt;
         ` `=` `
+        &lt;!--sum--&gt;
         (set: _sum to _weight * ($funcOutputFlag: _factor))
-        (if: _weight &gt; 0)+(color:green+yellow)[(if: _sum&gt;0)[+]_sum]
-        (else:)+(color:red+orange)[_sum]
+        (if: _sum &gt; 0)+(color:green+yellow)[_sum]
+        (elseif: _sum is 0)[_sum]
+        (else:)+(color:red+orange)[_sum]        
         &lt;/li&gt;]
     }]&lt;!--end looping--&gt;
 &lt;/ol&gt;
     &lt;!--final result--&gt;
     $cssDesc[Final: ($cssChanceColor: (str:($funcChance: _chanceBase, _factorList))+&quot;%&quot;, ($funcChance: _chanceBase, _factorList), 100)]
-}]]))</tw-passagedata><tw-passagedata pid="61" name="macro.checkGate" tags="startup" position="100,850" size="100,100">{=
+&lt;!--space--&gt;
+&lt;br&gt;
+}]]))</tw-passagedata><tw-passagedata pid="64" name="macro.checkGate" tags="startup" position="475,850" size="100,100">{=
 
 &lt;!--check gate outputs either 1 of 3 states:
 1. open
@@ -1855,7 +1849,7 @@ b. check mode (positive or negative)
 &lt;br&gt;
     }]
 
-}]]))</tw-passagedata><tw-passagedata pid="62" name="macro.damageHeal" tags="startup" position="225,850" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="65" name="macro.damageHeal" tags="startup" position="600,850" size="100,100">{=
 
 &lt;!--standard macro used to change $player&#39;s mind--&gt;
 (set: $funcHurtHeal to (macro: num-type _value, str-type _reason, boolean-type _notifyOrNot, [(out:)[{
@@ -1891,11 +1885,9 @@ b. check mode (positive or negative)
             }], &quot;✓&quot;)
         }]
 
-}]]))</tw-passagedata><tw-passagedata pid="63" name="macro.event" tags="startup unfinished" position="350,850" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="66" name="macro.event" tags="startup" position="725,850" size="100,100">{=
 
-(metadata:
-&quot;devNote&quot;, [Design and test (G) event system.],
-)
+&lt;!--events (those with autoClear) can be used as a temporary lock/condition.--&gt;
 
 &lt;!--add an event into the $world&#39;s events queue--&gt;
 (set: $funcEventStart to (macro: str-type _eventName, [(out:)[{
@@ -1923,9 +1915,23 @@ b. check mode (positive or negative)
             }]
         }]&lt;!--end loop--&gt;
     }]&lt;!--end if has events--&gt;
-}]]))</tw-passagedata><tw-passagedata pid="64" name="macro.formatting" tags="startup" position="475,850" size="100,100">{=
+}]]))
 
-(set: $cssDesc to (css: &quot;font-style: italic; font-size: 80%; line-height: 1; color: rgba(255,255,255,0.5)&quot;))</tw-passagedata><tw-passagedata pid="65" name="macro.gainLoss" tags="startup" position="600,850" size="100,100">{=
+&lt;!--output raw data about a queried event (stored in $world&#39;s events DM). It gives a false by default (no such event exists) or a number (timer, if event exists)--&gt;
+(set: $funcEventOutput to (macro: str-type _eventName, [{
+    &lt;!--initialize--&gt;
+    (set: _out to false)
+
+    &lt;!--If event exists, then change output to the current timer--&gt;
+    (if: $world&#39;s events contains _eventName)[{
+        (set: _out to $world&#39;s events&#39;s _eventName)
+    }]
+
+    &lt;!--output--&gt;
+    (out-data: _out)
+}]))</tw-passagedata><tw-passagedata pid="67" name="macro.formatting" tags="startup" position="850,850" size="100,100">{=
+
+(set: $cssDesc to (css: &quot;font-style: italic; font-size: 80%; line-height: 1; color: rgba(255,255,255,0.5)&quot;))</tw-passagedata><tw-passagedata pid="68" name="macro.gainLoss" tags="startup" position="975,850" size="100,100">{=
 
 (set: $funcGainLoss to (macro: str-type _flag, num-type _value, [(out:)[{
     &lt;!--load the full dm--&gt;
@@ -1979,7 +1985,7 @@ b. check mode (positive or negative)
 &lt;br&gt;
     }]
 
-}]]))</tw-passagedata><tw-passagedata pid="66" name="macro.innerConvo" tags="startup" position="725,850" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="69" name="macro.innerConvo" tags="startup" position="1100,850" size="100,100">{=
 
 
 (set: $funcInnerConvo to (macro: dm-type _choicesDM, [(out:)[{
@@ -2000,7 +2006,7 @@ b. check mode (positive or negative)
     }]&lt;!--end of looping--&gt;
 
     &lt;/ol&gt;]&lt;choicesBlock|
-}]]))</tw-passagedata><tw-passagedata pid="67" name="macro.layout" tags="startup" position="850,850" size="100,100">&lt;!--a macro that automatically formats the game&#39;s main reading content--&gt;
+}]]))</tw-passagedata><tw-passagedata pid="70" name="macro.layout" tags="startup" position="1225,850" size="100,100">&lt;!--a macro that automatically formats the game&#39;s main reading content--&gt;
 
 (set: $funcMainContent to (macro: codehook-type _mainReadingContent, codehook-type _mainDoneChoices, boolean-type _showDoneChoicesAtBeginning, [(out:)[{
     &lt;!--display page title--&gt;
@@ -2022,7 +2028,7 @@ b. check mode (positive or negative)
 
     &lt;!--show at beginning?--&gt;
     (if: _showDoneChoicesAtBeginning)[(show: ?mainDone)]
-}]]))</tw-passagedata><tw-passagedata pid="68" name="macro.lockCooldown" tags="startup" position="975,850" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="71" name="macro.lockCooldown" tags="startup" position="100,975" size="100,100">{=
 
 &lt;!--lock, unlock, and cooldown macros, all of which controls story availability (usually in relays)--&gt;
 
@@ -2040,7 +2046,7 @@ b. check mode (positive or negative)
     (if: $story&#39;s lock contains _storyName)[{
         (move: $story&#39;s lock&#39;s _storyName to _trash)
     }]&lt;!--end of if--&gt;
-}]]))</tw-passagedata><tw-passagedata pid="69" name="macro.navigate" tags="startup" position="1100,850" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="72" name="macro.navigate" tags="startup" position="225,975" size="100,100">{=
 
 &lt;!--these are miscellaneous macros for frequently used navigation actions--&gt;
 
@@ -2100,7 +2106,7 @@ b. check mode (positive or negative)
         ]
     }]
 
-}]]))</tw-passagedata><tw-passagedata pid="70" name="macro.notifyLog" tags="startup" position="1225,850" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="73" name="macro.notifyLog" tags="startup" position="350,975" size="100,100">{=
 
 (set: $funcNotifyLog to (macro: str-type _flag, num-type _value, [(out:)[{
     &lt;!--load full flag DM--&gt;
@@ -2145,7 +2151,7 @@ b. check mode (positive or negative)
         (if: _flagDM contains &quot;tip&quot;)[&lt;br&gt;$cssDesc[(print: _flagDM&#39;s tip)]]
 
     }], &quot;✓&quot;)
-}]]))</tw-passagedata><tw-passagedata pid="71" name="macro.outputFlag" tags="startup" position="100,975" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="74" name="macro.outputFlag" tags="startup" position="475,975" size="100,100">{=
 
 &lt;!--output a number--&gt;
 (set: $funcOutputFlag to (macro: str-type _flag, [{
@@ -2157,7 +2163,7 @@ b. check mode (positive or negative)
 
     &lt;!--output--&gt;
     (output-data: _out)
-}]))</tw-passagedata><tw-passagedata pid="72" name="macro.relay" tags="startup" position="225,975" size="100,100">{=
+}]))</tw-passagedata><tw-passagedata pid="75" name="macro.relay" tags="startup" position="600,975" size="100,100">{=
 
 &lt;!--Outside of check gates (which check for flags), sometimes, the link&#39;s text and destination should be varied based on world state and events. The relay macro is used.
 
@@ -2204,7 +2210,7 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
     )+$cssDesc[&lt;br&gt;↪` `(print: _relayTip)
 &lt;br&gt;
     ]
-}]]))</tw-passagedata><tw-passagedata pid="73" name="macro.reveal" tags="startup" position="350,975" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="76" name="macro.reveal" tags="startup" position="725,975" size="100,100">{=
 
 &lt;!--scroll to--&gt;
 (set: $funcScrollToHook to (macro: str-type _hookScrollTo, [(out:)[{(print: &quot;&lt;script&gt;setTimeout(() =&gt; {const hook = document.querySelector(&#39;tw-hook[name=\&quot;&quot; + (lowercase:_hookScrollTo) + &quot;\&quot;]&#39;); if (hook) {hook.scrollIntoView({ behavior: &#39;smooth&#39;, block: &#39;center&#39; });}}, 20);&lt;/script&gt;&quot;)&lt;!--end of print--&gt;}]]))
@@ -2288,7 +2294,7 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
         }]&lt;!--end of link command--&gt;
     }]&lt;!--end of ?rerunableLink--&gt;
 
-}]]))</tw-passagedata><tw-passagedata pid="74" name="macro.roll" tags="startup" position="475,975" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="77" name="macro.roll" tags="startup" position="850,975" size="100,100">{=
 
 &lt;!--basic dice roll, output a _success boolean &amp; notification. Front-facing.--&gt;
 (set: $funcDiceRoll to (macro: num-type _chance, [(out:)[{
@@ -2376,7 +2382,7 @@ Incidentally, there is a use for this with check gates. Loading in the relayCode
 
 &lt;!--output formatted text--&gt;
 _chanceColor[_formattedText]
-}]]))</tw-passagedata><tw-passagedata pid="75" name="macro.storylet" tags="startup" position="600,975" size="100,100">{=
+}]]))</tw-passagedata><tw-passagedata pid="78" name="macro.storylet" tags="startup" position="975,975" size="100,100">{=
 
 &lt;!--these macros perform various functions related to storylets. Might potentially be redundant with relays--&gt;
 
@@ -2392,7 +2398,7 @@ _chanceColor[_formattedText]
 
     &lt;!--output--&gt;
     (out-data: _storyletList)
-}]))</tw-passagedata><tw-passagedata pid="76" name="TODO.story" tags="" position="725,975" size="100,100">{=
+}]))</tw-passagedata><tw-passagedata pid="79" name="TODO.story" tags="" position="1100,975" size="100,100">{=
 
 &#39;&#39;Story Ideas&#39;&#39;
 &lt;ol&gt;
@@ -2406,7 +2412,7 @@ $cssDesc[― Friedrich Nietzsche, The Gay Science: With a Prelude in Rhymes and 
 
 
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="77" name="TODO.wip" tags="" position="850,975" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="80" name="TODO.wip" tags="" position="1225,975" size="100,100">{=
 
 &#39;&#39;WIP Passages&#39;&#39;
 &lt;ol&gt;
@@ -2426,7 +2432,7 @@ $cssDesc[― Friedrich Nietzsche, The Gay Science: With a Prelude in Rhymes and 
     (if: _todo contains &quot;devNote&quot;)+$cssDesc[&lt;br&gt;↪` `(print: _todo&#39;s devNote)]
     &lt;/li&gt;
 }]
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="78" name="TODO" tags="" position="975,975" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="81" name="TODO" tags="" position="100,1100" size="100,100">{=
 
 &lt;!--initialize--&gt;
 (set: _display to &quot;wip&quot;)
@@ -2453,7 +2459,7 @@ $cssDesc[― Friedrich Nietzsche, The Gay Science: With a Prelude in Rhymes and 
 [
 (if: _display is &quot;wip&quot;)[(display: &quot;TODO.wip&quot;)]
 (elseif: _display is &quot;story&quot;)[(display: &quot;TODO.story&quot;)]
-]&lt;display|</tw-passagedata><tw-passagedata pid="79" name="Test" tags="" position="1100,975" size="100,100">{=
+]&lt;display|</tw-passagedata><tw-passagedata pid="82" name="Test" tags="" position="225,1100" size="100,100">{=
 
 &lt;!--activate debug if $testMode is true--&gt;
 (if: $testMode is true)[(debug:)]
@@ -2472,12 +2478,12 @@ $cssDesc[― Friedrich Nietzsche, The Gay Science: With a Prelude in Rhymes and 
 &lt;li&gt;(link: &quot;Test I&quot;)[(goto: &quot;test.I.mind&quot;)] $cssDesc[(Mind)]&lt;/li&gt;
 &lt;li&gt;(link: &quot;Test J&quot;)[(goto: &quot;test.j.painting&quot;)] $cssDesc[(Paint)]&lt;/li&gt;
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="80" name="block.testNavigation" tags="" position="1225,975" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="83" name="block.testNavigation" tags="" position="350,1100" size="100,100">{=
 
 &lt;!--to be displayed at the start of all test passages--&gt;
 
 &#39;&#39;(print: (passage:)&#39;s title)&#39;&#39;
-&lt;br&gt;(link: &quot;&lt;= Back&quot;)[(goto: &quot;Test&quot;)]</tw-passagedata><tw-passagedata pid="81" name="test.A.navigation" tags="" position="100,1100" size="100,100">{=
+&lt;br&gt;(link: &quot;&lt;= Back&quot;)[(goto: &quot;Test&quot;)]</tw-passagedata><tw-passagedata pid="84" name="test.A.navigation" tags="" position="475,1100" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test A: Text Navigation&quot;
@@ -2627,7 +2633,7 @@ She is not under the table either.
 |TestA4Reveal)[
 &lt;br&gt;
 ($funcReveal: &quot;Where could she be?&quot;, &quot;where&quot;)|where)[` `Ah, right here, by my side. _resetLink]
-]</tw-passagedata><tw-passagedata pid="82" name="test.B.gainLoss" tags="" position="225,1100" size="100,100">{=
+]</tw-passagedata><tw-passagedata pid="85" name="test.B.gainLoss" tags="" position="600,1100" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test B: Gain &amp; Loss&quot;,
@@ -2695,9 +2701,9 @@ $cssDesc[Create a link, only for gains with no dice rolls. Losses/expenditures a
 &lt;ol&gt;
 &lt;li&gt;($funcGainLink: &quot;Gain 1 Restlessness&quot;, &quot;restless&quot;, 1, [], &quot;test.B.gained&quot;)&lt;/li&gt;
 &lt;li&gt;($funcGainLink: &quot;Gain 1 Restlessness, but time moves forward&quot;, &quot;restless&quot;, 1, [], &quot;code.timePass&quot;)&lt;/li&gt;
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="83" name="test.B.gained" tags="" position="350,1100" size="100,100">(link: &quot;Back&quot;)[(goto: &quot;test.B.gainLoss&quot;)]
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="86" name="test.B.gained" tags="" position="725,1100" size="100,100">(link: &quot;Back&quot;)[(goto: &quot;test.B.gainLoss&quot;)]
 &lt;br&gt;
-Gained</tw-passagedata><tw-passagedata pid="84" name="test.C.convo" tags="" position="475,1100" size="100,100">{=
+Gained</tw-passagedata><tw-passagedata pid="87" name="test.C.convo" tags="" position="850,1100" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test C: Conversations&quot;,
@@ -2738,7 +2744,7 @@ _resetLink
 &quot;Ah, if only it was so easy...&quot;
 &lt;br&gt;
 _resetLink
-](getLost|</tw-passagedata><tw-passagedata pid="85" name="test.D.checkGate" tags="" position="600,1100" size="100,100">{=
+](getLost|</tw-passagedata><tw-passagedata pid="88" name="test.D.checkGate" tags="" position="975,1100" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test D: Check Gates&quot;,
@@ -2850,15 +2856,15 @@ $cssDesc[Let&#39;s say that the base chance is 50; each restlessness will -5, an
 |mainDone&gt;[($funcChanceReadout: _chanceBaseSample2, _factorListSample2)]
 ]&lt;/li&gt;
 
-&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="86" name="test.D.success" tags="" position="725,1100" size="100,100">{=
+&lt;/ol&gt;</tw-passagedata><tw-passagedata pid="89" name="test.D.success" tags="" position="1100,1100" size="100,100">{=
 
 Succeeded check!
 &lt;br&gt;
-(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="87" name="test.D.fail" tags="" position="850,1100" size="100,100">{=
+(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="90" name="test.D.fail" tags="" position="1225,1100" size="100,100">{=
 
 Failed check...
 &lt;br&gt;
-(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="88" name="test.E.log" tags="" position="975,1100" size="100,100">(metadata:
+(link: &quot;Back&quot;)[(goto: &quot;test.D.checkGate&quot;)]</tw-passagedata><tw-passagedata pid="91" name="test.E.log" tags="" position="100,1225" size="100,100">(metadata:
 &quot;title&quot;, &quot;Test E: Logging&quot;,
 )
 
@@ -2947,7 +2953,7 @@ $cssDesc[Note: Consider consolidating readout code (for different logTypes) into
         &lt;/li&gt;
     }]
     &lt;/ol&gt;
-}]</tw-passagedata><tw-passagedata pid="89" name="test.F.relay" tags="" position="1100,1100" size="100,100">{=
+}]</tw-passagedata><tw-passagedata pid="92" name="test.F.relay" tags="" position="225,1225" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test F: Relay&quot;
@@ -3015,7 +3021,7 @@ Set restlessness:
 &lt;br&gt;
 &#39;&#39;Restlessness:&#39;&#39; |testF2&gt;[($funcOutputFlag: &quot;restless&quot;)]
 &lt;br&gt;
-&#39;&#39;Test link:&#39;&#39; |testF2&gt;[($funcRelay: &quot;test.F.relaySample2&quot;, [])]</tw-passagedata><tw-passagedata pid="90" name="test.F.relaySample1" tags="" position="1225,1100" size="100,100">{=
+&#39;&#39;Test link:&#39;&#39; |testF2&gt;[($funcRelay: &quot;test.F.relaySample2&quot;, [])]</tw-passagedata><tw-passagedata pid="93" name="test.F.relaySample1" tags="" position="350,1225" size="100,100">{=
 (metadata:
     &quot;relayCode&quot;, [{
         &lt;!--must always name them _relayLink and _relayDestination.--&gt;
@@ -3034,7 +3040,7 @@ Set restlessness:
         ))
     }],
 
-)</tw-passagedata><tw-passagedata pid="91" name="test.F.relaySample2" tags="" position="100,1225" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="94" name="test.F.relaySample2" tags="" position="475,1225" size="100,100">{=
 (metadata:
     &quot;relayCode&quot;, [{
         &lt;!--must always name them _relayLink and _relayDestination and _relayTip.--&gt;
@@ -3060,18 +3066,18 @@ Set restlessness:
         ))
     }],
 
-)</tw-passagedata><tw-passagedata pid="92" name="test.F.destination1" tags="" position="225,1225" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="95" name="test.F.destination1" tags="" position="600,1225" size="100,100">{=
 (link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
 &lt;br&gt;
-Destination 1</tw-passagedata><tw-passagedata pid="93" name="test.F.destination2" tags="" position="350,1225" size="100,100">{=
-(link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
-&lt;br&gt;
-
-Destination 2</tw-passagedata><tw-passagedata pid="94" name="test.F.destination3" tags="" position="475,1225" size="100,100">{=
+Destination 1</tw-passagedata><tw-passagedata pid="96" name="test.F.destination2" tags="" position="725,1225" size="100,100">{=
 (link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
 &lt;br&gt;
 
-Destination 3</tw-passagedata><tw-passagedata pid="95" name="test.G.event" tags="" position="600,1225" size="100,100">{=
+Destination 2</tw-passagedata><tw-passagedata pid="97" name="test.F.destination3" tags="" position="850,1225" size="100,100">{=
+(link: &quot;Back to test F&quot;)[(goto: &quot;test.F.relay&quot;)]
+&lt;br&gt;
+
+Destination 3</tw-passagedata><tw-passagedata pid="98" name="test.G.event" tags="" position="975,1225" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test G: Events&quot;,
@@ -3119,7 +3125,7 @@ $cssDesc[Testing with the &quot;party&quot; event. `$funcEventStart` is inserted
 }]&lt;/li&gt;
 &lt;/ol&gt;
 &lt;br&gt;
-The party: |TestG1&gt;[(if: $world&#39;s events contains &quot;party&quot;)[(print: $world&#39;s events&#39;s party)](else:)[Not started.]]</tw-passagedata><tw-passagedata pid="96" name="test.H.roll" tags="" position="725,1225" size="100,100">{=
+The party: |TestG1&gt;[(if: $world&#39;s events contains &quot;party&quot;)[(print: $world&#39;s events&#39;s party)](else:)[Not started.]]</tw-passagedata><tw-passagedata pid="99" name="test.H.roll" tags="" position="1100,1225" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test H: Dice and Table Rolls&quot;,
@@ -3239,7 +3245,7 @@ Score:` `[{
     (else:)[_result2]
 }]&lt;TestH2|
 &lt;br&gt;
-$cssDesc[The expected score should be roughly 10% Bird, 70% 1ALiph, and 20% 0Zeta.]</tw-passagedata><tw-passagedata pid="97" name="test.I.mind" tags="" position="850,1225" size="100,100">{=
+$cssDesc[The expected score should be roughly 10% Bird, 70% 1ALiph, and 20% 0Zeta.]</tw-passagedata><tw-passagedata pid="100" name="test.I.mind" tags="" position="1225,1225" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test H: Dice and Table Rolls&quot;,
@@ -3283,7 +3289,7 @@ It is best practice to put the output macro into a temp var so that it can easil
 &lt;br&gt;
 &lt;!--short hand--&gt;
 (set: _outputMind to (passage: &quot;code.mind&quot;)&#39;s output)
-Mind: [(print: $player&#39;s mind) ((_outputMind:))]&lt;TestI1|</tw-passagedata><tw-passagedata pid="98" name="test.cheatConsole" tags="" position="975,1225" size="100,100">{=
+Mind: [(print: $player&#39;s mind) ((_outputMind:))]&lt;TestI1|</tw-passagedata><tw-passagedata pid="101" name="test.cheatConsole" tags="" position="100,1350" size="100,100">{=
 
 $cssDesc[gainLoss for all flags in game.]
 &lt;br&gt;
@@ -3316,7 +3322,7 @@ $cssDesc[gainLoss for all flags in game.]
         (hook: _flag + &quot;displayHook&quot;)[($funcOutputFlag: _flag)]
     }]
     &lt;/ol&gt;
-}]</tw-passagedata><tw-passagedata pid="99" name="test.j.painting.1" tags="" position="1100,1225" size="100,100">{=</tw-passagedata><tw-passagedata pid="100" name="test.j.painting.1.pickApproach" tags="" position="1225,1225" size="100,100">{=
+}]</tw-passagedata><tw-passagedata pid="102" name="test.j.painting.1" tags="" position="225,1350" size="100,100">{=</tw-passagedata><tw-passagedata pid="103" name="test.j.painting.1.pickApproach" tags="" position="350,1350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Pick Approach&quot;,
@@ -3337,7 +3343,7 @@ $cssDesc[gainLoss for all flags in game.]
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="101" name="test.j.painting.1.brute.step1" tags="" position="100,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="104" name="test.j.painting.1.brute.step1" tags="" position="475,1350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Brute-Force (Step 1)&quot;,
@@ -3359,7 +3365,7 @@ Fixation increases chance.}],
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="102" name="test.j.painting.1.brute.step2" tags="" position="225,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="105" name="test.j.painting.1.brute.step2" tags="" position="600,1350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Brute-Force (Step 2)&quot;,
@@ -3383,7 +3389,7 @@ Quitting becomes available; it is the most attractive early on. Its chance shoul
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="103" name="test.j.painting.1.brute.step3" tags="" position="350,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="106" name="test.j.painting.1.brute.step3" tags="" position="725,1350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Brute-Force (Step 3)&quot;,
@@ -3407,7 +3413,7 @@ Quitting should be somewhat less attractive.}],
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="104" name="test.j.painting.1.brute.retry" tags="" position="475,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="107" name="test.j.painting.1.brute.retry" tags="" position="850,1350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Brute-Force (Retry?)&quot;,
@@ -3430,7 +3436,7 @@ Quitting is not very attractive at this point.}],
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="105" name="test.j.painting.1.roadblock" tags="" position="600,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="108" name="test.j.painting.1.roadblock" tags="" position="975,1350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Roadblock&quot;,
@@ -3451,7 +3457,7 @@ Or...
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="106" name="test.j.painting.1.resolve.consolation" tags="" position="725,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="109" name="test.j.painting.1.resolve.consolation" tags="" position="1100,1350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Resolution (Consolation)&quot;,
@@ -3468,7 +3474,7 @@ Gain 2, as opposed to 1 (quitting early).}],
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="107" name="test.j.painting.1.resolve.quit" tags="" position="850,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="110" name="test.j.painting.1.resolve.quit" tags="" position="1225,1350" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Resolution (Quit)&quot;,
@@ -3485,7 +3491,7 @@ Gain 1, as opposed to 2 (full maturity).}],
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="108" name="test.j.painting.1.resolve.stall" tags="" position="975,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="111" name="test.j.painting.1.resolve.stall" tags="" position="100,1475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 1: Resolution (Stall)&quot;,
@@ -3502,7 +3508,7 @@ true)</tw-passagedata><tw-passagedata pid="108" name="test.j.painting.1.resolve.
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="109" name="test.j.painting.2.pickApproach" tags="" position="1100,1350" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="112" name="test.j.painting.2.pickApproach" tags="" position="225,1475" size="100,100">{=
 
 (metadata: &quot;title&quot;, &quot;Pattern 2: Pick Approach&quot;)
 
@@ -3520,7 +3526,7 @@ For this test, only 1 approach is available.
 &lt;br&gt;
 (display: &quot;test.cheatConsole&quot;)}],
 true
-)</tw-passagedata><tw-passagedata pid="110" name="test.j.painting.2.brute.step1" tags="" position="1225,1350" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="113" name="test.j.painting.2.brute.step1" tags="" position="350,1475" size="100,100">{=
 
 (metadata: &quot;title&quot;, &quot;Pattern 2: Brute-Force (Step 1)&quot;)
 
@@ -3546,7 +3552,7 @@ Chance should be variable.
 &lt;br&gt;
 (display: &quot;test.cheatConsole&quot;)}],
 true
-)</tw-passagedata><tw-passagedata pid="111" name="test.j.painting.2.brute.step2" tags="" position="100,1475" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="114" name="test.j.painting.2.brute.step2" tags="" position="475,1475" size="100,100">{=
 
 (metadata: &quot;title&quot;, &quot;Pattern 2: Brute-Force (Step 2)&quot;)
 
@@ -3572,7 +3578,7 @@ Chance should be variable.
 &lt;br&gt;
 (display: &quot;test.cheatConsole&quot;)}],
 true
-)</tw-passagedata><tw-passagedata pid="112" name="test.j.painting.2.brute.step3" tags="" position="225,1475" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="115" name="test.j.painting.2.brute.step3" tags="" position="600,1475" size="100,100">{=
 
 (metadata: &quot;title&quot;, &quot;Pattern 2: Brute-Force (Step 3)&quot;)
 
@@ -3598,7 +3604,7 @@ Chance should be variable.
 &lt;br&gt;
 (display: &quot;test.cheatConsole&quot;)}],
 true
-)</tw-passagedata><tw-passagedata pid="113" name="test.j.painting.2.brute.retry" tags="" position="350,1475" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="116" name="test.j.painting.2.brute.retry" tags="" position="725,1475" size="100,100">{=
 
 (metadata: &quot;title&quot;, &quot;Pattern 2: Brute-Force (Retry)&quot;)
 
@@ -3623,7 +3629,7 @@ Having fixation should make it more difficult to quit.
 &lt;br&gt;
 (display: &quot;test.cheatConsole&quot;)}],
 true
-)</tw-passagedata><tw-passagedata pid="114" name="test.j.painting.2.resolve.quit" tags="" position="475,1475" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="117" name="test.j.painting.2.resolve.quit" tags="" position="850,1475" size="100,100">{=
 
 (metadata: &quot;title&quot;, &quot;Pattern 2: Resolution (Quit)&quot;)
 
@@ -3638,7 +3644,7 @@ Quit while you&#39;re ahead.
 &lt;br&gt;
 (display: &quot;test.cheatConsole&quot;)}],
 true
-)</tw-passagedata><tw-passagedata pid="115" name="test.j.painting.2.resolve.stall" tags="" position="600,1475" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="118" name="test.j.painting.2.resolve.stall" tags="" position="975,1475" size="100,100">{=
 
 (metadata: &quot;title&quot;, &quot;Pattern 2: Resolution (Stall)&quot;)
 
@@ -3653,7 +3659,7 @@ You are too fixated, so you waste some more time to no avail.
 &lt;br&gt;
 (display: &quot;test.cheatConsole&quot;)}],
 true
-)</tw-passagedata><tw-passagedata pid="116" name="test.j.painting.2.roadblock" tags="" position="725,1475" size="100,100">{=
+)</tw-passagedata><tw-passagedata pid="119" name="test.j.painting.2.roadblock" tags="" position="1100,1475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 2: Roadblock&quot;,
@@ -3675,7 +3681,7 @@ Or...
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="117" name="test.j.painting.2.resolve.consolation" tags="" position="850,1475" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="120" name="test.j.painting.2.resolve.consolation" tags="" position="1225,1475" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 2: Resolution (Consolation)&quot;,
@@ -3690,7 +3696,7 @@ true)</tw-passagedata><tw-passagedata pid="117" name="test.j.painting.2.resolve.
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="118" name="test.j.painting.2.dream" tags="" position="975,1475" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="121" name="test.j.painting.2.dream" tags="" position="100,1600" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 2: Dreaming&quot;,
@@ -3715,7 +3721,7 @@ Exchange rate is 1:1 for this test.
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="119" name="test.j.painting.2.dream.fixate" tags="" position="1100,1475" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="122" name="test.j.painting.2.dream.fixate" tags="" position="225,1600" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 2: Dreaming (Fixation)&quot;,
@@ -3730,7 +3736,7 @@ true)</tw-passagedata><tw-passagedata pid="119" name="test.j.painting.2.dream.fi
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="120" name="test.j.painting.2.dream.heal" tags="" position="1225,1475" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="123" name="test.j.painting.2.dream.heal" tags="" position="350,1600" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Pattern 2: Dreaming (Healing)&quot;,
@@ -3752,7 +3758,7 @@ true)</tw-passagedata><tw-passagedata pid="120" name="test.j.painting.2.dream.he
 (display: &quot;test.cheatConsole&quot;)
 
 }],
-true)</tw-passagedata><tw-passagedata pid="121" name="test.j.painting" tags="" position="100,1600" size="100,100">{=
+true)</tw-passagedata><tw-passagedata pid="124" name="test.j.painting" tags="" position="475,1600" size="100,100">{=
 
 (metadata:
 &quot;title&quot;, &quot;Test J: Painting Sequence&quot;,
@@ -3792,7 +3798,7 @@ $cssDesc[Pattern 2 is a vertical test of the most basic economic loop: painting 
 &lt;br&gt;
 The purpose is to test variable chance.]
 &lt;br&gt;
-($funcOutLink: &quot;Begin pattern 2&quot;, &quot;Begin painting.&quot;, &quot;test.j.painting.2.pickApproach&quot;, [])</tw-passagedata><tw-passagedata pid="122" name="Header" tags="header" position="225,1600" size="100,100">{=
+($funcOutLink: &quot;Begin pattern 2&quot;, &quot;Begin painting.&quot;, &quot;test.j.painting.2.pickApproach&quot;, [])</tw-passagedata><tw-passagedata pid="125" name="Header" tags="header" position="600,1600" size="100,100">{=
 &lt;!--displayed text in header--&gt;
 (align: &quot;=&gt;&lt;=&quot;)+$cssDesc[{
     &lt;!--dayCount--&gt;
@@ -3809,17 +3815,23 @@ The purpose is to test variable chance.]
 }]&lt;!--end header readout cssDesc--&gt;
 
 &lt;!--test mode?--&gt;
-(if: $testMode is true)[(debug:)]
+(if: $testMode is true)[{
+    &lt;!--display passage&#39;s name--&gt;
+    &lt;br&gt;$cssDesc[Current: (print: (passage:)&#39;s name)] 
+    &lt;!--debug--&gt;
+    (debug:)
+}]
     
 &lt;br&gt;
 ---
-&lt;br&gt;</tw-passagedata><tw-passagedata pid="123" name="Sidebar" tags="footer" position="350,1600" size="100,100">{=
+&lt;br&gt;</tw-passagedata><tw-passagedata pid="126" name="Sidebar" tags="footer" position="725,1600" size="100,100">{=
 
 (append: ?Sidebar)[
 [(print: $player&#39;s mind)]&lt;sidebarMind|
 &lt;br&gt;
-(link-repeat: &quot;🔙&quot;)[(print: (passage: &quot;code.timePass&quot;)&#39;s timeGoto)]
-(link-repeat: &quot;➡️&quot;)[(display: &quot;code.timePass&quot;)]
+(link-repeat: &quot;↩️&quot;)[(print: (passage: &quot;code.timePass&quot;)&#39;s timeGoto)]
+($funcReveal: &quot;▶️&quot;, &quot;mainDone&quot;)
+(link-repeat: &quot;⏭️&quot;)[(display: &quot;code.timePass&quot;)]
 (link-repeat: &quot;🧪&quot;)[(goto: &quot;Test&quot;)]
 (link-repeat: &quot;📜&quot;)[(goto: &quot;TODO&quot;)]
 (link-repeat: &quot;🧭&quot;)[{

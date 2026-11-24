@@ -1,0 +1,44 @@
+:: dream.default [unfinished]
+{=
+
+(storylet: when
+    true
+)
+
+(metadata:
+    "devNote", [Entirely placeholder. Right now, it is sufficient as a marketplace.],
+    "title", "Default Dream"
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+(Dream text, depending on mind.)
+
+}],
+[{<!--?mainDone-->
+
+<ol>
+You...
+<li>($funcCheckGate: "Fixate on your restlessness.", true, "restless", 1, true, 100, [], "dream.default.gainFixation", "")</li>
+
+<li>($funcCheckGate: "Think about what you've achieved.", true, "satisfaction", 2, true, 100, [], "dream.default.gainConfidence", "")</li>
+
+
+
+Or, let yourself drift...
+<li>($funcCheckGate: "And hold onto a good memory, like a lifebuoy.", true, "JesseMemory", 1, true, 100, [(display: "code.timePass")], "", "")</li>
+
+<li>($funcOutLink: "And drift... and drift...", "This will hurt.", "", [{
+    <!--hurt-->
+    ($funcHurtHeal: -1, "Drifted in a dream.", true)
+    <!--pass time-->
+    (display: "code.timePass")
+}])</li>
+
+</ol>
+
+}],
+
+true
+)

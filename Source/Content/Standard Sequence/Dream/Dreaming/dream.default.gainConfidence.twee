@@ -1,0 +1,20 @@
+:: dream.default.gainConfidence [unfinished]
+{=
+
+(metadata:
+	"title","Dream: Gain Confidence",
+	"devNote", [Placeholder.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+(I be confidencing.....)
+
+}],
+[{<!--?mainDone-->
+($funcGainLink: "Gain 1 Confidence", "confidence", 1, [(display: "code.timePass")], "")
+}],
+
+true
+)

@@ -1,0 +1,10 @@
+:: event.paintFail
+
+(metadata:
+"devNote", [Use this as a temporary lock. Find a way to query events.],
+"title", "Hesitation to Paint",
+"desc", "You cannot bring yourself to lift up that veil.",
+"key", (a: "cooldown"),
+"duration", 1,
+"autoClear", true,
+)

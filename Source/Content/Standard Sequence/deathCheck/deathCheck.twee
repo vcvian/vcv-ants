@@ -1,14 +1,16 @@
 :: deathCheck [unfinished]
 {=
 (metadata:
-"devNote", [Need to add more conditions/scenarios. Then, add setDay mechanics (countdown, for example)],
+"devNote", [Need to add more conditions/scenarios. Then, add setDay mechanics (countdown, for example). Also, do something about the "at home" in the header - it should be a "???".],
 )
 
 <!--dead or not?-->
 (set: _isAlive to true)
 (if: $player's mind <= 0)[(set: _isAlive to false)]
 
+<!--initial, default value, which will be used as part of a passage's name, so be very careful with how deathCheck passages are named-->
 (set: _scenario to "default1")
+
 <!--If alive, go on living-->
 (if: _isAlive)[{  
     (set: _scenario to (cond:

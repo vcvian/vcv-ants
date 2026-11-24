@@ -3,10 +3,17 @@
 
 (metadata:
     "devNote", [Keep adding in more standard chance mod tables here],
+    "paintStart", (dm:
+        "restless", -5,
+        "fixation", 10,
+        "inspiration", 12,
+        "confidence", 8,
+        "shame", -10,
+    ),
     "paintBrute", (dm:
         "restless", -5,
         "fixation", 20,
-        "inspiration", -10,
+        "inspiration", -20,
     ),
     "paintQuit", (dm:
         "restless", 5,

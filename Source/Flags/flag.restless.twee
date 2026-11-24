@@ -1,14 +1,12 @@
-:: flag.restless [flag unfinished]
+:: flag.restless [flag]
 
 (metadata:
-"devNote", [Get rid of numeric mind readouts and tip. It's not very immersive.],
-
 "id", [Restlessness],
 "type", (a: "att"),
-"desc", [Frustrated energy. Hurts to have, hurts to let go. May motivate you to push through with certain tasks, but it will hurt.],
+"desc", [Impatience. Frustration, even. Your nerves are a frayed thread.],
 "tip", [Each decreases your ''Mind'' by 1, which is now ''(print: $player's mind)''.],
-"gainText", [You become restless, and though your mind suffers for it, it is nonetheless vital energy.],
-"lossText", [You put your frustrated energy to work. You feel better.],
+"gainText", [You sigh because you forget to breathe. You fret because you forget how to move. You hurt yourself because you forget how to be.],
+"lossText", [Breathing comes easier, as though a hand has been lifted from your neck.],
 "gainEffect", (macro: num-type _value, [(out:)[($funcHurtHeal: -_value, "Due to the stresses of having an unquiet mind.", false)(rerun: ?sidebarMind)]]),
 "lossEffect", (macro: num-type _value, [(out:)[($funcHurtHeal: (abs: _value), "Things have quieted somewhat.", false)(rerun: ?sidebarMind)]]),
 )

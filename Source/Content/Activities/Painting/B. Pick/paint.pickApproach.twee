@@ -1,0 +1,24 @@
+:: paint.pickApproach [unfinished]
+{=
+
+(metadata:
+	"title","Pick Approach",
+    "devNote", [Placeholder. Need state-variable text. So far, there is only 1 approach :( Better balance the approaches carefully. You //want// the brute-force to get progressively easier in early game, but it might get so easy that it becomes completely superior to the other approaches later down the life. Right now, 4 fixations - which is easy to get - can make all 3 steps of the brute-force approach trivial.],
+)
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+(pick approaches)
+
+}],
+[{<!--?mainDone-->
+<ol>
+
+<li>($funcOutLink: "Brute-force approach.", "No check.", "paint.brute.step1", [])</li>
+
+</ol>
+}],
+
+true
+)

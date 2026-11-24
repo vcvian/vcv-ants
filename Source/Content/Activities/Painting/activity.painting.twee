@@ -5,20 +5,23 @@
 "relayCode", [{
         <!--must always name them _relayLink and _relayDestination and _relayTip.-->
         (set: _relayLink to (cond:
+            ($funcOpenStorylets:) contains "paint.failToStart", "Approach your painting... again?",
             ($funcOpenStorylets:) contains "story.paintingWhatIs", "That //thing// in the corner...",
-            ($funcOpenStorylets:) contains "story.painting1", "Approach your painting.",
+            ($funcOpenStorylets:) contains "paint.start", "Approach your painting.",
             false
         ))
 
         (set: _relayDestination to (cond:
+            ($funcOpenStorylets:) contains "paint.failToStart", "paint.failToStart",
             ($funcOpenStorylets:) contains "story.paintingWhatIs", "story.paintingWhatIs",
-            ($funcOpenStorylets:) contains "story.painting1", "story.painting1",
+            ($funcOpenStorylets:) contains "paint.start", "paint.start",
             false
         ))
 
         (set: _relayTip to (cond:
+            ($funcOpenStorylets:) contains "paint.failToStart", "You cannot bring yourself to lift up the veil today.",
             ($funcOpenStorylets:) contains "story.paintingWhatIs", "Covered by only a thin skin, it beckons you.",
-            ($funcOpenStorylets:) contains "story.painting1", "Your Work is not yet done.",
+            ($funcOpenStorylets:) contains "paint.start", "Your Work is not yet done.",
             false
         ))
 }],

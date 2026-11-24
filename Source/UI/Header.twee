@@ -16,7 +16,12 @@
 }]<!--end header readout cssDesc-->
 
 <!--test mode?-->
-(if: $testMode is true)[(debug:)]
+(if: $testMode is true)[{
+    <!--display passage's name-->
+    <br>$cssDesc[Current: (print: (passage:)'s name)] 
+    <!--debug-->
+    (debug:)
+}]
     
 <br>
 ---

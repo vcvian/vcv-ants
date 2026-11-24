@@ -1,0 +1,64 @@
+:: paint.failToStart [unfinished]
+{=
+
+(storylet: when
+    ($funcEventOutput: "paintFail") is not false
+)
+
+(metadata:
+    "title", "Hesitation...",
+    "devNote", [Write.],
+)
+
+
+<!--the mainDone choices will be available after the first visit, whereupon this passage's name is added to $story's lock-->
+(set: _showDoneChoicesAtBeginning to false)
+(if: $story's lock contains "paint.failToStart")[(set: _showDoneChoicesAtBeginning to true)]
+
+
+($funcMainContent:
+[{<!--?mainReading-->
+
+The veil - so ethereal as to not exist - is leaden to your hands. ($funcReveal: "Thoughts of failure", "thoughts1") weight heavy in the pit of your stomach.
+
+|thoughts1)[
+<br>
+With fingers so frail and heart so weak, ($funcReveal: "how could you ever hope", "thoughts2") to pick up a brush?]
+|thoughts2)[` `What is an artist ($funcReveal: "who does not make art?", "thoughts3")]
+|thoughts3)[` `($funcReveal: "What are you", "thoughts4") if not an artist?]
+|thoughts4)[` `Perhaps you are ($funcReveal: "//nothing//.", "thoughts5")]
+|thoughts5)[` `If so, then what good is this body, this flesh?
+(t8n: "dissolve")(show:?tomorrow)
+(t8n: "dissolve")(show:?mainDone)
+]
+
+|tomorrow)[
+<br>
+No, you yet live. Tomorrow, you will be readier.
+<br>
+$cssDesc[There is always a "later" with you, isn't there?]]
+
+}],
+[{<!--?mainDone-->
+
+<!--reveal an extra paragraph if you've already read everything-->
+(if: $story's lock contains "paint.failToStart")[(show: ?tomorrow)]
+
+<!--choices-->
+<ol>
+
+<li>($funcDummyLink: "Lift up the veil.", "Another day. Always another.")</li>
+
+<li>($funcBackLink: "Leave it be for now.", "At least you still have the rest of your " + (str: (passage: "code.timePass")'s timeFullNames's ($time's timeOfDay)) + ".", [{
+    <!--temporary lock; start the "paintFail" event-->
+    ($funcEventStart: "paintFail")
+    <!--lock this passage (read)-->
+    ($funcLock: "paint.failToStart")
+}])</li>
+
+</ol>
+
+}],
+
+_showDoneChoicesAtBeginning
+)

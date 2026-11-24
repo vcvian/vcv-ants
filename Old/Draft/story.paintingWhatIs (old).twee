@@ -1,0 +1,123 @@
+
+
+:: story.paintingWhatIs (old)
+{=
+
+(metadata:
+"title", "That Thing in the Corner",
+)
+
+($funcMainContent:[{<!--?mainReading-->
+
+It appears to be a ($funcReveal: "curtained window.", "curtain")|curtain)[ Or perhaps a shower.]
+
+|curtain)[
+<br>
+A metal rack is installed about ten feet up the wall. Hanging from it is a makeshift curtain made up of translucent paper - you want to say glassine, but it is butcher's paper - veiling ($funcReveal: "whatever that is inside", "what") from ($funcReveal: "the world", "notReady"), and more importantly, preventing ($funcReveal: "you", "you") from staring at it all day long.
+]
+
+|what)[
+<br>
+($funcReveal: "//What// is behind the curtain?", "painting")
+]
+
+<!--trigger for ?yesBut-->
+(set: _triggerYesBut to ($funcChainTrigger: "paintingQuestions", 3, "yesBut"))
+
+|painting)[
+<br>
+Art.
+]
+
+|painting)[
+<br>
+($funcReveal: "A portrait?", "portrait")
+]
+
+|portrait)[
+<br>
+Sure, there was a girl - //Katherine// - who was the spark, but the kindling was already there.
+<br>
+If you lift the veil, you will see no face. Not hers. Perhaps not anyone's, though there will be eyes, and a nose, and a mouth, ($funcReveal: "and teeth", "teeth1")|teeth1)[($funcReveal: " and teeth", "teeth2")]|teeth2)[($funcReveal: " and teeth", "teeth3")]|teeth3)[($funcReveal: " and teeth", "teeth4")]|teeth4)[($funcReveal: " and teeth", "teeth5")]|teeth5)[($funcReveal: " and teeth..", "teeth6")]. 
+
+|teeth6)[
+<br>
+No, this is too heavenly to be called a face._triggerYesBut
+]
+]<!--end ?portrait-->
+
+|painting)[
+<br>
+($funcReveal: "A landscape?", "landscape")
+]
+
+|landscape)[
+<br>
+In every landscape, there is a ($funcReveal: "Sun", "suns")|suns)[` `- red upon the misty horizon, a perfect white dot upon a black sky, or gray hints within roiling clouds]. And yet, there is no ($funcReveal: "//land//", "dirt") on Earth that would see a light such as this!
+
+|dirt)[
+<br>
+What need is there for dirt? You long to be above it all. This is //the thing itself//._triggerYesBut
+]
+
+]<!--end ?landscape-->
+
+
+|painting)[
+<br>
+($funcReveal: "A still life?", "stillLife")
+]
+
+|stillLife)[
+<br>
+
+<!--trigger for ?noneOfThoseThings-->
+(set: _triggerStillLife to ($funcChainTrigger: "stillLife", 2, "noneOfThoseThings"))
+
+($funcReveal: "Still", "still")|still)[, but not dead, only sleeping._triggerStillLife]` `($funcReveal: "Life", "life")|life)[, but not bound toward old age or death._triggerStillLife]
+
+|noneOfThoseThings)[
+<br>
+But, alas, this is none of those things. It is  ($funcReveal: "only a painting,", "onlyPainting")]
+
+|onlyPainting)[` `a mimesis of something brought back from the slumbering heavens, a pale reminder for all that lives that there is yet a greater kind of life._triggerYesBut]
+
+]<!--end ?stillLife-->
+
+
+|yesBut)[
+<br>
+Yes, but what //is// it? ($funcReveal: "What will one sees if one looks?", "theSun")
+]
+
+|theSun)[
+<br>
+The Sun. It is a painting of ($funcReveal: "the Sun.", "mainDone")
+]
+
+|notReady)[
+<br>
+The world is not ready.
+]
+
+|you)[
+<br>
+Your Work is not yet done. It is calling out to you.
+]
+
+
+}],
+[{<!--?mainDone-->
+
+<!--just in case those 2 haven't shown-->
+(t8n: "dissolve")(show: ?notReady)
+(t8n: "dissolve")(show: ?you)
+
+<!--link-->
+($funcOutLink: "Lift the veil.", "And attempt to paint.", "story.painting1", [{
+    <!--lock-->
+    ($funcLock: (passage:)'s name)
+}])
+
+}],
+false)

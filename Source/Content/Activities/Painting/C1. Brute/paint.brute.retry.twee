@@ -19,7 +19,7 @@
 
 <li>
 <!--setup-->
-(set: _baseChance to 80)
+(set: _baseChance to 70)
 (set: _factorList to (passage: "table.chanceMod")'s paintQuit)
 |=
 ($funcLuckGate: "Nah, make peace with this...", ($funcChance: _baseChance, _factorList), [], "paint.resolve.quit", "paint.resolve.stall")

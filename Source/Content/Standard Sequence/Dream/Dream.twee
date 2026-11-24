@@ -1,9 +1,16 @@
 :: Dream [unfinished]
 {=
 (metadata:
-"devNote", [Figure out dream relays.],
+"devNote", [Add more dream redirects.],
 )
 
-''Dream''
-<br>
-(link: "NEXT")[(display: "code.timePass")]
+<!--for now, passages like midday, dream, and deathCheck are treated like one big redirect block-->
+
+<!--will add more conditions later-->
+(set: _dream to (cond:
+    ($funcOpenStorylets:) contains "dream.default", "dream.default",
+    "dream.default"
+))
+
+<!--finally, redirect-->
+(redirect: _dream)

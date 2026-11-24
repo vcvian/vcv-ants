@@ -3,7 +3,7 @@
 
 (metadata:
 	"title","Hitting a Roadblock",
-	"devNote", [Placeholder. Need state-variable text.],
+	"devNote", [Placeholder. Need state-variable text. Consolation reward links may vary depending on the approach.],
 )
 
 ($funcMainContent:
@@ -15,6 +15,7 @@ At a crossroad... there is a blockage...
 
 <ol>
 
+<!--might migrate the list of "boss fights" to its own place, so that we can have multiple, approach-dependent roadblocks (for different consolation prizes)-->
 <li>($funcDummyLink: "This is a dummy link.", "It will be replaced with a proper challenge later. Reaching this point is sufficient in this test.")</li>
 
 Or...
